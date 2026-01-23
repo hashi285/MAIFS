@@ -27,8 +27,15 @@ val_freq = 50
 
 
 # Dataset
-TRAIN_PATH = '/home/jjp/Dataset/DIV2K/DIV2K_train_HR/'
-VAL_PATH = '/home/jjp/Dataset/DIV2K/DIV2K_valid_HR/'
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = BASE_DIR / "data"
+MODEL_DIR = BASE_DIR / "model"
+IMAGE_DIR = BASE_DIR / "image"
+
+TRAIN_PATH = str(DATA_DIR / "DIV2K_train_HR")
+VAL_PATH = str(DATA_DIR / "DIV2K_valid_HR")
 format_train = 'png'
 format_val = 'png'
 
@@ -42,11 +49,11 @@ progress_bar = False
 
 # Saving checkpoints:
 
-MODEL_PATH = '/home/jjp/Hinet/model/'
+MODEL_PATH = str(MODEL_DIR) + "/"
 checkpoint_on_error = True
 SAVE_freq = 50
 
-IMAGE_PATH = '/home/jjp/Hinet/image/'
+IMAGE_PATH = str(IMAGE_DIR) + "/"
 IMAGE_PATH_cover = IMAGE_PATH + 'cover/'
 IMAGE_PATH_secret = IMAGE_PATH + 'secret/'
 IMAGE_PATH_steg = IMAGE_PATH + 'steg/'

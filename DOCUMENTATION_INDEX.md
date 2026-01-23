@@ -1,7 +1,7 @@
 # MAIFS 프로젝트 문서 인덱스
 
-**생성 날짜**: 2026-01-21
-**총 문서 수**: 12개 (핵심 문서 기준)
+**생성 날짜**: 2026-01-23
+**총 문서 수**: 14개 (핵심 문서 기준)
 
 ---
 
@@ -81,6 +81,14 @@
 - **용도**: 상세 소개 및 설치/사용 가이드
 - **대상**: 모든 사용자
 
+#### 📄 `docs/CONDA_ENV_SNAPSHOTS.md`
+- **용도**: 서브프로젝트 conda 환경 스냅샷 및 smoke test 요약
+- **대상**: 개발자
+
+#### 📄 `docs/DATASETS.md`
+- **용도**: 데이터셋 다운로드/배치/실행/출력 위치
+- **대상**: 개발자, 연구자
+
 #### 📄 `docs/ARCHITECTURE.md`
 - **용도**: 시스템 아키텍처 설명
 - **대상**: 개발자
@@ -111,6 +119,8 @@
 | CHANGES_SUMMARY.md | 기술 | 개발 | 중간 | 🟠 2 |
 | MAIFS_IMPLEMENTATION_PLAN.md | 계획 | 관리 | 길음 | 🟡 3 |
 | docs/README.md | 소개 | 모두 | 길음 | 🟠 2 |
+| docs/CONDA_ENV_SNAPSHOTS.md | 운영 | 개발 | 중간 | 🟠 2 |
+| docs/DATASETS.md | 데이터 | 개발/연구 | 중간 | 🟠 2 |
 | docs/ARCHITECTURE.md | 기술 | 개발 | 길음 | 🟠 2 |
 | docs/API_REFERENCE.md | 기술 | 개발 | 길음 | 🟠 2 |
 | docs/CONTRIBUTING.md | 가이드 | 기여 | 길음 | 🟡 3 |
@@ -157,6 +167,8 @@ MAIFS/
 ├── DOCUMENTATION_INDEX.md
 ├── docs/
 │   ├── README.md
+│   ├── CONDA_ENV_SNAPSHOTS.md
+│   ├── DATASETS.md
 │   ├── ARCHITECTURE.md
 │   ├── API_REFERENCE.md
 │   ├── CONTRIBUTING.md

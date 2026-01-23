@@ -1,7 +1,7 @@
 # MAIFS (Multi-Agent Image Forensic System) - 프로젝트 가이드
 
 **상태**: ✅ 생산 준비 완료 (Production Ready)
-**최종 업데이트**: 2026-01-21
+**최종 업데이트**: 2026-01-23
 
 ---
 
@@ -45,6 +45,13 @@ MAIFS는 4개의 전문가 에이전트와 COBRA 합의 알고리즘, 그리고 
    - 구현 계획 및 진행 상황
    - 우선순위별 작업
    - 완료된 항목 목록
+
+6. **[docs/CONDA_ENV_SNAPSHOTS.md](docs/CONDA_ENV_SNAPSHOTS.md)**
+   - 서브프로젝트 conda 환경 스냅샷
+   - smoke test 결과 요약
+
+7. **[docs/DATASETS.md](docs/DATASETS.md)**
+   - 데이터셋 다운로드/배치/실행/출력 위치
 
 ---
 
@@ -248,6 +255,8 @@ python -c "from configs.settings import config; config.print_info()"
 | **[CHECKPOINT_VALIDATION_REPORT.md](CHECKPOINT_VALIDATION_REPORT.md)** | 체크포인트 검증 | 개발자 |
 | **[CHANGES_SUMMARY.md](CHANGES_SUMMARY.md)** | 변경 사항 | 개발자 |
 | **[MAIFS_IMPLEMENTATION_PLAN.md](MAIFS_IMPLEMENTATION_PLAN.md)** | 구현 계획 | 개발자 |
+| **[docs/CONDA_ENV_SNAPSHOTS.md](docs/CONDA_ENV_SNAPSHOTS.md)** | conda 환경 스냅샷/테스트 | 개발자 |
+| **[docs/DATASETS.md](docs/DATASETS.md)** | 데이터셋 다운로드/배치/실행/출력 위치 | 개발자/연구자 |
 
 ---
 
@@ -257,7 +266,7 @@ python -c "from configs.settings import config; config.print_info()"
 ```
 핵심 기능:     ✅ 100% (94/94 테스트 통과)
 체크포인트:    ✅ 100% (통합 완료)
-문서화:        ✅ 100% (5개 상세 문서)
+문서화:        ✅ 100% (7개 상세 문서)
 
 → LLM 통합 후 완전히 완성됨
 ```

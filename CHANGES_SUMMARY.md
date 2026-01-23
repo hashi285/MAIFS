@@ -5,6 +5,68 @@
 
 ---
 
+## 📦 추가 변경 사항 (데이터셋 실행 가이드 정리)
+
+### 새로 생성된 파일
+- `scripts/run_mvss_real.py` (MVSS-Net 단일 이미지 실행 스크립트)
+- `scripts/run_omniguard_real.py` (OmniGuard 커버/시크릿 실행 스크립트)
+
+### 수정된 문서
+- `docs/DATASETS.md` (데이터셋 다운로드/배치/실행/출력 위치 통합)
+- `README.md` (데이터셋 문서 설명 보강)
+- `README_root.md` (문서 네비게이션 및 상세 문서 갱신)
+- `DOCUMENTATION_INDEX.md` (문서 설명 갱신)
+
+### 기타 변경
+- `.gitignore` (로컬 데이터셋/출력물/가중치 아카이브 제외)
+
+---
+
+## 📦 추가 변경 사항 (환경 스냅샷/문서 정리)
+
+### 새로 생성된 파일
+- `docs/CONDA_ENV_SNAPSHOTS.md` (서브프로젝트 conda 스냅샷 + smoke test 요약)
+- `envs/conda-maifs-trufor.yml`
+- `envs/conda-maifs-catnet.yml`
+- `envs/conda-maifs-mvss.yml`
+- `envs/conda-maifs-omniguard.yml`
+- `envs/conda-maifs-hinet.yml`
+
+### 수정된 문서
+- `README.md` (문서 링크 추가)
+- `README_root.md` (문서 네비게이션 추가)
+- `DOCUMENTATION_INDEX.md` (문서 목록/매트릭스 갱신)
+- `docs/CONDA_ENV_SNAPSHOTS.md` (OmniGuard 환경 업데이트 반영)
+
+### 환경 변경
+- `maifs-omniguard`에서 `torch==1.13.1+cpu`, `torchvision==0.14.1+cpu`로 업데이트
+- `maifs-catnet`에서 `torch==1.6.0+cu101`, `torchvision==0.7.0+cu101`로 업데이트 (WISE 체크포인트 로딩용)
+ - `maifs-omniguard`에서 `torch==1.13.1+cu117`, `torchvision==0.14.1+cu117`로 재업데이트 (CUDA 실행용)
+ - `maifs-omniguard`에 `kornia==0.6.7`, `timm==0.6.13` 추가
+
+### 추가 체크포인트/테스트
+- CAT-Net WISE 체크포인트 다운로드 및 배치 (`CAT-Net-main/output/splicing_dataset/CAT_full/CAT_full_v2.pth.tar`)
+- CAT-Net inference smoke test 실행 (output: `CAT-Net-main/output_pred/smoke.png`)
+ - MVSS-Net single image smoke test 실행 (output: `MVSS-Net-master/output_smoke/smoke_pred.png`)
+ - HiNet test 실행 (outputs: `HiNet-main/image/*/00000.png`)
+ - OmniGuard script smoke test 실행 (output: `OmniGuard-main/output_smoke/stego.png`)
+ - 실데이터 재실행:
+   - MVSS-Net (CASIA v2.0 TP) output: `MVSS-Net-master/output_real/Tp_D_CND_M_N_ani00018_sec00096_00138_pred.png`
+   - HiNet (DIV2K subset) outputs: `HiNet-main/image/*/*.png`
+   - OmniGuard (DIV2K cover/secret) output: `OmniGuard-main/output_real/stego.png`
+
+### 데이터셋 다운로드/배치
+- CASIA v2.0 subset 배치 (`datasets/CASIA2_subset`, Au/Tp 각 50장, GT 38장)
+- DIV2K subset 배치 (`datasets/DIV2K_subset`, train 50장, valid 20장)
+  - HiNet용 복사: `HiNet-main/data/DIV2K_train_HR`, `HiNet-main/data/DIV2K_valid_HR`
+- IMD2020 (Generative Inpainting) subset 배치 (`datasets/IMD2020_subset`, images 200장 + masks 200장)
+- GenImage 리포지터리 클론 (`datasets/GenImage`) 및 BigGAN subset 추출
+  - 아카이브: `datasets/GenImage_data/BigGAN/imagenet_ai_0419_biggan.zip` + `.z01`~`.z07`
+  - 추출: `datasets/GenImage_subset/BigGAN/val/ai` 50장, `datasets/GenImage_subset/BigGAN/val/nature` 50장
+  - 데이터셋 문서: `docs/DATASETS.md`
+
+---
+
 ## 📝 수정된 파일 (Modified)
 
 ### 1. `configs/settings.py`

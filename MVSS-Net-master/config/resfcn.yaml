@@ -1,6 +1,6 @@
 model_name: resfcn
 test:
-  resume_path: /data_static/dongchengbo/best_models/release_resfcn_oncasia33.pt
-  test_file: /data_activate/dongchengbo/VisualSearch/Columbia_full/annotations/Columbia_full.txt
-  save_dir: ../save_dir
+  resume_path: ../ckpt/place-checkpoint-here
+  test_file: ../data/Columbia.txt
+  save_dir: ../outputs
   resize: 512

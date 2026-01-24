@@ -1,0 +1,2991 @@
+
+<!DOCTYPE html>
+<html lang="en" >
+    <head >
+
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        
+        
+
+        
+        
+  <link  rel="stylesheet" href="/static/assets/base_style-BSkERiU3.css" />
+<script type="module" crossorigin="" src="/static/assets/base_style-DG3-fkMN.js"></script>
+
+  <link  rel="stylesheet" href="/static/assets/article_style-C2eem4yd.css" />
+<link  rel="stylesheet" href="/static/assets/style-D77LS1kY.css" />
+<script type="module" crossorigin="" src="/static/assets/article_style-CFsnX3Bn.js"></script>
+
+  
+  
+    <style>
+  
+  
+  @media screen and (min-width: 64em) {
+    div.pmc-wm {
+      background: repeat-y;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='350' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cdefs%3E%3Cfilter x='-.02' y='0' width='1.05' height='1' id='c'%3E%3CfeFlood flood-color='%23FFF'/%3E%3CfeComposite in='SourceGraphic'/%3E%3C/filter%3E%3Ctext id='b' font-family='Helvetica' font-size='11pt' style='opacity:1;fill:%23005ea2;stroke:none;text-anchor:middle' x='175' y='14'%3E%3C/text%3E%3Cpath id='a' style='fill:%23005ea2' d='M0 8h350v3H0z'/%3E%3C/defs%3E%3Cuse xlink:href='%23a' transform='rotate(90 10 10)'/%3E%3Cuse xlink:href='%23b' transform='rotate(90 10 10)' filter='url(%23c)'/%3E%3C/svg%3E");
+      padding-left: 3rem;
+    }
+  }
+</style>
+
+  
+
+
+
+        
+            <link rel="apple-touch-icon"
+                  sizes="180x180"
+                  href="/static/img/favicons/apple-touch-icon.png" />
+            <link rel="icon"
+                  type="image/png"
+                  sizes="48x48"
+                  href="/static/img/favicons/favicon-48x48.png" />
+            <link rel="icon"
+                  type="image/png"
+                  sizes="32x32"
+                  href="/static/img/favicons/favicon-32x32.png" />
+            <link rel="icon"
+                  type="image/png"
+                  sizes="16x16"
+                  href="/static/img/favicons/favicon-16x16.png" />
+            <link rel="manifest" href="/static/img/favicons/site.webmanifest" />
+            <link rel="mask-icon"
+                  href="/static/img/favicons/safari-pinned-tab.svg"
+                  color="#0071bc" />
+            <meta name="msapplication-config"
+                  content="/static/img/favicons/browserconfig.xml" />
+            <meta name="theme-color" content="#ffffff" />
+        
+
+        <title>
+            Decoding large language models for radiology: strategies for fine-tuning and prompt engineering - PMC
+        </title>
+
+        
+        
+  
+  <!-- Logging params: Pinger defaults -->
+<meta name="ncbi_app" content="cloudpmc-viewer" />
+<meta name="ncbi_db" content="pmc" />
+<meta name="ncbi_phid" content="0774437097384773004370003177D00B.m_1" />
+<meta name="ncbi_pinger_stat_url" content="https://pmc.ncbi.nlm.nih.gov/stat" />
+<!-- Logging params: Pinger custom -->
+<meta name="ncbi_pdid" content="article" />
+  
+    <link rel="preconnect" href="https://www.google-analytics.com" />
+
+    
+        <link rel="preconnect" href="https://cdn.ncbi.nlm.nih.gov" />
+    
+
+    <!-- Include USWDS Init Script -->
+    <script src="/static/assets/uswds-init.js"></script>
+
+
+    <meta name="ncbi_domain" content="radadv">
+<meta name="ncbi_type" content="fulltext">
+<meta name="ncbi_pcid" content="journal">
+<meta name="ncbi_feature" content="associated_data">
+<link rel="canonical" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12429228/">
+<meta name="robots" content="INDEX,NOFOLLOW,NOARCHIVE">
+<meta name="citation_journal_title" content="Radiology Advances">
+<meta name="citation_title" content="Decoding large language models for radiology: strategies for fine-tuning and prompt engineering">
+<meta name="citation_author" content="Sanaz Vahdati">
+<meta name="citation_author_institution" content="Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, Rochester, MN 55905, United States">
+<meta name="citation_author" content="Elham Mahmoudi">
+<meta name="citation_author_institution" content="Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, Rochester, MN 55905, United States">
+<meta name="citation_author" content="Ali Ganjizadeh">
+<meta name="citation_author_institution" content="Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, Rochester, MN 55905, United States">
+<meta name="citation_author" content="Chiehju Chao">
+<meta name="citation_author_institution" content="Department of Cardiology, Mayo Clinic, Rochester, MN 55905, United States">
+<meta name="citation_author" content="Bradley J Erickson">
+<meta name="citation_author_institution" content="Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, Rochester, MN 55905, United States">
+<meta name="citation_publication_date" content="2025 Jul 28">
+<meta name="citation_volume" content="2">
+<meta name="citation_issue" content="4">
+<meta name="citation_firstpage" content="umaf024">
+<meta name="citation_doi" content="10.1093/radadv/umaf024">
+<meta name="citation_pmid" content="41058957">
+<meta name="citation_abstract_html_url" content="https://pmc.ncbi.nlm.nih.gov/articles/PMC12429228/">
+<meta name="citation_fulltext_html_url" content="https://pmc.ncbi.nlm.nih.gov/articles/PMC12429228/">
+<meta name="citation_pdf_url" content="https://pmc.ncbi.nlm.nih.gov/articles/PMC12429228/pdf/umaf024.pdf">
+<meta name="description" content="The advances in large language models (LLMs) have demonstrated sophisticated potential for automating complex tasks within the radiology workflow. From radiology report generation and report summarization to data collection for research trials, ...">
+<meta name="og:title" content="Decoding large language models for radiology: strategies for fine-tuning and prompt engineering">
+<meta name="og:type" content="article">
+<meta name="og:site_name" content="PubMed Central (PMC)">
+<meta name="og:description" content="The advances in large language models (LLMs) have demonstrated sophisticated potential for automating complex tasks within the radiology workflow. From radiology report generation and report summarization to data collection for research trials, ...">
+<meta name="og:url" content="https://pmc.ncbi.nlm.nih.gov/articles/PMC12429228/">
+<meta name="og:image" content="https://cdn.ncbi.nlm.nih.gov/pmc/cms/images/pmc-card-share.jpg?_=0">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@ncbi">
+    
+    
+
+    </head>
+    <body >
+        
+    <a class="usa-skipnav " href="#main-content">
+      Skip to main content
+    </a>
+
+
+        
+            
+
+<section class="usa-banner " aria-label="Official website of the United States government" >
+    <div class="usa-accordion">
+        <header class="usa-banner__header">
+            <div class="usa-banner__inner">
+                <div class="grid-col-auto">
+                    <img aria-hidden="true"
+                         class="usa-banner__header-flag"
+                         src="/static/img/us_flag.svg"
+                         alt="" />
+                </div>
+
+                <div class="grid-col-fill tablet:grid-col-auto" aria-hidden="true">
+                    <p class="usa-banner__header-text">
+                        An official website of the United States government
+                    </p>
+                    <span class="usa-banner__header-action">Here's how you know</span>
+                </div>
+
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <button
+            type="button"
+        
+    
+    class="usa-accordion__button usa-banner__button
+           
+
+           
+               
+               
+               
+               
+            
+
+           
+           
+           
+           "
+    aria-expanded="false"
+    aria-controls="gov-banner-default"
+    
+    data-testid="storybook-django-banner"
+    
+    >
+    
+        
+
+        
+                    <span class="usa-banner__button-text">Here's how you know</span>
+                
+
+        
+    
+        
+            </button>
+        
+
+
+            </div>
+        </header>
+
+        <div class="usa-banner__content usa-accordion__content"
+             id="gov-banner-default"
+             hidden>
+            <div class="grid-row grid-gap-lg">
+                <div class="usa-banner__guidance tablet:grid-col-6">
+                    <img class="usa-banner__icon usa-media-block__img"
+                         src="/static/img/icon-dot-gov.svg"
+                         alt=""
+                         aria-hidden="true" />
+                    <div class="usa-media-block__body">
+                        <p>
+                            <strong>Official websites use .gov</strong>
+                            <br />
+                            A
+                            <strong>.gov</strong> website belongs to an official
+                            government organization in the United States.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="usa-banner__guidance tablet:grid-col-6">
+                    <img class="usa-banner__icon usa-media-block__img"
+                         src="/static/img/icon-https.svg"
+                         alt=""
+                         aria-hidden="true" />
+
+                    <div class="usa-media-block__body">
+                        <p>
+                            <strong>Secure .gov websites use HTTPS</strong>
+                            <br />
+                            A <strong>lock</strong> (
+                            <span class="icon-lock">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="52"
+                                     height="64"
+                                     viewBox="0 0 52 64"
+                                     class="usa-banner__lock-image"
+                                     role="graphics-symbol"
+                                     aria-labelledby="banner-lock-description"
+                                     focusable="false">
+                                    <title id="banner-lock-title">Lock</title>
+                                    <desc id="banner-lock-description">
+                                    Locked padlock icon
+                                    </desc>
+                                    <path fill="#000000"
+                                          fill-rule="evenodd"
+                                          d="M26 0c10.493 0 19 8.507 19 19v9h3a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V32a4 4 0 0 1 4-4h3v-9C7 8.507 15.507 0 26 0zm0 8c-5.979 0-10.843 4.77-10.996 10.712L15 19v9h22v-9c0-6.075-4.925-11-11-11z" />
+                                </svg>
+</span>) or <strong>https://</strong> means you've safely
+                                connected to the .gov website. Share sensitive
+                                information only on official, secure websites.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        
+
+        
+    
+    
+    
+
+<div class="usa-overlay">
+</div>
+
+
+
+<header class="usa-header usa-header--extended usa-header--wide" data-header data-testid="header"    >
+    <div class="ncbi-header">
+        <div class="ncbi-header__container">
+            <a class="ncbi-header__logo-container"
+               href="https://www.ncbi.nlm.nih.gov/">
+                <img alt="NCBI home page"
+                     class="ncbi-header__logo-image"
+                     src="/static/img/ncbi-logos/nih-nlm-ncbi--white.svg"
+                     width="410"
+                     height="100" />
+            </a>
+
+            <!-- Mobile menu hamburger button -->
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <button
+            type="button"
+        
+    
+    class="usa-menu-btn ncbi-header__hamburger-button
+           
+
+           
+               
+               
+               
+               
+            
+
+           
+           
+           
+           "
+    
+    
+    aria-label="Show menu"
+    data-testid="navMenuButton"
+    
+    >
+    
+        
+
+        
+                <svg aria-hidden="true"
+                     class="ncbi-hamburger-icon"
+                     fill="none"
+                     focusable="false"
+                     height="21"
+                     viewBox="0 0 31 21"
+                     width="31"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path clip-rule="evenodd"
+                          d="M0.125 20.75H30.875V17.3333H0.125V20.75ZM0.125 12.2083H30.875V8.79167H0.125V12.2083ZM0.125 0.25V3.66667H30.875V0.25H0.125Z"
+                          fill="#F1F1F1"
+                          fill-rule="evenodd" />
+                </svg>
+            
+
+        
+    
+        
+            </button>
+        
+
+
+
+            
+                <!-- Desktop buttons-->
+                <div class="ncbi-header__desktop-buttons">
+                    
+                        <!-- Desktop search button -->
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <button
+            type="button"
+        
+    
+    class="usa-button
+           
+
+           
+               
+               
+               
+               
+            
+
+           
+           
+           usa-button--unstyled ncbi-header__desktop-button
+           "
+    aria-expanded="false"
+    aria-controls="search-field-desktop-navigation"
+    aria-label="Show search overlay"
+    data-testid="toggleSearchPanelButton"
+    data-toggle-search-panel-button
+    >
+    
+        
+
+        
+                            
+
+
+
+    <svg class="usa-icon " role="graphics-symbol" aria-hidden="true" >
+        
+        <use href="/static/img/sprite.svg#search" />
+    </svg>
+
+
+                            Search
+                        
+
+        
+    
+        
+            </button>
+        
+
+
+                    
+
+                    <!-- Desktop login dropdown -->
+                    
+                        <div class="ncbi-header__login-dropdown">
+                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <button
+            type="button"
+        
+    
+    class="usa-button
+           
+
+           
+               
+               
+               
+               
+            
+
+           
+           
+           usa-button--unstyled ncbi-header__desktop-button ncbi-header__login-dropdown-button
+           "
+    aria-expanded="false"
+    aria-controls="login-dropdown-menu"
+    aria-label="Show login menu"
+    data-testid="toggleLoginMenuDropdown"
+    data-desktop-login-button
+    >
+    
+        
+
+        
+                                
+
+
+
+    <svg class="usa-icon " role="graphics-symbol" aria-hidden="true" >
+        
+        <use href="/static/img/sprite.svg#person" />
+    </svg>
+
+
+
+                                <span data-login-dropdown-text>Log in</span>
+
+                                <!-- Dropdown icon pointing up -->
+                                
+
+
+
+    <svg class="usa-icon ncbi-header__login-dropdown-icon ncbi-header__login-dropdown-icon--expand-less ncbi-header__login-dropdown-icon--hidden" role="graphics-symbol" aria-hidden="true" data-login-dropdown-up-arrow>
+        
+        <use href="/static/img/sprite.svg#expand_less" />
+    </svg>
+
+
+
+                                <!-- Dropdown icon pointing down -->
+                                
+
+
+
+    <svg class="usa-icon ncbi-header__login-dropdown-icon ncbi-header__login-dropdown-icon--expand-more ncbi-header__login-dropdown-icon--hidden" role="graphics-symbol" aria-hidden="true" data-login-dropdown-down-arrow>
+        
+        <use href="/static/img/sprite.svg#expand_more" />
+    </svg>
+
+
+                            
+
+        
+    
+        
+            </button>
+        
+
+
+
+                            <!-- Login dropdown menu -->
+                            <ul class="usa-nav__submenu ncbi-header__login-dropdown-menu"
+                                id="login-dropdown-menu"
+                                data-desktop-login-menu-dropdown
+                                hidden>
+                                
+                                    <li class="usa-nav__submenu-item">
+                                        <!-- Uses custom style overrides to render external and document links. -->
+                                        
+
+
+
+
+
+
+
+
+
+    <a href="https://www.ncbi.nlm.nih.gov/myncbi/" class="usa-link  "  >
+        
+
+        
+            Dashboard
+        
+
+        
+    </a>
+
+
+                                    </li>
+                                
+                                    <li class="usa-nav__submenu-item">
+                                        <!-- Uses custom style overrides to render external and document links. -->
+                                        
+
+
+
+
+
+
+
+
+
+    <a href="https://www.ncbi.nlm.nih.gov/myncbi/collections/bibliography/" class="usa-link  "  >
+        
+
+        
+            Publications
+        
+
+        
+    </a>
+
+
+                                    </li>
+                                
+                                    <li class="usa-nav__submenu-item">
+                                        <!-- Uses custom style overrides to render external and document links. -->
+                                        
+
+
+
+
+
+
+
+
+
+    <a href="https://www.ncbi.nlm.nih.gov/account/settings/" class="usa-link  "  >
+        
+
+        
+            Account settings
+        
+
+        
+    </a>
+
+
+                                    </li>
+                                
+                                <li class="usa-nav__submenu-item">
+                                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <button
+            type="button"
+        
+    
+    class="usa-button
+           
+
+           
+               
+               
+               
+               
+            
+
+           
+           
+           usa-button--outline ncbi-header__login-dropdown-logout-button
+           "
+    
+    
+    
+    data-testid="desktopLogoutButton"
+    data-desktop-logout-button
+    >
+    
+        
+
+        Log out
+
+        
+    
+        
+            </button>
+        
+
+
+                                </li>
+                            </ul>
+                        </div>
+                    
+                </div>
+            
+        </div>
+    </div>
+
+    <!-- Search panel -->
+    
+        <div class="ncbi-search-panel ncbi--show-only-at-desktop"
+             data-header-search-panel
+             hidden>
+            <div class="ncbi-search-panel__container">
+                <form action="https://www.ncbi.nlm.nih.gov/search/all/"
+                      
+                      autocomplete="off"
+                      class="usa-search usa-search--big ncbi-search-panel__form"
+                      data-testid="desktop-navigation-search-form"
+                      method="GET"
+                      role="search">
+                    <label class="usa-sr-only" for="search-field-desktop-navigation">
+                        Search…
+                    </label>
+                    <input class="usa-input"
+                           id="search-field-desktop-navigation"
+                           name="term"
+                           
+                               placeholder="Search NCBI"
+                           
+                           type="search"
+                           value="" />
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <button
+            type="submit"
+        
+    
+    class="usa-button
+           
+
+           
+               
+               
+               
+               
+            
+
+           
+           
+           
+           "
+    
+    
+    
+    
+    
+    >
+    
+        
+
+        
+                        <span class="usa-search__submit-text">
+                            Search NCBI
+                        </span>
+                    
+
+        
+    
+        
+            </button>
+        
+
+
+                </form>
+
+                
+            </div>
+        </div>
+    
+
+    <nav aria-label="Primary navigation" class="usa-nav">
+        <p class="usa-sr-only" id="primary-navigation-sr-only-title">
+            Primary site navigation
+        </p>
+
+        <!-- Mobile menu close button -->
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <button
+            type="button"
+        
+    
+    class="usa-nav__close ncbi-nav__close-button
+           
+
+           
+               
+               
+               
+               
+            
+
+           
+           
+           
+           "
+    
+    
+    aria-label="Close navigation menu"
+    data-testid="navCloseButton"
+    
+    >
+    
+        
+
+        
+            <img src="/static/img/usa-icons/close.svg" alt="Close" />
+        
+
+        
+    
+        
+            </button>
+        
+
+
+
+        
+            <!-- Mobile search component -->
+            <form class="usa-search usa-search--small ncbi--hide-at-desktop"
+                  action="https://www.ncbi.nlm.nih.gov/search/all/"
+                  
+                  autocomplete="off"
+                  data-testid="mobile-navigation-search-form"
+                  method="GET"
+                  role="search">
+                <label class="usa-sr-only" for="search-field-mobile-navigation">
+                    Search
+                </label>
+
+                <input class="usa-input"
+                       id="search-field-mobile-navigation"
+                       type="search"
+                       
+                           placeholder="Search NCBI"
+                       
+                       name="term" />
+
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <button
+            type="submit"
+        
+    
+    class="usa-button
+           
+
+           
+               
+               
+               
+               
+            
+
+           
+           
+           
+           "
+    
+    
+    
+    
+    
+    >
+    
+        
+
+        
+                    <!-- This SVG should be kept inline and not replaced with a link to the icon as otherwise it will render in the wrong color -->
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0Ij48cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTE1LjUgMTRoLS43OWwtLjI4LS4yN0E2LjQ3MSA2LjQ3MSAwIDAgMCAxNiA5LjUgNi41IDYuNSAwIDEgMCA5LjUgMTZjMS42MSAwIDMuMDktLjU5IDQuMjMtMS41N2wuMjcuMjh2Ljc5bDUgNC45OUwyMC40OSAxOWwtNC45OS01em0tNiAwQzcuMDEgMTQgNSAxMS45OSA1IDkuNVM3LjAxIDUgOS41IDUgMTQgNy4wMSAxNCA5LjUgMTEuOTkgMTQgOS41IDE0eiIvPjwvc3ZnPg=="
+                         class="usa-search__submit-icon"
+                         alt="Search" />
+                
+
+        
+    
+        
+            </button>
+        
+
+
+            </form>
+
+            
+        
+
+        <!-- Primary navigation menu items -->
+        <!-- This usa-nav__inner wrapper is required to correctly style the navigation items on Desktop -->
+        
+
+        
+            <div class="ncbi-nav__mobile-login-menu ncbi--hide-at-desktop"
+                 data-mobile-login-menu
+                 hidden>
+                <p class="ncbi-nav__mobile-login-menu-status">
+                    Logged in as:
+                    <strong class="ncbi-nav__mobile-login-menu-email"
+                            data-mobile-login-email-text></strong>
+                </p>
+                <ul class="usa-nav__primary usa-accordion">
+                    
+                        <li class="usa-nav__primary-item">
+                            
+
+
+
+
+
+
+
+
+
+    <a href="https://www.ncbi.nlm.nih.gov/myncbi/" class="usa-link  "  >
+        
+
+        
+            Dashboard
+        
+
+        
+    </a>
+
+
+                        </li>
+                    
+                        <li class="usa-nav__primary-item">
+                            
+
+
+
+
+
+
+
+
+
+    <a href="https://www.ncbi.nlm.nih.gov/myncbi/collections/bibliography/" class="usa-link  "  >
+        
+
+        
+            Publications
+        
+
+        
+    </a>
+
+
+                        </li>
+                    
+                        <li class="usa-nav__primary-item">
+                            
+
+
+
+
+
+
+
+
+
+    <a href="https://www.ncbi.nlm.nih.gov/account/settings/" class="usa-link  "  >
+        
+
+        
+            Account settings
+        
+
+        
+    </a>
+
+
+                        </li>
+                    
+                </ul>
+            </div>
+        
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <button
+            type="button"
+        
+    
+    class="usa-button
+           
+
+           
+               
+               
+               
+               
+            
+
+           
+           
+           ncbi-nav__mobile-login-button ncbi--hide-at-desktop
+           "
+    
+    
+    
+    data-testid="mobileLoginButton"
+    data-mobile-login-button
+    >
+    
+        
+
+        Log in
+
+        
+    
+        
+            </button>
+        
+
+
+    </nav>
+</header>
+
+    
+    
+        
+
+<section class="pmc-header pmc-header--basic" aria-label="PMC Header with search box">
+    <div class="pmc-nav-container">
+        <div class="pmc-header__bar">
+           <div class="pmc-header__logo">
+               <a href="/" title="Home" aria-label="PMC Home"></a>
+           </div>
+            <button
+                    type="button"
+                    class="usa-button usa-button--unstyled pmc-header__search__button"
+                    aria-label="Open search"
+                    data-ga-category="search"
+                    data-ga-action="PMC"
+                    data-ga-label="pmc_search_panel_mobile"
+            >
+                <svg class="usa-icon width-4 height-4 pmc-icon__open" aria-hidden="true" focusable="false" role="img">
+                    <use xlink:href="/static/img/sprite.svg#search"></use>
+                </svg>
+                <svg class="usa-icon width-4 height-4 pmc-icon__close" aria-hidden="true" focusable="false" role="img">
+                    <use xlink:href="/static/img/sprite.svg#close"></use>
+                </svg>
+            </button>
+        </div>
+        <div class="pmc-header__search">
+            
+
+
+<form class="usa-search usa-search--extra usa-search--article-right-column  pmc-header__search__form" id="pmc-search-form" autocomplete="off" role="search">
+<label class="usa-sr-only" for="pmc-search">Search PMC Full-Text Archive</label>
+<span class="autoComplete_wrapper flex-1">
+<input class="usa-input width-full maxw-none" required="required" placeholder="Search PMC Full-Text Archive" id="pmc-search"  type="search" name="term" data-autocomplete-url="https://pmc.ncbi.nlm.nih.gov/autocomp/search/autocomp/"/>
+</span>
+<button
+class="usa-button"
+type="submit"
+formaction="https://pmc.ncbi.nlm.nih.gov/search/"
+data-ga-category="search"
+data-ga-action="PMC"
+data-ga-label="PMC_search_button"
+>
+<span class="usa-search__submit-text">Search in PMC</span>
+<img
+src="/static/img/usa-icons-bg/search--white.svg"
+class="usa-search__submit-icon"
+alt="Search"
+/>
+</button>
+</form>
+            <div class="display-flex flex-column tablet:flex-row tablet:flex-justify flex-justify-center flex-align-center width-full desktop:maxw-44">
+                <ul class="pmc-header__search__menu">
+                    <li>
+                        
+                            <a class="usa-link" href="/journals/" data-ga-action="featured_link" data-ga-label="journal list">
+                                Journal List
+                            </a>
+                        
+                    </li>
+                    <li>
+                        
+                            <a class="usa-link" href="/about/userguide/" data-ga-action="featured_link"
+                            data-ga-label="user guide">
+                                User Guide
+                            </a>
+                        
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+    
+
+
+        
+        
+
+       
+  <div class="usa-section padding-top-0 desktop:padding-top-6 pmc-article-section" data-article-db="pmc" data-article-id="12429228">
+
+    
+
+   
+
+
+
+<div class="grid-container pmc-actions-bar" aria-label="Actions bar" role="complementary">
+    <div class="grid-row">
+        <div class="grid-col-fill display-flex">
+             <div class="display-flex">
+                <ul class="usa-list usa-list--unstyled usa-list--horizontal">
+                    <li class="margin-right-2 mobile-lg:margin-right-4 display-flex mob">
+                        <button
+                                type="button"
+                                class="usa-button pmc-sidenav__container__open usa-button--unstyled width-auto display-flex"
+                                aria-label="Open resources"
+                                data-extra-class="is-visible-resources"
+                                data-ga-category="resources_accordion"
+                                data-ga-action="click"
+                                data-ga-label="mobile_icon"
+                        >
+                            <svg class="usa-icon width-4 height-4" aria-hidden="true" focusable="false" role="img">
+                                <use xlink:href="/static/img/sprite.svg#more_vert"></use>
+                            </svg>
+                        </button>
+                    </li>
+                    
+                    <li class="margin-right-2 mobile-lg:margin-right-4 display-flex mob">
+                        <a
+                                href="https://doi.org/10.1093/radadv/umaf024"
+                                class="usa-link display-flex usa-tooltip"
+                                role="button"
+                                target="_blank"
+                                rel="noreferrer noopener"
+                                title="View on publisher site"
+                                data-position="bottom"
+                                aria-label="View on publisher site"
+                                data-ga-category="actions"
+                                data-ga-action="click"
+                                data-ga-label="publisher_link_mobile"
+                        >
+                                <svg class="usa-icon width-4 height-4" aria-hidden="true" focusable="false" role="img">
+                                    <use xlink:href="/static/img/sprite.svg#launch"></use>
+                                </svg>
+                        </a>
+                    </li>
+                    
+                    
+                        <li class="margin-right-2 mobile-lg:margin-right-4 display-flex">
+                             <a
+                                     href="pdf/umaf024.pdf"
+                                     class="usa-link display-flex usa-tooltip"
+                                     role="button"
+                                     title="Download PDF"
+                                     data-position="bottom"
+                                     aria-label="Download PDF"
+                                     data-ga-category="actions"
+                                     data-ga-action="click"
+                                     data-ga-label="pdf_download_mobile"
+                             >
+                                <svg class="usa-icon width-4 height-4" aria-hidden="true" focusable="false" role="img">
+                                    <use xlink:href="/static/img/sprite.svg#file_download"></use>
+                                </svg>
+                            </a>
+                        </li>
+                    
+                    <li class="margin-right-2 mobile-lg:margin-right-4 display-flex">
+                        <button
+                            class="usa-button usa-button--unstyled  usa-tooltip collections-dialog-trigger collections-button display-flex collections-button-empty"
+                            title="Add to Collections"
+                            data-position="bottom"
+                            aria-label="Save article in MyNCBI collections."
+                            data-ga-category="actions"
+                            data-ga-action="click"
+                            data-ga-label="collections_button_mobile"
+                            data-collections-open-dialog-enabled="false"
+                            data-collections-open-dialog-url="https://account.ncbi.nlm.nih.gov/?back_url=https%3A%2F%2Fpmc.ncbi.nlm.nih.gov%2Farticles%2FPMC12429228%2F%23open-collections-dialog"
+                            data-in-collections="false"
+                        >
+                            <svg class="usa-icon width-4 height-4 usa-icon--bookmark-full" aria-hidden="true" focusable="false" role="img" hidden>
+                                <use xlink:href="/static/img/action-bookmark-full.svg#icon"></use>
+                            </svg>
+                            <svg class="usa-icon width-4 height-4 usa-icon--bookmark-empty" aria-hidden="true" focusable="false" role="img" hidden>
+                                <use xlink:href="/static/img/action-bookmark-empty.svg#icon"></use>
+                            </svg>
+                        </button>
+                    </li>
+                    
+                    <li class="margin-right-2 mobile-lg:margin-right-4 display-flex">
+                        <button role="button" class="usa-button usa-button--unstyled usa-tooltip citation-dialog-trigger display-flex"
+                            aria-label="Open dialog with citation text in different styles"
+                            title="Cite"
+                            data-position="bottom"
+                            data-ga-category="actions"
+                            data-ga-action="open"
+                            data-ga-label="cite_mobile"
+                            data-all-citations-url="/resources/citations/12429228/"
+                            data-citation-style="nlm"
+                            data-download-format-link="/resources/citations/12429228/export/"
+                        >
+                            <svg class="usa-icon width-4 height-4 usa-icon--bookmark-empty" aria-hidden="true" focusable="false" role="img" hidden>
+                                <use xlink:href="/static/img/sprite.svg#format_quote"></use>
+                            </svg>
+                        </button>
+                    </li>
+                    
+                    <li class="pmc-permalink display-flex" >
+                         <button
+                                 type="button"
+                                 title="Permalink"
+                                 data-position="bottom"
+                                 class="usa-button usa-button--unstyled display-flex usa-tooltip"
+                                 aria-label="Show article permalink"
+                                 aria-expanded="false"
+                                 aria-haspopup="true"
+                                 data-ga-category="actions"
+                                 data-ga-action="open"
+                                 data-ga-label="permalink_mobile"
+                         >
+                            <svg class="usa-icon width-4 height-4" aria-hidden="true" focusable="false" role="img">
+                                <use xlink:href="/static/img/sprite.svg#share"></use>
+                            </svg>
+                        </button>
+                        
+
+<div class="pmc-permalink__dropdown" hidden>
+    <div class="pmc-permalink__dropdown__container">
+          <h2 class="usa-modal__heading margin-top-0 margin-bottom-2 text-uppercase font-sans-xs">PERMALINK</h2>
+          <div class="pmc-permalink__dropdown__content">
+              <input type="text" class="usa-input" value="https://pmc.ncbi.nlm.nih.gov/articles/PMC12429228/" aria-label="Article permalink">
+              <button class="usa-button display-inline-flex pmc-permalink__dropdown__copy__btn margin-right-0" title="Copy article permalink" data-ga-category="save_share" data-ga-action="link" data-ga-label="copy_link">
+                  <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+                    <use xlink:href="/static/img/sprite.svg#content_copy"></use>
+                  </svg>
+                  <span class="margin-left-1">Copy</span>
+              </button>
+          </div>
+    </div>
+</div>
+                    </li>
+                </ul>
+            </div>
+            <button
+                    type="button"
+                    class="usa-button pmc-sidenav__container__open usa-button--unstyled width-auto display-flex"
+                    aria-label="Open article navigation"
+                    data-extra-class="is-visible-in-page"
+                    data-ga-category="actions"
+                    data-ga-action="open"
+                    data-ga-label="article_nav_mobile"
+            >
+                <svg class="usa-icon width-4 height-4" aria-hidden="true" focusable="false" role="img">
+                    <use xlink:href="/static/img/sprite.svg#list"></use>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+    <div class="grid-container desktop:padding-left-6">
+      <div id="article-container" class="grid-row grid-gap">
+        <div class="grid-col-12 desktop:grid-col-8 order-2 pmc-layout__content">
+            <div class="grid-container padding-left-0 padding-right-0">
+                <div class="grid-row desktop:margin-left-neg-6">
+                    <div class="grid-col-12">
+                        <div class="pmc-layout__disclaimer" role="complementary" aria-label="Disclaimer note">
+    As a library, NLM provides access to scientific literature. Inclusion in an NLM database does not imply endorsement of, or agreement with,
+    the contents by NLM or the National Institutes of Health.<br/>
+    Learn more:
+    <a class="usa-link" data-ga-category="Link click" data-ga-action="Disclaimer" data-ga-label="New disclaimer box" href="/about/disclaimer/">PMC Disclaimer</a>
+    |
+    <a class="usa-link" data-ga-category="Link click" data-ga-action="PMC Copyright Notice" data-ga-label="New disclaimer box" href="/about/copyright/">
+        PMC Copyright Notice
+    </a>
+</div>
+                    </div>
+                </div>
+                <div class="grid-row pmc-wm desktop:margin-left-neg-6">
+                    <!-- Main content -->
+                    <main
+                      id="main-content"
+                      class="usa-layout-docs__main usa-layout-docs grid-col-12 pmc-layout pmc-prose padding-0"
+                    >
+
+                      
+                        <section class="pmc-journal-banner text-center line-height-none" aria-label="Journal banner"><img src="https://cdn.ncbi.nlm.nih.gov/pmc/banners/logo-radadv.png" alt="Radiology Advances logo" usemap="#pmc-banner-imagemap" width="500" height="75"><map name="pmc-banner-imagemap"><area alt="Link to Radiology Advances" title="Link to Radiology Advances" shape="default" href="https://doi.org/10.1093/radadv/umaf024" target="_blank" rel="noopener noreferrer"></map></section><article lang="en"><section aria-label="Article citation and metadata"><section class="pmc-layout__citation font-secondary font-xs"><div>
+<div class="display-inline-block"><button type="button" class="cursor-pointer text-no-underline bg-transparent border-0 padding-0 text-left margin-0 text-normal text-primary" aria-controls="journal_context_menu">Radiol Adv</button></div>. 2025 Jul 28;2(4):umaf024. doi: <a href="https://doi.org/10.1093/radadv/umaf024" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">10.1093/radadv/umaf024</a>
+</div>
+<nav id="journal_context_menu" hidden="hidden"><ul class="menu-list font-family-ui" role="menu">
+<li role="presentation"><a href='https://pmc.ncbi.nlm.nih.gov/search/?term="Radiol%20Adv"[jour]' class="usa-link" role="menuitem">Search in PMC</a></li>
+<li role="presentation"><a href='https://pubmed.ncbi.nlm.nih.gov/?term="Radiol%20Adv"[jour]' lang="en" class="usa-link" role="menuitem">Search in PubMed</a></li>
+<li role="presentation"><a href='https://www.ncbi.nlm.nih.gov/nlmcatalog?term="Radiol%20Adv"[Title%20Abbreviation]' class="usa-link" role="menuitem">View in NLM Catalog</a></li>
+<li role="presentation"><a href='?term="Radiol%20Adv"[jour]' class="usa-link" role="menuitem" data-add-to-search="true">Add to search</a></li>
+</ul></nav></section><section class="front-matter"><div class="ameta p font-secondary font-xs">
+<hgroup><h1>Decoding large language models for radiology: strategies for fine-tuning and prompt engineering</h1></hgroup><div class="cg p">
+<a href='https://pubmed.ncbi.nlm.nih.gov/?term="Vahdati%20S"[Author]' class="usa-link" aria-describedby="id1"><span class="name western">Sanaz Vahdati</span></a><div hidden="hidden" id="id1">
+<h3>
+<span class="name western">Sanaz Vahdati</span>, <span class="degrees">MD</span>
+</h3>
+<div class="p">
+<sup>1</sup>Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, Rochester, MN 55905, United States</div>
+<div>Conceptualization, Data curation, Formal analysis, Methodology, Project administration, Visualization, Writing - original draft, Writing - review &amp; editing</div>
+<div class="p">Find articles by <a href='https://pubmed.ncbi.nlm.nih.gov/?term="Vahdati%20S"[Author]' class="usa-link"><span class="name western">Sanaz Vahdati</span></a>
+</div>
+</div>
+<sup>1</sup>, <a href='https://pubmed.ncbi.nlm.nih.gov/?term="Mahmoudi%20E"[Author]' class="usa-link" aria-describedby="id2"><span class="name western">Elham Mahmoudi</span></a><div hidden="hidden" id="id2">
+<h3>
+<span class="name western">Elham Mahmoudi</span>, <span class="degrees">MD</span>
+</h3>
+<div class="p">
+<sup>2</sup>Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, Rochester, MN 55905, United States</div>
+<div class="p">Find articles by <a href='https://pubmed.ncbi.nlm.nih.gov/?term="Mahmoudi%20E"[Author]' class="usa-link"><span class="name western">Elham Mahmoudi</span></a>
+</div>
+</div>
+<sup>2</sup>, <a href='https://pubmed.ncbi.nlm.nih.gov/?term="Ganjizadeh%20A"[Author]' class="usa-link" aria-describedby="id3"><span class="name western">Ali Ganjizadeh</span></a><div hidden="hidden" id="id3">
+<h3>
+<span class="name western">Ali Ganjizadeh</span>, <span class="degrees">MD</span>
+</h3>
+<div class="p">
+<sup>3</sup>Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, Rochester, MN 55905, United States</div>
+<div>Conceptualization, Investigation, Methodology, Writing - original draft, Writing - review &amp; editing</div>
+<div class="p">Find articles by <a href='https://pubmed.ncbi.nlm.nih.gov/?term="Ganjizadeh%20A"[Author]' class="usa-link"><span class="name western">Ali Ganjizadeh</span></a>
+</div>
+</div>
+<sup>3</sup>, <a href='https://pubmed.ncbi.nlm.nih.gov/?term="Chao%20C"[Author]' class="usa-link" aria-describedby="id4"><span class="name western">Chiehju Chao</span></a><div hidden="hidden" id="id4">
+<h3>
+<span class="name western">Chiehju Chao</span>, <span class="degrees">MD</span>
+</h3>
+<div class="p">
+<sup>4</sup>Department of Cardiology, Mayo Clinic, Rochester, MN 55905, United States</div>
+<div>Conceptualization, Investigation, Methodology, Validation, Writing - review &amp; editing</div>
+<div class="p">Find articles by <a href='https://pubmed.ncbi.nlm.nih.gov/?term="Chao%20C"[Author]' class="usa-link"><span class="name western">Chiehju Chao</span></a>
+</div>
+</div>
+<sup>4</sup>, <a href='https://pubmed.ncbi.nlm.nih.gov/?term="Erickson%20BJ"[Author]' class="usa-link" aria-describedby="id5"><span class="name western">Bradley J Erickson</span></a><div hidden="hidden" id="id5">
+<h3>
+<span class="name western">Bradley J Erickson</span>, <span class="degrees">MD, PhD</span>
+</h3>
+<div class="p">
+<sup>5</sup>Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, Rochester, MN 55905, United States</div>
+<div>Conceptualization, Data curation, Formal analysis, Funding acquisition, Investigation, Methodology, Project administration, Resources, Supervision, Writing - original draft, Writing - review &amp; editing</div>
+<div class="p">Find articles by <a href='https://pubmed.ncbi.nlm.nih.gov/?term="Erickson%20BJ"[Author]' class="usa-link"><span class="name western">Bradley J Erickson</span></a>
+</div>
+</div>
+<sup>5,</sup><sup>✉</sup>
+</div>
+<ul class="d-buttons inline-list">
+<li><button class="d-button" aria-controls="aip_a" aria-expanded="false">Author information</button></li>
+<li><button class="d-button" aria-controls="anp_a" aria-expanded="false">Article notes</button></li>
+<li><button class="d-button" aria-controls="clp_a" aria-expanded="false">Copyright and License information</button></li>
+</ul>
+<div class="d-panels font-secondary-light">
+<div id="aip_a" class="d-panel p" style="display: none">
+<div class="p" id="aff1">
+<sup>1</sup>Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, Rochester, MN 55905, United States</div>
+<div id="aff2">
+<sup>2</sup>Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, Rochester, MN 55905, United States</div>
+<div id="aff3">
+<sup>3</sup>Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, Rochester, MN 55905, United States</div>
+<div id="aff4">
+<sup>4</sup>Department of Cardiology, Mayo Clinic, Rochester, MN 55905, United States</div>
+<div id="aff5">
+<sup>5</sup>Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, Rochester, MN 55905, United States</div>
+<div class="author-notes p"><div class="fn" id="umaf024-cor1">
+<sup>✉</sup><p class="display-inline">Corresponding author: Bradley J. Erickson, Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, 200 1st Street SW, Rochester, MN 55905, United States (<span>bje@mayo.edu</span>)</p>
+</div></div>
+<h4 class="font-secondary">Roles</h4>
+<div class="p">
+<strong class="contrib"><span class="name western">Sanaz Vahdati</span></strong>: <span class="degrees">MD</span>, <span class="role">Conceptualization, Data curation, Formal analysis, Methodology, Project administration, Visualization, Writing - original draft, Writing - review &amp; editing</span>
+</div>
+<div>
+<strong class="contrib"><span class="name western">Ali Ganjizadeh</span></strong>: <span class="degrees">MD</span>, <span class="role">Conceptualization, Investigation, Methodology, Writing - original draft, Writing - review &amp; editing</span>
+</div>
+<div>
+<strong class="contrib"><span class="name western">Chiehju Chao</span></strong>: <span class="degrees">MD</span>, <span class="role">Conceptualization, Investigation, Methodology, Validation, Writing - review &amp; editing</span>
+</div>
+<div>
+<strong class="contrib"><span class="name western">Bradley J Erickson</span></strong>: <span class="degrees">MD, PhD</span>, <span class="role">Conceptualization, Data curation, Formal analysis, Funding acquisition, Investigation, Methodology, Project administration, Resources, Supervision, Writing - original draft, Writing - review &amp; editing</span>
+</div>
+</div>
+<div id="anp_a" class="d-panel p" style="display: none"><div class="notes p"><section id="historyarticle-meta1" class="history"><p>Received 2025 Feb 18; Revised 2025 May 31; Accepted 2025 Jul 11; Collection date 2025 Jul.</p></section></div></div>
+<div id="clp_a" class="d-panel p" style="display: none">
+<div>© The Author(s) 2025. Published by Oxford University Press on behalf of the Radiological Society of North America.</div>
+<p>This is an Open Access article distributed under the terms of the Creative Commons Attribution License (<a href="https://creativecommons.org/licenses/by/4.0/" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">https://creativecommons.org/licenses/by/4.0/</a>), which permits unrestricted reuse, distribution, and reproduction in any medium, provided the original work is properly cited.</p>
+<div class="p"><a href="/about/copyright/" class="usa-link">PMC Copyright notice</a></div>
+</div>
+</div>
+<div>PMCID: PMC12429228  PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/41058957/" class="usa-link">41058957</a>
+</div>
+</div></section></section><section aria-label="Article content"><section class="body main-article-body"><section class="abstract" id="abstract1"><h2>Abstract</h2>
+<p>The advances in large language models (LLMs) have demonstrated sophisticated potential for automating complex tasks within the radiology workflow. From radiology report generation and report summarization to data collection for research trials, these models have proven to be powerful tools. However, optimal implementation of these models requires careful adaptation to the specialized medical domain. In addition, these models tend to generate information that is not truthful or factual, which can adversely affect patient care and clinical decisions. Strategies such as fine-tuning and prompt optimization have been shown to be impactful in eliminating these errors. Although these models undergo rapid updates and improvements, understanding the principles of prompt engineering and fine-tuning provides a foundation for evaluating and maintaining the performance of any LLM deployment. The current article aims to review the recent advancements in radiology using fine-tuning and prompt optimization to leverage LLMs’ capabilities. It delves into various techniques within each strategy, their advantages and limitations, and presents a framework to facilitate the practical integration of LLMs into radiology settings.</p>
+<section id="kwd-group1" class="kwd-group"><p><strong>Keywords:</strong> large language models, radiology report, fine-tuning, prompt engineering</p></section></section><hr class="headless">
+<section class="bt xbox font-sm" id="umaf024-BOX1"><p>
+<strong>Abbreviations</strong>
+</p>
+<p>LLM = large language mode; AI = Artificial Intelligence; Q&amp;A = Question and Answer; CoT = Chain of Thought; LoRA = Low-Rank Adaptation; QLoRA = Quantized Low-Rank Adaptation; PEFT = Parameter Efficient Fine-tuning; RLHF = Reinforcement Learning from Human Feedback; DPO = Direct Preference Optimization; GPU = Graphics Processing Unit</p>
+<p>
+<strong>Summary</strong>
+</p>
+<p>Large language models are promising tools for automating radiology workflows but are prone to hallucination and factual error. Fine-tuning and prompt optimization techniques significantly enhance their accuracy and clinical integration.</p>
+<p>
+<strong>Key Results</strong>
+</p>
+<ul class="list" style="list-style-type:disc">
+<li><p>Large language models have demonstrated robust capabilities for automating diverse radiology tasks but have a tendency to hallucinate.</p></li>
+<li><p>Adaptation of these models to the medical domain through strategies such as fine-tuning and prompt engineering improves language model performance and mitigates hallucination and factual errors in radiology.</p></li>
+<li><p>Standardized evaluation methods are essential to ensure transparency and reproducibility for clinical purposes.</p></li>
+</ul></section><section id="sec1"><h2 class="pmc_sec_title">Introduction</h2>
+<p>Radiology is undergoing a significant transformation, fueled by rapid advances in artificial intelligence (AI). Initially dominated by convolutional neural networks, the rise of large language models (LLMs) has opened up unprecedented opportunities for automating complex cognitive tasks within radiology clinical workflows. LLMs demonstrate remarkable capabilities in natural language understanding, generation, information extraction, and clinical reasoning, with promising applications in protocoling, report generation, and clinical decision support<a href="#umaf024-B1" class="usa-link" aria-describedby="umaf024-B1"><sup>1</sup></a><sup>,</sup><a href="#umaf024-B2" class="usa-link" aria-describedby="umaf024-B2"><sup>2</sup></a> (<a href="#umaf024-F1" class="usa-link">Figure 1</a>).</p>
+<figure class="fig xbox font-sm" id="umaf024-F1"><h3 class="obj_head">Figure 1.</h3>
+<p class="img-box line-height-none margin-x-neg-2 tablet:margin-x-0 text-center"><a class="tileshop" target="_blank" href="https://www.ncbi.nlm.nih.gov/core/lw/2.0/html/tileshop_pmc/tileshop_pmc_inline.html?title=Click%20on%20image%20to%20zoom&amp;p=PMC3&amp;id=12429228_umaf024f1.jpg"><img class="graphic zoom-in" src="https://cdn.ncbi.nlm.nih.gov/pmc/blobs/04ec/12429228/2c8fb0510962/umaf024f1.jpg" loading="lazy" height="614" width="700" alt="Figure 1."></a></p>
+<div class="p text-right font-secondary"><a href="figure/umaf024-F1/" class="usa-link" target="_blank" rel="noopener noreferrer">Open in a new tab</a></div>
+<figcaption><p>Hierarchical framework of large language models’ (LLM) applications in clinical radiology.</p></figcaption></figure><p>However, fully realizing the potential of LLMs in radiology demands careful adaptation to address their vulnerabilities, notably their tendency to “hallucinate,” or produce plausible yet inaccurate information. This potential for misinformation in the context of medical practice has raised liability concerns and calls for tailored regulatory oversight, issues that will need to be addressed for general clinical acceptance. These challenges underscore the need for specialized adaptation methods.</p>
+<p>This review paper explores the burgeoning potential of LLMs in radiology, focusing on the strategic application of 2 key techniques, fine-tuning and prompt engineering, to enhance accuracy and improve the quality of the models’ response.<a href="#umaf024-B3" class="usa-link" aria-describedby="umaf024-B3"><sup>3</sup></a> Current work outlines the approach for fine-tuning with a comprehensive overview of different prompting techniques in eliciting desired responses. It provides a framework for researchers and radiologists to implement these technologies in their practice efficiently.</p></section><section id="sec2"><h2 class="pmc_sec_title">Prompt engineering</h2>
+<p>A prompt is the text input that directs the model to generate output. Prompt engineering has emerged as a crucial technique in the effective utilization of LLMs for a wide range of purposes, including radiology report analysis. The LLMs are capable of providing favorable outputs for a given task through in-context learning without further training and gradient updates.<a href="#umaf024-B4" class="usa-link" aria-describedby="umaf024-B4"><sup>4</sup></a> The prompt’s structure and context matter significantly in LLMs’ interpretation and response generation. LLMs may generate completely different outputs in response to minorly different prompt inputs. Prompt structure not only influences the output content but also has the potential to define the format and structure of the output.<a href="#umaf024-B5" class="usa-link" aria-describedby="umaf024-B5"><sup>5</sup></a><sup>,</sup><a href="#umaf024-B6" class="usa-link" aria-describedby="umaf024-B6"><sup>6</sup></a></p>
+<p>Although the appropriate prompt varies for different models and depends on the training data, there are some general rules for aim-specific prompt optimization. An introduction to the basic prompt structure and techniques to specialize that structure for different tasks can help understand the importance of prompt engineering in text analysis.</p>
+<section id="sec3"><h3 class="pmc_sec_title">Prompt structure</h3>
+<p>A well-constructed prompt that is supported by most of the commonly used LLMs should be structured as a few primary conversational roles. Although OpenAI’s ChatGPT and many open-source LLMs support a common set of primary roles, including “system,” “user,” and “assistant,” Anthropic’s Claude and Google-based LLMs do not follow an explicit role-based structure. Declarative Self-improving Python (DSPy)<a href="#umaf024-B7" class="usa-link" aria-describedby="umaf024-B7"><sup>7</sup></a> also follows its own role system, including “prompt,” “example,” and “reflection” roles. Here, we describe the system, the user, and the assistant roles as the most used role system (<a href="#sup1" class="usa-link">Supplementary Material</a>).</p>
+<p>In the context of radiology report analysis, prompts may include queries or instructions to summarize or structure the report. Instruction prompting of LLMs focuses on following human instructions and enables them to be particularly adept at understanding and executing complex prompt instructions, like differentiating clinical pathologies and categorizing the severities. For example, Nguyen et al. investigated the potential of ChatGPT in providing the Breast Imaging and Reporting Data System (BIRAD) score using the American College of Radiology guideline and proposed that structured integration of established criteria improved LLM’s performance; however, further investigation is required to prevent overestimation of the severity of the cases.<a href="#umaf024-B8" class="usa-link" aria-describedby="umaf024-B8"><sup>8</sup></a> This is particularly important in radiology applications, where precise terminology and structured outputs are essential.</p></section><section id="sec4"><h3 class="pmc_sec_title">Zero-shot prompting</h3>
+<p>Zero-shot prompting represents the most direct approach to using LLMs, where the model performs tasks without prior examples. Performance relies entirely on the model’s pretraining and the clarity of the prompt. This approach has shown promise in simpler tasks, such as classification or basic medical terminology interpretation, but struggles with complex clinical reasoning.<a href="#umaf024-B9" class="usa-link" aria-describedby="umaf024-B9"><sup>9</sup></a><sup>,</sup><a href="#umaf024-B10" class="usa-link" aria-describedby="umaf024-B10"><sup>10</sup></a></p>
+<p>Park et al. proposed a patient-centered radiology report generation. They used ChatGPT with zero-shot prompting to create a summarized report that is patient-friendly and obtains further recommendations to optimize communication with patients.<a href="#umaf024-B11" class="usa-link" aria-describedby="umaf024-B11"><sup>11</sup></a> Zero-shot prompting is straightforward and widely applicable but often serves as a baseline for more advanced techniques.</p></section><section id="sec5"><h3 class="pmc_sec_title">Few-shot prompting</h3>
+<p>Few-shot prompting enhances the basic prompting paradigm by incorporating examples directly within the prompt structure. This approach provides the model with concrete examples of desired input-output pairs, effectively creating a mini-training set of annotated data within the prompt itself.<a href="#umaf024-B12" class="usa-link" aria-describedby="umaf024-B12"><sup>12</sup></a> Despite the initial belief that “language models are few-shot learners,” case studies questioned this by showing better performance for zero-shot prompting, particularly in smaller LLMs.<a href="#umaf024-B13" class="usa-link" aria-describedby="umaf024-B13"><sup>13</sup></a><sup>,</sup><a href="#umaf024-B14" class="usa-link" aria-describedby="umaf024-B14"><sup>14</sup></a> It seems that larger models can benefit more from few-shot examples. Additionally, the selected examples should ideally cover different aspects of the task while maintaining consistency in format and quality. This will help the model to understand specific patterns, output formats, and domain-specific requirements; thus, carefully choosing examples that represent both typical cases and edge scenarios can improve model performance.<a href="#umaf024-B15" class="usa-link" aria-describedby="umaf024-B15"><sup>15</sup></a> Yan et al. explored a style-aware approach to radiology report generation by decoupling content extraction and style extraction. They used a 2-step approach to first generate radiology reports from images and then applied few-shot prompting to stylize them. Radiologist evaluations found the generated reports to be indistinguishable from individual radiologists. The authors noted that this approach, combining stylization with in-context learning, could improve flexibility and consistency and highlight the most relevant findings to a specialist’s scope of practice.<a href="#umaf024-B16" class="usa-link" aria-describedby="umaf024-B16"><sup>16</sup></a></p></section><section id="sec6"><h3 class="pmc_sec_title">Chain-of-thought prompting</h3>
+<p>Chain-of-thought (CoT) prompting is an advanced technique that explicitly integrates intermediate reasoning steps into the prompt structure, guiding the model through a step-by-step process that culminates in a conclusion (<a href="#sup1" class="usa-link">Supplementary Material</a>). This approach is shown to improve the model’s answers, particularly to logical and computational questions; it also makes the reasoning process transparent and verifiable by breaking down complex tasks into intermediate steps.<a href="#umaf024-B17" class="usa-link" aria-describedby="umaf024-B17"><sup>17</sup></a> The explicit decomposition of complex reasoning chains allows for better verification and correction of potential errors at each step of reasoning. CoT prompting may be used in a zero-shot approach or combined with few-shot examples of reasoning chains, known as “golden CoT,” for better performance.<a href="#umaf024-B18" class="usa-link" aria-describedby="umaf024-B18"><sup>18</sup></a></p>
+<p>Bhayana et al. investigated the use of ChatGPT to create structured radiology reports for pancreatic ductal adenocarcinoma assessment. They reported that using ChatGPT with CoT reasoning outperformed in-context prompting, and surgeons using these reports demonstrated greater accuracy in determining lesion resectability compared to those using standard reference reports.<a href="#umaf024-B19" class="usa-link" aria-describedby="umaf024-B19"><sup>19</sup></a> Furthermore, CoT has shown capabilities in improving complex diagnostic reasoning and differential diagnosis development.<a href="#umaf024-B20" class="usa-link" aria-describedby="umaf024-B20"><sup>20</sup></a> Examples of various prompting strategies for radiology report analysis are summarized in <a href="#umaf024-T1" class="usa-link">Table 1</a>.</p>
+<section class="tw xbox font-sm" id="umaf024-T1"><h4 class="obj_head">Table 1.</h4>
+<div class="caption p"><p>Examples of 3 forms of prompting techniques for data extraction from a radiology report.</p></div>
+<div class="tbl-box p" tabindex="0"><table class="content" frame="hsides" rules="groups">
+<colgroup span="1">
+<col valign="top" align="left" span="1">
+<col valign="top" align="left" span="1">
+</colgroup>
+<thead>
+<tr><th colspan="2" rowspan="1">
+<strong>Report:</strong> Acute nondisplaced fracture of the left parietal calvarium. There is an overlying left parietal scalp hematoma. Acute subarachnoid hemorrhage in the right frontal sulci as well as the right sylvian fissure. No evidence of an intraparenchymal hematoma. No extra-axial fluid collection. Ventricles are normal without evidence of blood products. Preserved gray-white differentiation. There is no evidence of an acute facial fracture.<hr>
+</th></tr>
+<tr>
+<th rowspan="1" colspan="1">Prompt Engineering Technique</th>
+<th rowspan="1" colspan="1">Sample Radiology Prompt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Zero-shot Prompting</strong>
+</td>
+<td rowspan="1" colspan="1">
+<ul class="list" style="list-style-type:none">
+<li><p>Prompt: You are a neuroradiologist. Carefully review the provided radiology reports. Determine if there is any intracranial hemorrhage present in this report. If yes, identify the type of intracranial hemorrhage.</p></li>
+<li><p>Report: [Report]</p></li>
+<li><p>Answer: Yes, subarachnoid hemorrhage</p></li>
+</ul>
+</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Few-shot Prompting</strong>
+</td>
+<td rowspan="1" colspan="1">
+<ul class="list" style="list-style-type:none">
+<li><p>Prompt: You are a neuroradiologist. Given these examples, carefully review the provided radiology reports. Determine if there is any intracranial hemorrhage present in this report. If yes, identify the type of intracranial hemorrhage.</p></li>
+<li><p>Example 1: Report: “…There is mild subarachnoid hemorrhage involving the anterior superior aspect of the right temporal lobe with mild extension into the parietal lobe. There are no additional areas of intracranial hemorrhage. The ventricles are normal in size, shape, and position. There is no evidence of an acute infarct. Answer: “subarachnoid hemorrhage.”</p></li>
+<li><p>Example 2: Report: “…Stable subdural hemorrhage spanning 8 mm on the right side of the falx. Scattered white matter disease. Calcification in the left choroid plexus. No significant mass effect. No fractures. Lens extractions. Scalp defect.… Answer: subdural hemorrhage.</p></li>
+<li><p>Now select the correct option in this report: [Report]</p></li>
+<li><p>Answer: Yes, subarachnoid hemorrhage</p></li>
+</ul>
+</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Chain of Thought Prompting</strong>
+</td>
+<td rowspan="1" colspan="1">
+<ul class="list" style="list-style-type:none">
+<li><p>Prompt: You are a neuroradiologist. Given these examples, carefully review the provided radiology reports. Determine if there is any intracranial hemorrhage present in this report. If yes, identify the type of intracranial hemorrhage.</p></li>
+<li><p>Example 1: Report: “…There is mild subarachnoid hemorrhage involving the anterior superior aspect of the right temporal lobe with mild extension into the parietal lobe. There are no additional areas of intracranial hemorrhage. The ventricles are normal in size, shape, and position. There is no evidence of an acute infarct. Answer: “subarachnoid hemorrhage.”</p></li>
+<li><p>Example 2: Report: “…Stable subdural hemorrhage spanning 8 mm on the right side of the falx. Scattered white matter disease. Calcification in the left choroid plexus. No significant mass effect. No fractures. Lens extractions. Scalp defect.… Answer: subdural hemorrhage.</p></li>
+<li><p>Now select the correct option in this report: [Report]</p></li>
+<li><p>Answer:</p></li>
+<li><p>1. Yes, subarachnoid hemorrhage.</p></li>
+<li><p>2. The report mentions “acute subarachnoid hemorrhage.”</p></li>
+<li><p>3. The evidence supports the presence of subarachnoid hemorrhage.</p></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table></div>
+<div class="p text-right font-secondary"><a href="table/umaf024-T1/" class="usa-link" target="_blank" rel="noopener noreferrer">Open in a new tab</a></div></section></section><section id="sec7"><h3 class="pmc_sec_title">Prompt optimization</h3>
+<p>A common approach to prompt optimization in LLMs involves iterative evaluation of model outputs to identify sources of misinterpretation and revise the prompt accordingly to reduce errors, particularly hallucinations. In radiology, this process is ideally conducted by domain experts such as radiologists whose specialized knowledge ensures alignment with clinical standards. However, when prompts are designed to simplify, summarize, or categorize information for a patient or general population, the prompt optimization may be guided by nonexpert collaborators from the target population.<a href="#umaf024-B21" class="usa-link" aria-describedby="umaf024-B21"><sup>21–23</sup></a> Schmidt et al. demonstrated that LLMs could detect speech recognition errors in radiology reports and enhance overall reporting accuracy through prompt refinement.<a href="#umaf024-B24" class="usa-link" aria-describedby="umaf024-B24"><sup>24</sup></a> The repetitive task of prompt modification and output evaluation may be guided heuristically or based on quantitative metrics until the outputs stop improving or the metric reaches a specific performance level.<a href="#umaf024-B25" class="usa-link" aria-describedby="umaf024-B25"><sup>25</sup></a><sup>,</sup><a href="#umaf024-B26" class="usa-link" aria-describedby="umaf024-B26"><sup>26</sup></a> A few steps of CoT prompting can facilitate this process by elucidating the reasoning behind the model’s conclusions. Recent advances in prompt engineering have led to the development of automated pipelines for prompt optimization, reducing the manual effort required in prompt engineering while improving consistency and performance. These techniques may employ a rule-based paraphrasing of the initial prompt content based on a sample of optimized prompts or a task-specific template (eg, LangChain, PromptSource),<a href="#umaf024-B27" class="usa-link" aria-describedby="umaf024-B27"><sup>27–29</sup></a> they may instruct the LLM itself to generate an optimized prompt for a specific task (showcased in recent OpenAI GPT plugins), they may rely on user feedback (eg, AutoPrompt), or may incorporate prompt embedding (<a href="#sup1" class="usa-link">Supplementary Material</a>) to apply textual gradients (inspired by gradient-descent backpropagation), for iterative prompt evaluation and optimization (eg, Microsoft’s APO).<a href="#umaf024-B30" class="usa-link" aria-describedby="umaf024-B30"><sup>30</sup></a></p>
+<p>All these approaches require robust validation to guide them in an automatic optimization process. Some of the common techniques employed for textual prompt validation are summarized in <a href="#umaf024-T2" class="usa-link">Table 2</a>.</p>
+<section class="tw xbox font-sm" id="umaf024-T2"><h4 class="obj_head">Table 2.</h4>
+<div class="caption p"><p>List of common textual prompt validation techniques.</p></div>
+<div class="tbl-box p" tabindex="0"><table class="content" frame="hsides" rules="groups">
+<colgroup span="1">
+<col valign="top" align="left" span="1">
+<col valign="top" align="left" span="1">
+</colgroup>
+<thead><tr>
+<th rowspan="1" colspan="1">Textual Prompt Validation Techniques</th>
+<th rowspan="1" colspan="1">Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Human feedback loops</strong>
+</td>
+<td rowspan="1" colspan="1">Interactive user feedback to confirm or score prompts in each iteration. These feedbacks are often used in the process of reinforcement learning<a href="#umaf024-B66" class="usa-link" aria-describedby="umaf024-B66"><sup>66</sup></a><sup>,</sup><a href="#umaf024-B67" class="usa-link" aria-describedby="umaf024-B67"><sup>67</sup></a>.</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Scoring systems</strong>
+</td>
+<td rowspan="1" colspan="1">Value a prompt in comparison with a standard prompt content or semantic structure<a href="#umaf024-B23" class="usa-link" aria-describedby="umaf024-B23"><sup>23</sup></a><sup>,</sup><a href="#umaf024-B29" class="usa-link" aria-describedby="umaf024-B29"><sup>29</sup></a>.</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Evolutionary search-based techniques</strong>
+</td>
+<td rowspan="1" colspan="1">To find the best-performing prompts by evaluating a range of possibilities utilizing the same methods used in genetic algorithms<a href="#umaf024-B68" class="usa-link" aria-describedby="umaf024-B68"><sup>68</sup></a>.</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Soft prompting techniques</strong>
+</td>
+<td rowspan="1" colspan="1">Also known as continuous prompting, replace the textual prompt inputs with embeddings generated during the model’s training. This embedded content is more flexible for gradient-based training and fine-tuning<a href="#umaf024-B69" class="usa-link" aria-describedby="umaf024-B69"><sup>69</sup></a>.</td>
+</tr>
+</tbody>
+</table></div>
+<div class="p text-right font-secondary"><a href="table/umaf024-T2/" class="usa-link" target="_blank" rel="noopener noreferrer">Open in a new tab</a></div></section></section><section id="sec8"><h3 class="pmc_sec_title">Programmatic prompting</h3>
+<p>These prompting approaches, although following a specific template and guidelines, still rely on manual crafting and a trial-and-error process. To overcome this limitation, a team from Stanford University developed the DSPy package—a programming framework designed to streamline the development and optimization of language model pipelines by abstracting away from manual prompt engineering. Instead of relying on hand-crafted prompt templates, which can be brittle and hard to scale, DSPy uses a compiler to generate optimized LLM invocation strategies from a program automatically. The core idea is to treat language models as abstract devices for text generation and optimize their usage in computational graphs. DSPy achieves this through key abstractions like natural language signatures, parameterized modules, which replace hand-prompting techniques, and teleprompters, which optimize modules to maximize a specified metric. Using DSPy’s compiler, LLM pipelines can be expressed as programs in Python. The DSPy compiler then optimizes these pipelines to improve quality or cost, using training inputs and a validation metric to bootstrap example traces for self-improvement. The authors found that, within minutes of compiling, a few lines of DSPy allow GPT-3.5 and llama2-13 b-chat to self-bootstrap pipelines that outperform standard few-shot prompting methods. DSPy contrasts with other libraries like LangChain and LlamaIndex by focusing on core composable operators and automatic compilation rather than prepackaged components that rely on manual prompt engineering.<a href="#umaf024-B7" class="usa-link" aria-describedby="umaf024-B7"><sup>7</sup></a> Gandomi et al. applied DSPy to automatic prompt optimization for detecting bilateral infiltration in radiology reports, aiding the classification of acute respiratory syndrome.<a href="#umaf024-B31" class="usa-link" aria-describedby="umaf024-B31"><sup>31</sup></a></p>
+<p>The decision between different approaches and choosing the right techniques is domain- and task-specific (<a href="#umaf024-T3" class="usa-link">Table 3</a>). However, rigorous validation and expert oversight remain essential, particularly in clinical settings where accuracy and reliability have a prominent impact on patient outcomes.</p>
+<section class="tw xbox font-sm" id="umaf024-T3"><h4 class="obj_head">Table 3.</h4>
+<div class="caption p"><p>Overview of prompting techniques with radiology studies mentioned.</p></div>
+<div class="tbl-box p" tabindex="0"><table class="content" frame="hsides" rules="groups">
+<colgroup span="1">
+<col valign="top" align="left" span="1">
+<col valign="top" align="left" span="1">
+<col valign="top" align="left" span="1">
+</colgroup>
+<thead><tr>
+<th rowspan="1" colspan="1">Technique Type</th>
+<th rowspan="1" colspan="1">Example Radiology Application</th>
+<th rowspan="1" colspan="1">Key Teaching Point</th>
+</tr></thead>
+<tbody>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Zero-shot Prompting</strong>
+</td>
+<td rowspan="1" colspan="1">Radiology report generation using ChatGPT to create patient-friendly summaries with recommendations<a href="#umaf024-B11" class="usa-link" aria-describedby="umaf024-B11"><sup>11</sup></a>
+</td>
+<td rowspan="1" colspan="1">Most direct approach relying solely on pre-trained knowledge; effective for simple classification</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Few-shot Prompting</strong>
+</td>
+<td rowspan="1" colspan="1">Style-aware radiology report generation, producing outputs indistinguishable from individual radiologists<a href="#umaf024-B16" class="usa-link" aria-describedby="umaf024-B16"><sup>16</sup></a>
+</td>
+<td rowspan="1" colspan="1">Incorporates concrete input-output examples within prompt structure; careful selection covering typical cases and edge scenarios improves performance</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Chain-of-Thought (CoT) Prompting</strong>
+</td>
+<td rowspan="1" colspan="1">Structured radiology reports for pancreatic ductal adenocarcinoma improv surgeon accuracy in resectability categorization<a href="#umaf024-B19" class="usa-link" aria-describedby="umaf024-B19"><sup>19</sup></a>
+</td>
+<td rowspan="1" colspan="1">Explicitly incorporates step-by-step reasoning and intermediate conclusions; makes reasoning process transparent and verifiable</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Programmatic Prompting</strong>
+</td>
+<td rowspan="1" colspan="1">Automatic prompt optimization detecting bilateral infiltration to classify acute respiratory syndrome disease from radiology reports<a href="#umaf024-B31" class="usa-link" aria-describedby="umaf024-B31"><sup>31</sup></a>
+</td>
+<td rowspan="1" colspan="1">Abstracts away from manual prompt engineering using compiler-generated optimized LLM strategies</td>
+</tr>
+</tbody>
+</table></div>
+<div class="p text-right font-secondary"><a href="table/umaf024-T3/" class="usa-link" target="_blank" rel="noopener noreferrer">Open in a new tab</a></div></section></section></section><section id="sec9"><h2 class="pmc_sec_title">Fine-tuning</h2>
+<p>Fine-tuning is a critical step in adapting LLMs for specialized tasks and extracting domain-specific insights. Although the term “fine-tuning” is sometimes used interchangeably with “prompting” in the literature, the 2 are fundamentally different, as fine-tuning changes model weights and prompting does not.<a href="#umaf024-B32" class="usa-link" aria-describedby="umaf024-B32"><sup>32</sup></a> Pretraining equips models with generalized knowledge by exposing them to extensive and diverse datasets. In contrast, fine-tuning narrows the model’s focus by optimizing parameters based on task-specific data.<a href="#umaf024-B33" class="usa-link" aria-describedby="umaf024-B33"><sup>33</sup></a> Fine-tuning enhances the model’s ability to perform specialized functions such as analyzing radiology reports or generating diagnostic impressions. To meet the specific demands of the radiology field, fine-tuning strategies have evolved to balance performance optimization with practical constraints including limited labeled data, computational resource limitations, and regulatory requirements. Fine-tuning methods can be broadly categorized into task-specific approaches (2.1, 2.2, 2.3) and alignment-focused techniques (2.4, 2.5), each serving distinct objectives in adapting LLMs for practical applications (<a href="#umaf024-T4" class="usa-link">Table 4</a>).</p>
+<section class="tw xbox font-sm" id="umaf024-T4"><h3 class="obj_head">Table 4.</h3>
+<div class="caption p"><p>Overview of fine-tuning techniques with supporting radiology studies mentioned.</p></div>
+<div class="tbl-box p" tabindex="0"><table class="content" frame="hsides" rules="groups">
+<colgroup span="1">
+<col valign="top" align="left" span="1">
+<col valign="top" align="left" span="1">
+<col valign="top" align="left" span="1">
+</colgroup>
+<thead><tr>
+<th rowspan="1" colspan="1">Fine-tuning Method</th>
+<th rowspan="1" colspan="1">Example Use Case</th>
+<th rowspan="1" colspan="1">Key Teaching Point</th>
+</tr></thead>
+<tbody>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Traditional Full Fine-tuning</strong>
+</td>
+<td rowspan="1" colspan="1">Radiology foundation model for disease diagnosis and report generation<a href="#umaf024-B35" class="usa-link" aria-describedby="umaf024-B35"><sup>35</sup></a>
+</td>
+<td rowspan="1" colspan="1">Updates all model parameters, particularly valuable for multimodal integration of text and imaging data</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Instruction Tuning</strong>
+</td>
+<td rowspan="1" colspan="1">Radiology-GPT to create an impression from the findings in text, mimicking radiologist’s workflow<a href="#umaf024-B38" class="usa-link" aria-describedby="umaf024-B38"><sup>38</sup></a>
+</td>
+<td rowspan="1" colspan="1">Structured training data as instruction-input-output triplets</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Parameter Efficient Fine-tuning (PEFT)</strong>
+</td>
+<td rowspan="1" colspan="1">QLoRA applied to Llama3-70B using 6.5 million radiology reports for impression generation<a href="#umaf024-B44" class="usa-link" aria-describedby="umaf024-B44"><sup>44</sup></a>
+</td>
+<td rowspan="1" colspan="1">Reduces trainable parameters significantly while maintaining performance</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Reinforcement Learning from Human Feedback (RLHF)</strong>
+</td>
+<td rowspan="1" colspan="1">LLM-as-a-judge mechanism with automated preference evaluation for CXR report generation<a href="#umaf024-B47" class="usa-link" aria-describedby="umaf024-B47"><sup>47</sup></a>
+</td>
+<td rowspan="1" colspan="1">Trains a model through a reward-based paradigm using human preferences</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Direct Preference Optimization (DPO)</strong>
+</td>
+<td rowspan="1" colspan="1">Fine-tuning a vision-language model for radiology report generation to avoid fabricating prior exams comparisons while maintaining clinical accuracy<a href="#umaf024-B49" class="usa-link" aria-describedby="umaf024-B49"><sup>49</sup></a>
+</td>
+<td rowspan="1" colspan="1">Directly optimizes the model based on expert preferences without a reinforcement learning loop</td>
+</tr>
+</tbody>
+</table></div>
+<div class="p text-right font-secondary"><a href="table/umaf024-T4/" class="usa-link" target="_blank" rel="noopener noreferrer">Open in a new tab</a></div></section><section id="sec10"><h3 class="pmc_sec_title">Traditional full fine-tuning</h3>
+<p>This approach involves updating all parameters of a pretrained model using labeled radiology data. Although effective, it is resource-intensive and may be impractical for models with billions of parameters, such as GPT-4. Traditional fine-tuning is mostly a form of supervised learning, where the model learns from labeled examples to map inputs to outputs. In the context of fine-tuning, a pretrained model is specialized on a new task or dataset by showing examples with corresponding labels. For example, Nishio et al. fine-tuned the T5 open-source language model using the MIMIC Chest X-ray database and the Japan Medical Image Database. Their evaluation, based on both ROUGE metrics and expert radiologist assessment, confirmed that the fine-tuned models could generate clinically meaningful summaries of radiology reports.<a href="#umaf024-B34" class="usa-link" aria-describedby="umaf024-B34"><sup>34</sup></a> Wu et al. introduced the Radiology Foundation Model, a visually conditioned autoregressive model pretrained on a massive multimodal dataset and fine-tuned using 3 million radiologic images with high-quality language instruction and response. Their model enables the integration of natural language with 2- or 3-dimensional medical imaging and is provided as a tool for modality recognition, disease diagnosis, and report generation.<a href="#umaf024-B35" class="usa-link" aria-describedby="umaf024-B35"><sup>35</sup></a> Zhang et al. proposed a vision-language model, “BiomedGPT,” and reported that fine-tuning enables it to perform well on diverse biomedical datasets and imaging modalities without requiring extensive computational resources.<a href="#umaf024-B36" class="usa-link" aria-describedby="umaf024-B36"><sup>36</sup></a></p></section><section id="sec11"><h3 class="pmc_sec_title">Instruction tuning</h3>
+<p>Instruction tuning is a specific type of supervised fine-tuning where the training data are structured to include explicit instructions along with the input and desired output. The training data are presented as instruction-input-output triplets. This approach is designed to improve the model’s ability to follow instructions and generalize to unseen tasks. This method can also incorporate CoT data to improve the model’s reasoning abilities. Singhal et al. showcased this technique with Flan-PaLM, where instruction tuning improved performance on medical question-answering benchmarks.<a href="#umaf024-B37" class="usa-link" aria-describedby="umaf024-B37"><sup>37</sup></a> Liu et al. introduced Radiology-GPT. Their aim was to tune the model so that it could generate an impression text given a findings text as an instruction, essentially mimicking the work of a radiologist. The underlying language model learns the relationship between findings and impressions from the dataset and, hence, starts generating impressions in a similar manner when presented with new findings.<a href="#umaf024-B38" class="usa-link" aria-describedby="umaf024-B38"><sup>38</sup></a></p></section><section id="sec12"><h3 class="pmc_sec_title">Parameter efficient fine-tuning</h3>
+<p>Parameter efficient fine-tuning provides an effective technique by decreasing the number of parameters and the memory required for fine-tuning, yet offering performance on par with traditional full fine-tuning. It includes various methods, such as partial fine-tuning, additive fine-tuning, and reparameterized fine-tuning. Low-rank adaptation (LoRa) and LoRa derivatives are 2 subsets of reparameterized fine-tuning.<a href="#umaf024-B39" class="usa-link" aria-describedby="umaf024-B39"><sup>39</sup></a> In 2021, Hu et al. demonstrated that LoRA decreases trainable parameters by 10 000 times while maintaining model performance.<a href="#umaf024-B40" class="usa-link" aria-describedby="umaf024-B40"><sup>40</sup></a> LoRA is a method for efficiently adapting large, pretrained language models to specific tasks. Instead of modifying all the model’s parameters, LoRA freezes the pretrained weights and introduces trainable, low-rank matrices into the Transformer architecture.</p>
+<p>By keeping the pretrained model’s weights frozen and training only the low-rank matrices, LoRA significantly reduces the number of trainable parameters, as well as memory requirements, during training. This approach is also beneficial since it maintains or improves model quality. Furthermore, the trainable matrices can be merged with the frozen weights before deployment, which means that there is no additional inference latency (ie, inference latency is the time taken by a model to process an input and produce an output).</p>
+<p>Building on this foundation, Dettmers et al. introduced QLoRA as an efficient fine-tuning approach designed to reduce memory usage, enabling the fine-tuning of large LLMs on a single GPU (<a href="#sup1" class="usa-link">Supplementary Material</a>). Unlike standard LoRA, which works with full-precision pretrained models, QLoRA uses a 4-bit quantized pretrained language model and significantly reduces memory requirements, making it possible to fine-tune a 65-billion parameter model on a single 48-GB GPU.<a href="#umaf024-B41" class="usa-link" aria-describedby="umaf024-B41"><sup>41</sup></a> Veen et al.<a href="#umaf024-B42" class="usa-link" aria-describedby="umaf024-B42"><sup>42</sup></a> applied QLoRA for summarizing radiology reports and progress notes, noting its potential to reduce documentation burden. Chen et al.<a href="#umaf024-B43" class="usa-link" aria-describedby="umaf024-B43"><sup>43</sup></a> used QLoRA to fine-tune open-source models for radiology differential diagnosis, building a large dataset from ChatGPT-labeled impression sections and showing improved diagnostic accuracy. Shi et al.<a href="#umaf024-B44" class="usa-link" aria-describedby="umaf024-B44"><sup>44</sup></a> fine-tuned Llama3-70B with QLoRA and traditional methods on &gt;6.5 million deidentified radiology reports to generate impressions from findings, observing that QLoRA offered comparable performance to full fine-tuning with significantly reduced computational cost for large parameter models. Additionally, Chao et al.<a href="#umaf024-B45" class="usa-link" aria-describedby="umaf024-B45"><sup>45</sup></a> achieved expert-level echocardiography report summarization by applying QLoRA to fine-tune Llama-2-7B.</p></section><section id="sec13"><h3 class="pmc_sec_title">Reinforcement learning from human feedback</h3>
+<p>Reinforcement learning is a type of machine learning technique in which the model is trained by a reward-based paradigm to achieve the optimal result. Designing an effective reward system is essential for guiding the model towards desired behaviors. Reinforcement learning from human feedback (RLHF) considers human preferences to align the model outputs with human standards. It progresses through supervised fine-tuning, preference sampling, reward learning, and, finally, reinforcement learning fine-tuning and optimization.</p>
+<p>This method typically starts with a pretrained model that is further fine-tuned using supervised learning on a specific dataset. The model then collects different initial outputs of the model as samples and sends a batch of pairs to a human expert to label them based on preference. In the next step, a preference loss is defined, and a reward model is trained using the preferred feedback from human experts. In the final step, which is the reinforcement learning training loop, the model undergoes fine-tuning using the updated reward model and trains a policy that optimizes the learned reward model (proximal policy optimization). This process allows the model to generate responses that are more likely to receive higher rewards, optimizing alignment with expert preferences<a href="#umaf024-B46" class="usa-link" aria-describedby="umaf024-B46">46</a> (<a href="#umaf024-F2" class="usa-link">Figure 2</a>). Nevertheless, the requirement for substantial feedback from radiologists has thus far hindered its adoption in the field. Ongoing efforts have focused on reducing the dependency on human experts and automating the preference evaluation of responses. Hein et al. proposed an LLM-as-a-Judge mechanism. They employed an LLM-based metric to evaluate generated chest x-ray reports. They used radiology reports written by radiologists as reference standards and created a fully automated preference dataset for fine-tuning.<a href="#umaf024-B47" class="usa-link" aria-describedby="umaf024-B47"><sup>47</sup></a> The application of RLHF in radiology may prove beneficial as it aligns model outputs with clinical goals.</p>
+<figure class="fig xbox font-sm" id="umaf024-F2"><h4 class="obj_head">Figure 2.</h4>
+<p class="img-box line-height-none margin-x-neg-2 tablet:margin-x-0 text-center"><a class="tileshop" target="_blank" href="https://www.ncbi.nlm.nih.gov/core/lw/2.0/html/tileshop_pmc/tileshop_pmc_inline.html?title=Click%20on%20image%20to%20zoom&amp;p=PMC3&amp;id=12429228_umaf024f2.jpg"><img class="graphic zoom-in" src="https://cdn.ncbi.nlm.nih.gov/pmc/blobs/04ec/12429228/8afa1db290f5/umaf024f2.jpg" loading="lazy" height="293" width="780" alt="Figure 2."></a></p>
+<div class="p text-right font-secondary"><a href="figure/umaf024-F2/" class="usa-link" target="_blank" rel="noopener noreferrer">Open in a new tab</a></div>
+<figcaption><p>Schematic description of (A) reinforcement learning human feedback (RLHF) and (B) direct preference optimization (DPO) for summarization of a radiology report. In the first step, the radiology report is summarized by the model, and samples are collected for the same report. Then it is reviewed by a human evaluator (eg, radiologist) to define the preferred output from the model. The preferred summary is then fed to the reward model to update the relevant policy in each strategy.</p></figcaption></figure></section><section id="sec14"><h3 class="pmc_sec_title">Direct preference optimization</h3>
+<p>Direct preference optimization (DPO) provides a computationally efficient and stable alternative to RLHF. DPO relies on a preference model to measure how well a given reward function aligns with empirical preference data without the reinforcement learning training loop. It directly optimizes the model based on expert preferences. Human experts evaluate the pair outputs and label their preference, allowing the LLM to learn and adjust its behavior. It optimizes a policy using a simple binary cross-entropy objective to obtain the optimal policy (<a href="#umaf024-T5" class="usa-link">Table 5</a>).<a href="#umaf024-B48" class="usa-link" aria-describedby="umaf024-B48"><sup>48</sup></a> Banerjee et al. applied DPO to fine-tune a vision-language model for radiology report generation, targeting the suppression of hallucinated references to prior examinations. By training on GPT-4-curated preference pairs, the model learned to avoid fabricating prior comparisons without compromising clinical accuracy.<a href="#umaf024-B49" class="usa-link" aria-describedby="umaf024-B49"><sup>49</sup></a></p>
+<section class="tw xbox font-sm" id="umaf024-T5"><h4 class="obj_head">Table 5.</h4>
+<div class="caption p"><p>Comparison of features between direct preference optimization (DPO) and reinforcement learning from human feedback (RLHF).</p></div>
+<div class="tbl-box p" tabindex="0"><table class="content" frame="hsides" rules="groups">
+<colgroup span="1">
+<col valign="top" align="left" span="1">
+<col valign="top" align="left" span="1">
+<col valign="top" align="left" span="1">
+</colgroup>
+<thead><tr>
+<th rowspan="1" colspan="1">Feature</th>
+<th rowspan="1" colspan="1">Direct Preference Optimization (DPO)</th>
+<th rowspan="1" colspan="1">Reinforcement Learning from Human Feedback (RLHF)</th>
+</tr></thead>
+<tbody>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Approach</strong>
+</td>
+<td rowspan="1" colspan="1">Supervised contrastive learning</td>
+<td rowspan="1" colspan="1">Reinforcement learning with a reward model</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Computational Cost</strong>
+</td>
+<td rowspan="1" colspan="1">Lower</td>
+<td rowspan="1" colspan="1">Higher (requires reward modeling and reinforcement learning updates)</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Implementation Complexity</strong>
+</td>
+<td rowspan="1" colspan="1">Simple</td>
+<td rowspan="1" colspan="1">More complex (multistage)</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Training Stability</strong>
+</td>
+<td rowspan="1" colspan="1">More stable</td>
+<td rowspan="1" colspan="1">It can be unstable (reward hacking, Proximal Policy Optimization instability)</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Efficiency</strong>
+</td>
+<td rowspan="1" colspan="1">Faster, requires fewer resources</td>
+<td rowspan="1" colspan="1">Computationally expensive</td>
+</tr>
+<tr>
+<td rowspan="1" colspan="1">
+<strong>Prone to Reward Model Bias?</strong>
+</td>
+<td rowspan="1" colspan="1">No</td>
+<td rowspan="1" colspan="1">Yes</td>
+</tr>
+</tbody>
+</table></div>
+<div class="p text-right font-secondary"><a href="table/umaf024-T5/" class="usa-link" target="_blank" rel="noopener noreferrer">Open in a new tab</a></div></section></section><section id="sec15"><h3 class="pmc_sec_title">Fine-tuning for factual correctness</h3>
+<p>Hallucination is a phenomenon in which the model generates content that deviates from the input, contradicts previous generated outputs, or gives baseless and untruthful information. For instance, the LLM might report a large pleural effusion in the right lung when the input (text or image) shows no such finding. Factuality in the context of LLMs pertains to a model’s capacity to learn, collect, and apply accurate information. It is often defined as the likelihood that LLMs generate information that is not consistent with established facts. For example, the LLM might correctly identify a consolidation in the left lung but incorrectly describe it as consistent with pneumonia when it is actually more suggestive of a lung tumor. Information related to hallucinations might not always include factual errors. Even if the generated text deviates from the original prompt’s details, it still comes within hallucinations and isn’t always a factual problem if the content is correct.<a href="#umaf024-B50" class="usa-link" aria-describedby="umaf024-B50"><sup>50</sup></a> Several approaches, such as FactScore and Factcheck-GPT, have been introduced to evaluate the performance of LLMs on factual correctness.<a href="#umaf024-B51" class="usa-link" aria-describedby="umaf024-B51"><sup>51</sup></a><sup>,</sup><a href="#umaf024-B52" class="usa-link" aria-describedby="umaf024-B52"><sup>52</sup></a> Enhancing factual correctness can be achieved through in-context learning by injecting updated or correct information to rewrite the false facts. Supervised fine-tuning has shown capabilities to decrease factual errors as well. Delbrouck et al. used the RadGraph dataset to fine-tune their PubMedBert model and applied a reinforcement learning reward approach to enhance the factual correctness of their model.<a href="#umaf024-B53" class="usa-link" aria-describedby="umaf024-B53"><sup>53</sup></a></p>
+<p>Another important technique to improve model performance is retrieval augmented generation. With this strategy, the model will collect a corpus of information and embed it as vectors injected into the LLM. Although some studies mention this strategy as a possible substitute for fine-tuning, it is proposed that in practice, a combination of a moderately fine-tuned model that’s already radiology-adept, with retrieval augmented generation for specific facts and references, improves comprehension and relevance of the generated answer.<a href="#umaf024-B54" class="usa-link" aria-describedby="umaf024-B54"><sup>54</sup></a></p></section></section><section id="sec16"><h2 class="pmc_sec_title">Applications in radiology</h2>
+<p>Advancements in LLMs hold promise for improving patient outcomes, optimizing radiology practices, and democratizing AI access in health care. Radiology workflows are often burdened by repetitive and time-intensive tasks such as summarizing findings, generating radiology reports and transforming them to structured reports, simplifying reports for patients, and selecting appropriate imaging protocols<a href="#umaf024-B33" class="usa-link" aria-describedby="umaf024-B33"><sup>33</sup></a> (<a href="#umaf024-F1" class="usa-link">Figure 1</a>). In addition, automatic labeling of reports can help prioritize important clinical findings, leading to timely intervention and enhancing the quality of care. LLMs have shown the potential to automate these processes, allowing radiologists to concentrate on complicated cases.</p>
+<p>In our current work, we delved into prompt optimization and fine-tuning as 2 key techniques widely used for optimizing LLM performance. The orchestration for each study could vary, and the application of specific methods depends mainly on factors including specific radiologic tasks, data size, and computational resources. Delbrouck et al. demonstrated that fine-tuning multimodal models improves the efficiency and factual accuracy of impression generation, enabling radiologists to handle higher volumes of reports without compromising quality.<a href="#umaf024-B55" class="usa-link" aria-describedby="umaf024-B55"><sup>55</sup></a></p>
+<p>Likewise, combining fine-tuning with prompt optimization has proven effective when applied in modular pipelines. Soylu et al. introduce the BetterTogether algorithm to optimize language model programs by iteratively refining their weights and prompt templates. Their algorithm first optimizes prompts, then uses those optimized prompts to fine-tune the model’s weights, and finally, reoptimizes the prompts using the newly fine-tuned weights. Experimental results across diverse tasks demonstrated that this alternating strategy outperforms methods that optimize only one or the other.<a href="#umaf024-B56" class="usa-link" aria-describedby="umaf024-B56"><sup>56</sup></a></p>
+<p>Privacy-preserving, open-source LLMs have great potential in various radiologic tasks and have demonstrated comparable performance with closed-source commercial models. The application of open-source models provides the opportunity for researchers to investigate model behavior and troubleshoot customized variants in addition to fine-tuning models on their specific radiology domain.<a href="#umaf024-B57" class="usa-link" aria-describedby="umaf024-B57"><sup>57</sup></a><sup>,</sup><a href="#umaf024-B58" class="usa-link" aria-describedby="umaf024-B58"><sup>58</sup></a> Fine-tuned open-source models like BiomedGPT and RadFM democratize access to cutting-edge AI. These models enable smaller health care institutions to benefit from advanced AI solutions by reducing computational and financial barriers. The health care sector is governed by stringent privacy regulations, limiting commercial LLMs’ use in clinical settings. Fine-tuning and prompt optimizing open-source models address these concerns by localizing model training and inference to secure environments. Liu et al. emphasized the importance of this approach in ensuring compliance while leveraging the full potential of advanced LLMs.<a href="#umaf024-B38" class="usa-link" aria-describedby="umaf024-B38"><sup>38</sup></a></p>
+<p>However, integrating these models into the radiology workflow raises several important considerations. The temperature hyperparameter that governs the randomness and creativity of the LLMs’ response is not clearly demystified. It is understood that lower temperature leads to more deterministic and conservative results, and higher temperatures generate more diverse and creative output for the same input prompt.<a href="#umaf024-B1" class="usa-link" aria-describedby="umaf024-B1"><sup>1</sup></a> Mukherjee et al. demonstrated that reducing an LLM’s temperature resulted in enhanced agreement for the extraction of findings from radiology reports.<a href="#umaf024-B59" class="usa-link" aria-describedby="umaf024-B59"><sup>59</sup></a> On the other hand, Suh et al.<a href="#umaf024-B60" class="usa-link" aria-describedby="umaf024-B60"><sup>60</sup></a> reported that increasing temperature settings improved the accuracy of their LLM to provide differential diagnosis from rare input images of <em>Diagnosis Please</em> cases from the <em>Radiology</em> journal. Therefore, further exploration and tuning are necessary to obtain the ideal temperature for optimal LLM application in specific radiology use cases.</p>
+<p>Additionally, the field lacks a standardized framework for evaluating LLM outputs in radiology. While common metrics such as BLEU, ROUGE, and radiology-specific scores such as RadGraph F1, RadCliQ, and MRScore,<a href="#umaf024-B61" class="usa-link" aria-describedby="umaf024-B61"><sup>61</sup></a><sup>,</sup><a href="#umaf024-B62" class="usa-link" aria-describedby="umaf024-B62"><sup>62</sup></a> have been proposed, no consensus has emerged. Given LLMs’ susceptibility to hallucinations and factual errors, ensuring transparency, interpretability, and reproducibility is critical. Explainability within the realm of large language models denotes the capacity to render the model’s reasoning processes transparent and comprehensive. Two prominent frameworks for enhancing explainability in LLMs are LIME (Local Interpretable Model-agnostic Explanations) and SHAP (SHapley Additive exPlanations). LIME identifies input features that influence a specific prediction, whereas SHAP highlights both model vulnerability and feature importance for a specific outcome. However, studies have demonstrated that LLMs do not inherently deliver plausible explanations. Therefore, there is a call for further investigation and consensus on the evaluation metrics of LLMs and assessment of their trustworthiness and reliability.<a href="#umaf024-B63" class="usa-link" aria-describedby="umaf024-B63"><sup>63</sup></a></p>
+<p>Moreover, LLMs depend heavily on temporal updates for training data; thus, the rapidly evolving developments and updates in medicine can lead to insufficiency of these models once they are clinically implemented.<a href="#umaf024-B4" class="usa-link" aria-describedby="umaf024-B4"><sup>4</sup></a><sup>,</sup><a href="#umaf024-B61" class="usa-link" aria-describedby="umaf024-B61"><sup>61</sup></a> Another consideration is the possibility of inheriting bias through training these models. Yang et al. revealed that LLMs like GPT-3.5-turbo and GPT-4 exhibit biases by generating skewed patient backgrounds, associating diseases with demographics, and favoring specific patient groups in treatment. Additional research is necessary for characterization and subsequently mitigating biases toward equitable and reliable care delivered by LLMs.<a href="#umaf024-B64" class="usa-link" aria-describedby="umaf024-B64"><sup>64</sup></a></p>
+<p>The black box nature of LLMs also introduces risks related to system failures or unpredictable behavior during clinical implementation, which may result in regulatory and safety challenges. Addressing the technical and regulatory concerns is critical to ensure patient safety across their clinical deployment.<a href="#umaf024-B65" class="usa-link" aria-describedby="umaf024-B65"><sup>65</sup></a></p></section><section id="sec17"><h2 class="pmc_sec_title">Conclusion</h2>
+<p>In conclusion, as LLMs continue to evolve, fine-tuning and prompt optimization are emerging as building blocks for reducing hallucinations and adapting models to specific radiology tasks. Looking ahead, key priorities include the development of standardized evaluation frameworks, implementation of continuous learning capabilities, and designing effective collaborations between radiologists and LLMs. The successful integration of these frameworks will depend on interdisciplinary partnerships among radiologists, AI researchers, and vendors that thoughtfully integrate these powerful models into clinical practice while prioritizing patient safety and equitable care.</p></section><section id="sec18"><h2 class="pmc_sec_title">Supplementary Material</h2>
+<section class="sm xbox font-sm" id="sup1"><div class="caption p"><span>umaf024_Supplementary_Data</span></div>
+<div class="media p"><div class="caption">
+<a href="/articles/instance/12429228/bin/umaf024_Supplementary_Data.zip" data-ga-action="click_feat_suppl" class="usa-link">umaf024_Supplementary_Data.zip</a><sup> (402.1KB, zip) </sup>
+</div></div></section></section><section id="glossary1" class="glossary"><h2 class="pmc_sec_title">Abbreviations:  </h2></section><section id="_ci93_" lang="en" class="contrib-info"><h2 class="pmc_sec_title">Contributor Information</h2>
+<p>Sanaz Vahdati, Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, Rochester, MN 55905, United States.</p>
+<p>Elham Mahmoudi, Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, Rochester, MN 55905, United States.</p>
+<p>Ali Ganjizadeh, Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, Rochester, MN 55905, United States.</p>
+<p>Chiehju Chao, Department of Cardiology, Mayo Clinic, Rochester, MN 55905, United States.</p>
+<p>Bradley J Erickson, Artificial Intelligence Laboratory, Department of Radiology, Mayo Clinic, Rochester, MN 55905, United States.</p></section><section id="sec19"><h2 class="pmc_sec_title">Supplementary material</h2>
+<p><a href="#sup1" class="usa-link">Supplementary material</a> is available at <em>Radiology Advances</em> online.</p></section><section id="sec20"><h2 class="pmc_sec_title">Funding</h2>
+<p>This work was not supported by any external funding.</p></section><section id="sec21"><h2 class="pmc_sec_title">Conflict of interest</h2>
+<p>Please see ICMJE form(s) for author conflicts of interest. These have been provided as <a href="#sup1" class="usa-link">supplementary materials</a>.</p>
+<p>The authors declare no conflicts of interest or competing financial or personal relationships associated with this work.</p></section><section id="ref1" class="ref-list"><h2 class="pmc_sec_title">References</h2>
+<section id="ref1_sec2"><ul class="ref-list font-sm" style="list-style-type:none">
+<li id="umaf024-B1">
+<span class="label">1.</span><cite>Bhayana R.
+Chatbots and large language models in radiology: a practical primer for clinical and research applications. Radiology. 2024;310(1):e232756. 10.1148/radiol.232756
+</cite> [<a href="https://doi.org/10.1148/radiol.232756" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/38226883/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Radiology&amp;title=Chatbots%20and%20large%20language%20models%20in%20radiology:%20a%20practical%20primer%20for%20clinical%20and%20research%20applications&amp;volume=310&amp;issue=1&amp;publication_year=2024&amp;pages=e232756&amp;pmid=38226883&amp;doi=10.1148/radiol.232756&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B2">
+<span class="label">2.</span><cite>Tripathi S, Patel J, Mutter L, Dorfner FJ, Bridge CP, Daye D.. 
+Large language models as an academic resource for radiologists stepping into artificial intelligence research. Curr Probl Diagn Radiol. 2025;54(3):342-348. 10.1067/j.cpradiol.2024.12.004
+</cite> [<a href="https://doi.org/10.1067/j.cpradiol.2024.12.004" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/39672727/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Curr%20Probl%20Diagn%20Radiol&amp;title=Large%20language%20models%20as%20an%20academic%20resource%20for%20radiologists%20stepping%20into%20artificial%20intelligence%20research&amp;volume=54&amp;issue=3&amp;publication_year=2025&amp;pages=342-348&amp;pmid=39672727&amp;doi=10.1067/j.cpradiol.2024.12.004&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B3">
+<span class="label">3.</span><cite>Giray L.
+Prompt engineering with ChatGPT: a guide for academic writers. Ann Biomed Eng. 2023;51(12):2629-2633. 10.1007/s10439-023-03272-4
+</cite> [<a href="https://doi.org/10.1007/s10439-023-03272-4" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/37284994/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Ann%20Biomed%20Eng&amp;title=Prompt%20engineering%20with%20ChatGPT:%20a%20guide%20for%20academic%20writers&amp;volume=51&amp;issue=12&amp;publication_year=2023&amp;pages=2629-2633&amp;pmid=37284994&amp;doi=10.1007/s10439-023-03272-4&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B4">
+<span class="label">4.</span><cite>Akinci D'Antonoli T, Stanzione A, Bluethgen C, et al. 
+Large language models in radiology: fundamentals, applications, ethical considerations, risks, and future directions. Diagn Interv Radiol. 2024;30(2):80-90. 10.4274/dir.2023.232417
+</cite> [<a href="https://doi.org/10.4274/dir.2023.232417" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC10916534/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/37789676/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Diagn%20Interv%20Radiol&amp;title=Large%20language%20models%20in%20radiology:%20fundamentals,%20applications,%20ethical%20considerations,%20risks,%20and%20future%20directions&amp;volume=30&amp;issue=2&amp;publication_year=2024&amp;pages=80-90&amp;pmid=37789676&amp;doi=10.4274/dir.2023.232417&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B5">
+<span class="label">5.</span><cite>Wang J, Shi E, Yu S, et al.  Prompt engineering for healthcare: methodologies and applications. arXiv [csAI]. <a href="https://arxiv.org/pdf/2304.14670" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">https://arxiv.org/pdf/2304.14670</a>, March 23, 2024, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B6">
+<span class="label">6.</span><cite>Chen B, Zhang Z, Langrené N, Zhu S. Unleashing the potential of prompt engineering in Large Language Models: a comprehensive review. arXiv [csCL]. <a href="https://arxiv.org/pdf/2310.03714" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">https://arxiv.org/pdf/2310.03714</a>, October 5, 2023, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B7">
+<span class="label">7.</span><cite>Khattab O, Singhvi A, Maheshwari P, et al.  DSPy: Compiling declarative language model calls into self-improving pipelines. arXiv [csCL]. 10.1016/j.clinimag.2024.110335, 2023, preprint: not peer reviewed.</cite> [<a href="https://doi.org/10.1016/j.clinimag.2024.110335" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>]</li>
+<li id="umaf024-B8">
+<span class="label">8.</span><cite>Nguyen D, Rao A, Mazumder A, Succi MD.. 
+Exploring the accuracy of embedded ChatGPT-4 and ChatGPT-4o in generating BI-RADS scores: a pilot study in radiologic clinical support. Clin Imaging. 2025;117:110335. 10.1016/j.clinimag.2024.110335
+</cite> [<a href="https://doi.org/10.1016/j.clinimag.2024.110335" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC12257487/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/39549561/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Clin%20Imaging&amp;title=Exploring%20the%20accuracy%20of%20embedded%20ChatGPT-4%20and%20ChatGPT-4o%20in%20generating%20BI-RADS%20scores:%20a%20pilot%20study%20in%20radiologic%20clinical%20support&amp;volume=117&amp;publication_year=2025&amp;pages=110335&amp;pmid=39549561&amp;doi=10.1016/j.clinimag.2024.110335&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B9">
+<span class="label">9.</span><cite>Liu Z, Huang Y, Yu X, et al.  DeID-GPT: Zero-shot medical text DE-identification by GPT-4. arXiv [csCL]. 2023, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B10">
+<span class="label">10.</span><cite>Lamichhane B. Evaluation of ChatGPT for NLP-based mental health applications. arXiv [csCL]. 2023, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B11">
+<span class="label">11.</span><cite>Park J, Oh K, Han K, Lee YH.. 
+Patient-centered radiology reports with generative artificial intelligence: adding value to radiology reporting. Sci Rep. 2024;14(1):13218. 10.1038/s41598-024-63824-z
+</cite> [<a href="https://doi.org/10.1038/s41598-024-63824-z" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC11162416/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/38851825/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Sci%20Rep&amp;title=Patient-centered%20radiology%20reports%20with%20generative%20artificial%20intelligence:%20adding%20value%20to%20radiology%20reporting&amp;volume=14&amp;issue=1&amp;publication_year=2024&amp;pages=13218&amp;pmid=38851825&amp;doi=10.1038/s41598-024-63824-z&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B12">
+<span class="label">12.</span><cite>Wang Y, Kordi Y, Mishra S, et al.  Self-instruct: aligning language models with self-generated instructions. arXiv [csCL]. 2022, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B13">
+<span class="label">13.</span><cite>Brown TB, Mann B, Ryder N, et al.  Language models are few-shot learners. arXiv [csCL]. 2020, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B14">
+<span class="label">14.</span><cite>Reynolds L, McDonell K. Prompt programming for large language models: beyond the few-shot paradigm. arXiv [csCL]. 2021, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B15">
+<span class="label">15.</span><cite>Dai H, Liu Z, Liao W, et al.  AugGPT: leveraging ChatGPT for text data augmentation. arXiv [csCL]. 2023.</cite>
+</li>
+<li id="umaf024-B16">
+<span class="label">16.</span><cite>Yan B, Liu R, Kuo DE, et al.  Style-aware radiology report generation with RadGraph and few-shot prompting. arXiv [csAI]. 2023, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B17">
+<span class="label">17.</span><cite>Wei J, Wang X, Schuurmans D, et al.  Chain-of-thought prompting elicits reasoning in large language models. arXiv [csCL]. 2022, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B18">
+<span class="label">18.</span><cite>Del M, Fishel M. True detective: A deep abductive reasoning benchmark undoable for GPT-3 and challenging for GPT-4. arXiv [csCL]. 2022, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B19">
+<span class="label">19.</span><cite>Bhayana R, Nanda B, Dehkharghanian T, et al. 
+Large language models for automated synoptic reports and resectability categorization in pancreatic cancer. Radiology. 2024;311(3):e233117. 10.1148/radiol.233117
+</cite> [<a href="https://doi.org/10.1148/radiol.233117" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/38888478/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Radiology&amp;title=Large%20language%20models%20for%20automated%20synoptic%20reports%20and%20resectability%20categorization%20in%20pancreatic%20cancer&amp;volume=311&amp;issue=3&amp;publication_year=2024&amp;pages=e233117&amp;pmid=38888478&amp;doi=10.1148/radiol.233117&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B20">
+<span class="label">20.</span><cite>Wu C-K, Chen W-L, Chen H-H. Large language models perform diagnostic reasoning. arXiv [csCL]. 2023, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B21">
+<span class="label">21.</span><cite>Schmidt S, Zimmerer A, Cucos T, Feucht M, Navas L.. 
+Simplifying radiologic reports with natural language processing: a novel approach using ChatGPT in enhancing patient understanding of MRI results. Arch Orthop Trauma Surg. 2024;144(2):611-618. 10.1007/s00402-023-05113-4
+</cite> [<a href="https://doi.org/10.1007/s00402-023-05113-4" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/37950763/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Arch%20Orthop%20Trauma%20Surg&amp;title=Simplifying%20radiologic%20reports%20with%20natural%20language%20processing:%20a%20novel%20approach%20using%20ChatGPT%20in%20enhancing%20patient%20understanding%20of%20MRI%20results&amp;volume=144&amp;issue=2&amp;publication_year=2024&amp;pages=611-618&amp;pmid=37950763&amp;doi=10.1007/s00402-023-05113-4&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B22">
+<span class="label">22.</span><cite>Gordon EB, Towbin AJ, Wingrove P, et al. 
+Enhancing patient communication with chat-GPT in radiology: evaluating the efficacy and readability of answers to common imaging-related questions. J Am Coll Radiol. 2024;21(2):353-359. 10.1016/j.jacr.2023.09.011
+</cite> [<a href="https://doi.org/10.1016/j.jacr.2023.09.011" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/37863153/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=J%20Am%20Coll%20Radiol&amp;title=Enhancing%20patient%20communication%20with%20chat-GPT%20in%20radiology:%20evaluating%20the%20efficacy%20and%20readability%20of%20answers%20to%20common%20imaging-related%20questions&amp;volume=21&amp;issue=2&amp;publication_year=2024&amp;pages=353-359&amp;pmid=37863153&amp;doi=10.1016/j.jacr.2023.09.011&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B23">
+<span class="label">23.</span><cite>Lim S, Schmälzle R.. 
+Artificial intelligence for health message generation: an empirical study using a large language model (LLM) and prompt engineering. Front Commun. 2023;8.</cite> [<a href="https://scholar.google.com/scholar_lookup?journal=Front%20Commun&amp;title=Artificial%20intelligence%20for%20health%20message%20generation:%20an%20empirical%20study%20using%20a%20large%20language%20model%20(LLM)%20and%20prompt%20engineering&amp;volume=8&amp;publication_year=2023&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B24">
+<span class="label">24.</span><cite>Schmidt RA, Seah JCY, Cao K, Lim L, Lim W, Yeung J.. 
+Generative large language models for detection of speech recognition errors in Radiology Reports. Radiol Artif Intell. 2024;6(2):e230205. 10.1148/ryai.230205
+</cite> [<a href="https://doi.org/10.1148/ryai.230205" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC10982816/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/38265301/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Radiol%20Artif%20Intell&amp;title=Generative%20large%20language%20models%20for%20detection%20of%20speech%20recognition%20errors%20in%20Radiology%20Reports&amp;volume=6&amp;issue=2&amp;publication_year=2024&amp;pages=e230205&amp;pmid=38265301&amp;doi=10.1148/ryai.230205&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B25">
+<span class="label">25.</span><cite>Lyu Q, Tan J, Zapadka ME, et al. 
+Translating radiology reports into plain language using ChatGPT and GPT-4 with prompt learning: results, limitations, and potential. Vis Comput Ind Biomed Art. 2023;6(1):9. 10.1186/s42492-023-00136-5
+</cite> [<a href="https://doi.org/10.1186/s42492-023-00136-5" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC10192466/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/37198498/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Vis%20Comput%20Ind%20Biomed%20Art&amp;title=Translating%20radiology%20reports%20into%20plain%20language%20using%20ChatGPT%20and%20GPT-4%20with%20prompt%20learning:%20results,%20limitations,%20and%20potential&amp;volume=6&amp;issue=1&amp;publication_year=2023&amp;pages=9&amp;pmid=37198498&amp;doi=10.1186/s42492-023-00136-5&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B26">
+<span class="label">26.</span><cite>Jeblick K, Schachtner B, Dexl J, et al. 
+ChatGPT makes medicine easy to swallow: an exploratory case study on simplified radiology reports. Eur Radiol. 2024;34(5):2817-2825. 10.1007/s00330-023-10213-1
+</cite> [<a href="https://doi.org/10.1007/s00330-023-10213-1" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC11126432/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/37794249/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Eur%20Radiol&amp;title=ChatGPT%20makes%20medicine%20easy%20to%20swallow:%20an%20exploratory%20case%20study%20on%20simplified%20radiology%20reports&amp;volume=34&amp;issue=5&amp;publication_year=2024&amp;pages=2817-2825&amp;pmid=37794249&amp;doi=10.1007/s00330-023-10213-1&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B27">
+<span class="label">27.</span><cite>Bach SH, Sanh V, Yong Z-X, et al.  PromptSource: an integrated development environment and repository for natural language prompts. arXiv [csLG]. 2022, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B28">
+<span class="label">28.</span><cite>Liu P, Yuan W, Fu J, Jiang Z, Hayashi H, Neubig G.. 
+Pre-train, prompt, and predict: a systematic survey of prompting methods in natural language processing. ACM Comput Surv. 2023;55(9):1-35. 10.1145/3560815</cite> [<a href="https://doi.org/10.1145/3560815" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=ACM%20Comput%20Surv&amp;title=Pre-train,%20prompt,%20and%20predict:%20a%20systematic%20survey%20of%20prompting%20methods%20in%20natural%20language%20processing&amp;volume=55&amp;issue=9&amp;publication_year=2023&amp;pages=1-35&amp;doi=10.1145/3560815&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B29">
+<span class="label">29.</span><cite>Zhou Y, Muresanu AI, Han Z, et al.  Large language models are human-level prompt engineers. arXiv [csLG]. 2022, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B30">
+<span class="label">30.</span><cite>Pryzant R, Iter D, Li J, Lee YT, Zhu C, Zeng M. Automatic prompt optimization with “gradient descent” and beam search. 2023.</cite>
+</li>
+<li id="umaf024-B31">
+<span class="label">31.</span><cite>Gandomi A, Wu P, Clement DR, et al. 
+ARDSFlag: an NLP/machine learning algorithm to visualize and detect high-probability ARDS admissions independent of provider recognition and billing codes. BMC Med Inform Decis Mak. 2024;24(1):195. 10.1186/s12911-024-02573-5
+</cite> [<a href="https://doi.org/10.1186/s12911-024-02573-5" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC11250933/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/39014417/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=BMC%20Med%20Inform%20Decis%20Mak&amp;title=ARDSFlag:%20an%20NLP/machine%20learning%20algorithm%20to%20visualize%20and%20detect%20high-probability%20ARDS%20admissions%20independent%20of%20provider%20recognition%20and%20billing%20codes&amp;volume=24&amp;issue=1&amp;publication_year=2024&amp;pages=195&amp;pmid=39014417&amp;doi=10.1186/s12911-024-02573-5&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B32">
+<span class="label">32.</span><cite>Scheschenja M, Bastian MB, Wessendorf J, et al. 
+ChatGPT: evaluating answers on contrast media related questions and finetuning by providing the model with the ESUR guideline on contrast agents. Curr Probl Diagn Radiol. 2024;53(4):488-493. 10.1067/j.cpradiol.2024.04.005
+</cite> [<a href="https://doi.org/10.1067/j.cpradiol.2024.04.005" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/38670921/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Curr%20Probl%20Diagn%20Radiol&amp;title=ChatGPT:%20evaluating%20answers%20on%20contrast%20media%20related%20questions%20and%20finetuning%20by%20providing%20the%20model%20with%20the%20ESUR%20guideline%20on%20contrast%20agents&amp;volume=53&amp;issue=4&amp;publication_year=2024&amp;pages=488-493&amp;pmid=38670921&amp;doi=10.1067/j.cpradiol.2024.04.005&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B33">
+<span class="label">33.</span><cite>Kim S, Lee C-K, Kim S-S.. 
+Large language models: a comprehensive guide for radiologists. J Korean Soc Radiol. 2024;85(5):861-882. 10.3348/jksr.2024.0080
+</cite> [<a href="https://doi.org/10.3348/jksr.2024.0080" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC11473987/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/39416308/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=J%20Korean%20Soc%20Radiol&amp;title=Large%20language%20models:%20a%20comprehensive%20guide%20for%20radiologists&amp;volume=85&amp;issue=5&amp;publication_year=2024&amp;pages=861-882&amp;pmid=39416308&amp;doi=10.3348/jksr.2024.0080&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B34">
+<span class="label">34.</span><cite>Nishio M, Matsunaga T, Matsuo H, et al. 
+Fully automatic summarization of radiology reports using natural language processing with large language models. Inform Med Unlocked. 2024;46:101465. 10.1016/j.imu.2024.101465</cite> [<a href="https://doi.org/10.1016/j.imu.2024.101465" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Inform%20Med%20Unlocked&amp;title=Fully%20automatic%20summarization%20of%20radiology%20reports%20using%20natural%20language%20processing%20with%20large%20language%20models&amp;volume=46&amp;publication_year=2024&amp;pages=101465&amp;doi=10.1016/j.imu.2024.101465&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B35">
+<span class="label">35.</span><cite>Wu C, Zhang X, Zhang Y, Wang Y, Xie W. Towards generalist foundation model for radiology by leveraging web-scale 2D&amp;3D medical data. arXiv [csCV]. 2023, preprint: not peer reviewed.</cite> [<a href="https://doi.org/10.1038/s41467-025-62385-7" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC12375113/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/40849424/" class="usa-link">PubMed</a>]</li>
+<li id="umaf024-B36">
+<span class="label">36.</span><cite>Zhang K, Zhou R, Adhikarla E, et al.  BiomedGPT: a generalist vision-language foundation model for diverse biomedical tasks. arXiv [csCL]. 2023, preprint: not peer reviewed.</cite> [<a href="https://doi.org/10.1038/s41591-024-03185-2" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC12581140/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/39112796/" class="usa-link">PubMed</a>]</li>
+<li id="umaf024-B37">
+<span class="label">37.</span><cite>Singhal K, Azizi S, Tu T, et al. 
+Large language models encode clinical knowledge. Nature. 2023;620(7972):172-180. 10.1038/s41586-023-06291-2
+</cite> [<a href="https://doi.org/10.1038/s41586-023-06291-2" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC10396962/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/37438534/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Nature&amp;title=Large%20language%20models%20encode%20clinical%20knowledge&amp;volume=620&amp;issue=7972&amp;publication_year=2023&amp;pages=172-180&amp;pmid=37438534&amp;doi=10.1038/s41586-023-06291-2&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B38">
+<span class="label">38.</span><cite>Liu Z, Zhong A, Li Y, et al.  Radiology-GPT: a large language model for radiology. arXiv [csCL]. 2023, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B39">
+<span class="label">39.</span><cite>Xu L, Xie H, Qin S-ZJ, Tao X, Wang FL. Parameter-efficient fine-tuning methods for pretrained language models: a critical review and assessment. arXiv [csCL]. 2023, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B40">
+<span class="label">40.</span><cite>Hu EJ, Shen Y, Wallis P, et al.  LoRA: low-rank adaptation of large language models. arXiv [csCL]. 2021, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B41">
+<span class="label">41.</span><cite>Dettmers T, Pagnoni A, Holtzman A, Zettlemoyer L. QLoRA: efficient finetuning of quantized LLMs. arXiv [csLG]. 2023, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B42">
+<span class="label">42.</span><cite>Van Veen D, Van Uden C, Blankemeier L, et al. 
+Clinical text summarization: adapting large language models can outperform human experts. Res Sq. 2023. 10.21203/rs.3.rs-3483777/v1</cite> [<a href="https://doi.org/10.21203/rs.3.rs-3483777/v1" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC11479659/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/38413730/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Res%20Sq&amp;title=Clinical%20text%20summarization:%20adapting%20large%20language%20models%20can%20outperform%20human%20experts&amp;publication_year=2023&amp;pmid=38413730&amp;doi=10.21203/rs.3.rs-3483777/v1&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B43">
+<span class="label">43.</span><cite>Chen L, Teotia R, Verdone A. 
+et al.  Fine-tuning in-house large language models to infer differential diagnosis from radiology reports. arXiv [csCL]. 2024, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B44">
+<span class="label">44.</span><cite>Fine-tuning a llama 3-70B model for radiology report processing. arXiv. n.d., preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B45">
+<span class="label">45.</span><cite>Chao C-J, Banerjee I, Arsanjani R, et al.  Evaluating large language models in echocardiography reporting: opportunities and challenges. medRxiv 2024, preprint: not peer reviewed. 10.1101/2024.01.18.24301503</cite> [<a href="https://doi.org/10.1101/2024.01.18.24301503" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC12088711/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/40395412/" class="usa-link">PubMed</a>]</li>
+<li id="umaf024-B46">
+<span class="label">46.</span><cite>Christiano P, Leike J, Brown TB, Martic M, Legg S, Amodei D. Deep reinforcement learning from human preferences. arXiv [statML]. 2017, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B47">
+<span class="label">47.</span><cite>Hein D, Chen Z, Ostmeier S, et al.  Preference fine-tuning for factuality in chest X-ray interpretation models without human feedback. arXiv [csCV]. 2024, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B48">
+<span class="label">48.</span><cite>Rafailov R, Sharma A, Mitchell E, Ermon S, Manning CD, Finn C. Direct preference optimization: your language model is secretly a reward model. arXiv [csLG]. 2023, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B49">
+<span class="label">49.</span><cite>Banerjee O, Zhou H-Y, Adithan S, Kwak S, Wu K, Rajpurkar P. Direct preference optimization for suppressing hallucinated prior exams in radiology report generation. arXiv [csLG]. 2024, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B50">
+<span class="label">50.</span><cite>Wang Y, Wang M, Manzoor MA, et al.  Factuality of large language models: a survey. arXiv [csCL] 2024, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B51">
+<span class="label">51.</span><cite>Min S, Krishna K, Lyu X, et al.  FActScore: fine-grained atomic evaluation of factual precision in long form text generation. arXiv [csCL]. 2023, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B52">
+<span class="label">52.</span><cite>Wang Y, Reddy RG, Mujahid ZM, et al.  Factcheck-GPT: end-to-end fine-grained document-level fact-checking and correction of LLM output. arXiv [csCL]. 2023, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B53">
+<span class="label">53.</span><cite>Delbrouck J-B, Chambon P, Bluethgen C, Tsai E, Almusa O, Langlotz CP. Improving the factual correctness of radiology report generation with semantic rewards. arXiv [csCL]. 2022, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B54">
+<span class="label">54.</span><cite>Mansuri A, Gichoya JW.. 
+Context is everything: understanding variable LLM performance for radiology retrieval-augmented generation. Radiol Artif Intell. 2025;7(3):e250187. 10.1148/ryai.250187
+</cite> [<a href="https://doi.org/10.1148/ryai.250187" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC12127949/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/40304576/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Radiol%20Artif%20Intell&amp;title=Context%20is%20everything:%20understanding%20variable%20LLM%20performance%20for%20radiology%20retrieval-augmented%20generation&amp;volume=7&amp;issue=3&amp;publication_year=2025&amp;pages=e250187&amp;pmid=40304576&amp;doi=10.1148/ryai.250187&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B55">
+<span class="label">55.</span><cite>Delbrouck J-B, Varma M, Chambon P, Langlotz C. Overview of the RadSum23 shared task on multi-modal and multi-anatomical radiology report summarization. In: <em>The 22nd Workshop on Biomedical Natural Language Processing and BioNLP Shared Tasks</em>. Association for Computational Linguistics; 2023:478-482. 10.18653/v1/2023.bionlp-1.45</cite> [<a href="https://doi.org/10.18653/v1/2023.bionlp-1.45" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>]</li>
+<li id="umaf024-B56">
+<span class="label">56.</span><cite>Soylu D, Potts C, Khattab O. Fine-tuning and prompt optimization: two great steps that work better together. arXiv [csCL]. 2024, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B57">
+<span class="label">57.</span><cite>Nowak S, Wulff B, Layer YC, et al. 
+Privacy-ensuring open-weights large language models are competitive with closed-weights GPT-4o in extracting chest radiography findings from free-text reports. Radiology. 2025;314(1):e240895. 10.1148/radiol.240895
+</cite> [<a href="https://doi.org/10.1148/radiol.240895" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/39807977/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Radiology&amp;title=Privacy-ensuring%20open-weights%20large%20language%20models%20are%20competitive%20with%20closed-weights%20GPT-4o%20in%20extracting%20chest%20radiography%20findings%20from%20free-text%20reports&amp;volume=314&amp;issue=1&amp;publication_year=2025&amp;pages=e240895&amp;pmid=39807977&amp;doi=10.1148/radiol.240895&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B58">
+<span class="label">58.</span><cite>Zhang G, Jin Q, Zhou Y, et al. 
+Closing the gap between open source and commercial large language models for medical evidence summarization. NPJ Digit Med. 2024;7(1). 10.1038/s41746-024-01239-w</cite> [<a href="https://doi.org/10.1038/s41746-024-01239-w" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC11383939/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/39251804/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=NPJ%20Digit%20Med&amp;title=Closing%20the%20gap%20between%20open%20source%20and%20commercial%20large%20language%20models%20for%20medical%20evidence%20summarization&amp;volume=7&amp;issue=1&amp;publication_year=2024&amp;pmid=39251804&amp;doi=10.1038/s41746-024-01239-w&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B59">
+<span class="label">59.</span><cite>Mukherjee P, Hou B, Lanfredi RB, Summers RM.. 
+Feasibility of using the privacy-preserving large language model Vicuna for labeling radiology reports. Radiology. 2023;309(1):e231147. 10.1148/radiol.231147
+</cite> [<a href="https://doi.org/10.1148/radiol.231147" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC10623189/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/37815442/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Radiology&amp;title=Feasibility%20of%20using%20the%20privacy-preserving%20large%20language%20model%20Vicuna%20for%20labeling%20radiology%20reports&amp;volume=309&amp;issue=1&amp;publication_year=2023&amp;pages=e231147&amp;pmid=37815442&amp;doi=10.1148/radiol.231147&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B60">
+<span class="label">60.</span><cite>Suh PS, Shim WH, Suh CH, et al. 
+Comparing diagnostic accuracy of radiologists versus GPT-4V and Gemini Pro Vision using image inputs from Diagnosis Please cases. Radiology. 2024;312(1):e240273. 10.1148/radiol.240273
+</cite> [<a href="https://doi.org/10.1148/radiol.240273" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/38980179/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Radiology&amp;title=Comparing%20diagnostic%20accuracy%20of%20radiologists%20versus%20GPT-4V%20and%20Gemini%20Pro%20Vision%20using%20image%20inputs%20from%20Diagnosis%20Please%20cases&amp;volume=312&amp;issue=1&amp;publication_year=2024&amp;pages=e240273&amp;pmid=38980179&amp;doi=10.1148/radiol.240273&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B61">
+<span class="label">61.</span><cite>Huisman M, Kitamura F, Cook TS, et al. 
+Pearls and pitfalls for LLMs 2.0. Radiology. 2024;313(1):e242512. 10.1148/radiol.242512
+</cite> [<a href="https://doi.org/10.1148/radiol.242512" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC11535876/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/39470427/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Radiology&amp;title=Pearls%20and%20pitfalls%20for%20LLMs%202.0&amp;volume=313&amp;issue=1&amp;publication_year=2024&amp;pages=e242512&amp;pmid=39470427&amp;doi=10.1148/radiol.242512&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B62">
+<span class="label">62.</span><cite>Jain S, Agrawal A, Saporta A, et al.  RadGraph: Extracting clinical entities and relations from radiology reports. arXiv [csCL]. 2021, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B63">
+<span class="label">63.</span><cite>Haurogné J, Basheer N, Islam S.. 
+Vulnerability detection using BERT based LLM model with transparency obligation practice towards trustworthy AI. Mach Learn Appl. 2024;18:100598. 10.1016/j.mlwa.2024.100598</cite> [<a href="https://doi.org/10.1016/j.mlwa.2024.100598" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Mach%20Learn%20Appl&amp;title=Vulnerability%20detection%20using%20BERT%20based%20LLM%20model%20with%20transparency%20obligation%20practice%20towards%20trustworthy%20AI&amp;volume=18&amp;publication_year=2024&amp;pages=100598&amp;doi=10.1016/j.mlwa.2024.100598&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B64">
+<span class="label">64.</span><cite>Yang Y, Liu X, Jin Q, Huang F, Lu Z.. 
+Unmasking and quantifying racial bias of large language models in medical report generation. Commun Med (Lond). 2024;4(1):176. 10.1038/s43856-024-00601-z
+</cite> [<a href="https://doi.org/10.1038/s43856-024-00601-z" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="/articles/PMC11387737/" class="usa-link">PMC free article</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/39256622/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Commun%20Med%20(Lond)&amp;title=Unmasking%20and%20quantifying%20racial%20bias%20of%20large%20language%20models%20in%20medical%20report%20generation&amp;volume=4&amp;issue=1&amp;publication_year=2024&amp;pages=176&amp;pmid=39256622&amp;doi=10.1038/s43856-024-00601-z&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B65">
+<span class="label">65.</span><cite>Zhang K, Khosravi B, Vahdati S, Erickson BJ.. 
+FDA review of radiologic AI algorithms: process and challenges. Radiology. 2024;310(1):e230242. 10.1148/radiol.230242
+</cite> [<a href="https://doi.org/10.1148/radiol.230242" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">DOI</a>] [<a href="https://pubmed.ncbi.nlm.nih.gov/38165243/" class="usa-link">PubMed</a>] [<a href="https://scholar.google.com/scholar_lookup?journal=Radiology&amp;title=FDA%20review%20of%20radiologic%20AI%20algorithms:%20process%20and%20challenges&amp;volume=310&amp;issue=1&amp;publication_year=2024&amp;pages=e230242&amp;pmid=38165243&amp;doi=10.1148/radiol.230242&amp;" class="usa-link usa-link--external" data-ga-action="click_feat_suppl" target="_blank" rel="noopener noreferrer">Google Scholar</a>]</li>
+<li id="umaf024-B66">
+<span class="label">66.</span><cite>Ouyang L, Wu J, Jiang X. 
+et al.  Training language models to follow instructions with human feedback. arXiv [csCL]. 2022, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B67">
+<span class="label">67.</span><cite>Zhou Z, Shi M, Wei M, Alabi O, Yue Z, Vercauteren T. Large model driven radiology report generation with clinical quality reinforcement learning. arXiv [csCV]. 2024, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B68">
+<span class="label">68.</span><cite>Guo Q, Wang R, Guo J, et al.  Connecting large language models with evolutionary algorithms yields powerful prompt optimizers. arXiv [csCL]. 2023, preprint: not peer reviewed.</cite>
+</li>
+<li id="umaf024-B69">
+<span class="label">69.</span><cite>Elfrink A, Vagliano I, Abu-Hanna A, Calixto I. Soft-prompt tuning to predict lung cancer using primary care free-text Dutch medical notes. arXiv [csCL]. 2023, preprint: not peer reviewed.</cite>
+</li>
+</ul></section></section><section id="_ad93_" lang="en" class="associated-data"><h2 class="pmc_sec_title">Associated Data</h2>
+<p class="font-secondary"><em>This section collects any data citations, data availability statements, or supplementary materials included in this article.</em></p>
+<section id="_adsm93_" lang="en" class="supplementary-materials"><h3 class="pmc_sec_title">Supplementary Materials</h3>
+<section class="sm xbox font-sm" id="db_ds_supplementary-material1_reqid_"><div class="caption p"><span>umaf024_Supplementary_Data</span></div>
+<div class="media p"><div class="caption">
+<a href="/articles/instance/12429228/bin/umaf024_Supplementary_Data.zip" data-ga-action="click_feat_suppl" class="usa-link">umaf024_Supplementary_Data.zip</a><sup> (402.1KB, zip) </sup>
+</div></div></section></section></section></section><footer class="p courtesy-note font-secondary font-sm text-center"><hr class="headless">
+<p>Articles from Radiology Advances are provided here courtesy of <strong>Oxford University Press</strong></p></footer></section></article>
+
+                      
+
+                    </main>
+                </div>
+            </div>
+        </div>
+
+        
+
+
+
+<!-- Secondary navigation placeholder -->
+<div class="pmc-sidenav desktop:grid-col-4 display-flex">
+    <section class="pmc-sidenav__container" aria-label="Article resources and navigation">
+        <button type="button" class="pmc-sidenav__container__close">
+            <img src="/static/img/usa-icons/close.svg" role="img" alt="Close" />
+        </button>
+    <div class="display-none desktop:display-block">
+       <section class="margin-top-4 desktop:margin-top-0">
+              <h2 class="margin-top-0">ACTIONS</h2>
+           <ul class="usa-list usa-list--unstyled usa-list--actions">
+               
+               <li>
+                     <a
+                             href="https://doi.org/10.1093/radadv/umaf024"
+                             class="usa-button usa-button--outline width-24 font-xs display-inline-flex flex-align-center flex-justify-start padding-left-1"
+                             target="_blank"
+                             rel="noreferrer noopener"
+                             data-ga-category="actions"
+                             data-ga-action="click"
+                             data-ga-label="publisher_link_desktop"
+                     >
+                         <svg class="usa-icon width-3 height-3" aria-hidden="true" focusable="false" role="img" hidden>
+                            <use xlink:href="/static/img/sprite.svg#launch"></use>
+                         </svg>
+                         <span class="display-inline-flex flex-justify-center flex-1 padding-right-2">View on publisher site</span>
+                     </a>
+               </li>
+               
+               
+               <li>
+                    <a
+                            href="pdf/umaf024.pdf"
+                            class="usa-button usa-button--outline width-24 display-inline-flex flex-align-center flex-justify-start padding-left-1"
+                            data-ga-category="actions"
+                            data-ga-action="click"
+                            data-ga-label="pdf_download_desktop"
+                    >
+                         <svg class="usa-icon width-3 height-3" aria-hidden="true" focusable="false" role="img" hidden>
+                            <use xlink:href="/static/img/sprite.svg#file_download"></use>
+                        </svg>
+                        <span class="display-inline-flex flex-justify-center flex-1">PDF (912.5 KB)</span>
+                    </a>
+               </li>
+               
+                
+               <li>
+                   <button role="button" class="usa-button width-24 citation-dialog-trigger display-inline-flex flex-align-center flex-justify-start padding-left-1"
+                        aria-label="Open dialog with citation text in different styles"
+                        data-ga-category="actions"
+                        data-ga-action="open"
+                        data-ga-label="cite_desktop"
+                        data-all-citations-url="/resources/citations/12429228/"
+                        data-citation-style="nlm"
+                        data-download-format-link="/resources/citations/12429228/export/"
+                    >
+                        <svg class="usa-icon width-3 height-3" aria-hidden="true" focusable="false" role="img" hidden>
+                            <use xlink:href="/static/img/sprite.svg#format_quote"></use>
+                        </svg>
+                       <span class="display-inline-flex flex-justify-center flex-1 button-label">Cite</span>
+                    </button>
+               </li>
+                
+               <li>
+
+                        <button class="usa-button width-24 collections-dialog-trigger collections-button display-inline-flex flex-align-center flex-justify-start padding-left-1 collections-button-empty"
+                              aria-label="Save article in MyNCBI collections."
+                              data-ga-category="actions"
+                              data-ga-action="click"
+                              data-ga-label="collections_button_desktop"
+                              data-collections-open-dialog-enabled="false"
+                              data-collections-open-dialog-url="https://account.ncbi.nlm.nih.gov/?back_url=https%3A%2F%2Fpmc.ncbi.nlm.nih.gov%2Farticles%2FPMC12429228%2F%23open-collections-dialog"
+                              data-in-collections="false">
+                            <svg class="usa-icon width-3 height-3 usa-icon--bookmark-full" aria-hidden="true" focusable="false" role="img" hidden>
+                                <use xlink:href="/static/img/action-bookmark-full.svg#icon"></use>
+                            </svg>
+                            <svg class="usa-icon width-3 height-3 usa-icon--bookmark-empty" aria-hidden="true" focusable="false" role="img" hidden>
+                                <use xlink:href="/static/img/action-bookmark-empty.svg#icon"></use>
+                            </svg>
+                            <span class="display-inline-flex flex-justify-center flex-1">Collections</span>
+                       </button>
+               </li>
+               <li class="pmc-permalink">
+                    <button
+                            type="button"
+                            class="usa-button width-24 display-inline-flex flex-align-center flex-justify padding-left-1 shadow-none"
+                            aria-label="Show article permalink"
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            data-ga-category="actions"
+                            data-ga-action="open"
+                            data-ga-label="permalink_desktop"
+                    >
+                         <svg class="usa-icon width-3 height-3" aria-hidden="true" focusable="false" role="img" hidden>
+                            <use xlink:href="/static/img/sprite.svg#share"></use>
+                        </svg>
+                        <span class="display-inline-flex flex-justify-center flex-1 button-label">Permalink</span>
+                    </button>
+                   
+
+<div class="pmc-permalink__dropdown" hidden>
+    <div class="pmc-permalink__dropdown__container">
+          <h2 class="usa-modal__heading margin-top-0 margin-bottom-2 text-uppercase font-sans-xs">PERMALINK</h2>
+          <div class="pmc-permalink__dropdown__content">
+              <input type="text" class="usa-input" value="https://pmc.ncbi.nlm.nih.gov/articles/PMC12429228/" aria-label="Article permalink">
+              <button class="usa-button display-inline-flex pmc-permalink__dropdown__copy__btn margin-right-0" title="Copy article permalink" data-ga-category="save_share" data-ga-action="link" data-ga-label="copy_link">
+                  <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+                    <use xlink:href="/static/img/sprite.svg#content_copy"></use>
+                  </svg>
+                  <span class="margin-left-1">Copy</span>
+              </button>
+          </div>
+    </div>
+</div>
+               </li>
+           </ul>
+       </section>
+     </div>
+
+        <section class="pmc-resources margin-top-6 desktop:margin-top-4" data-page-path="/articles/PMC12429228/">
+            <h2 class="margin-top-0">RESOURCES</h2>
+            
+                <div class="usa-accordion usa-accordion--multiselectable" data-allow-multiple>
+                    <h3 class="usa-accordion__heading">
+                        <button
+                        type="button"
+                        class="usa-accordion__button"
+                        aria-expanded="false"
+                        aria-controls="resources-similar-articles"
+                        data-ga-category="resources_accordion"
+                        data-ga-action="open_similar_articles"
+                        data-ga-label="/articles/PMC12429228/"
+                        data-action-open="open_similar_articles"
+                        data-action-close="close_similar_articles"
+                        >
+                            Similar articles
+                        </button>
+                    </h3>
+                    <div
+                            id="resources-similar-articles"
+                            class="usa-accordion__content usa-prose"
+                            
+                                data-source-url="/resources/similar-article-links/41058957/"
+                            
+                    >
+                        
+                    </div>
+                    <h3 class="usa-accordion__heading">
+                        <button
+                        type="button"
+                        class="usa-accordion__button"
+                        aria-expanded="false"
+                        aria-controls="resources-cited-by-other-articles"
+                        data-ga-category="resources_accordion"
+                        data-ga-action="open_cited_by"
+                        data-ga-label="/articles/PMC12429228/"
+                        data-action-open="open_cited_by"
+                        data-action-close="close_cited_by"
+                        >
+                             Cited by other articles
+                        </button>
+                    </h3>
+                    <div
+                            id="resources-cited-by-other-articles"
+                            class="usa-accordion__content usa-prose"
+                            
+                                data-source-url="/resources/cited-by-links/41058957/"
+                            
+                    >
+                          
+                    </div>
+                    
+                        <h3 class="usa-accordion__heading">
+                            <button
+                            type="button"
+                            class="usa-accordion__button"
+                            aria-expanded="false"
+                            aria-controls="resources-links-to-ncbi-databases"
+                            data-ga-category="resources_accordion"
+                            data-ga-action="open_NCBI_links"
+                            data-ga-label="/articles/PMC12429228/"
+                            data-action-open="open_NCBI_links"
+                            data-action-close="close_NCBI_link"
+                            >
+                                 Links to NCBI Databases
+                            </button>
+                        </h3>
+                        <div
+                                id="resources-links-to-ncbi-databases"
+                                class="usa-accordion__content usa-prose"
+                                data-source-url="/resources/db-links/12429228/"
+                        >
+                        </div>
+                    
+                    
+                </div>
+            
+        </section>
+
+
+        <section
+        class="usa-in-page-nav usa-in-page-nav--wide margin-top-6 desktop:margin-top-4"
+        data-title-text="On this page"
+        data-title-heading-level="h2"
+        data-scroll-offset="0"
+        data-root-margin="-10% 0px -80% 0px"
+        data-main-content-selector="main"
+        data-threshold="1"
+        hidden
+        ></section>
+    </section>
+</div>
+
+
+        
+
+<div class="overlay" role="dialog" aria-label="Citation Dialog" hidden>
+    <div class="dialog citation-dialog" aria-hidden="true">
+        <div class="display-inline-flex flex-align-center flex-justify width-full margin-bottom-2">
+            <h2 class="usa-modal__heading margin-0">Cite</h2>
+             <button type="button" class="usa-button usa-button--unstyled close-overlay text-black width-auto"  tabindex="1">
+                <svg class="usa-icon width-3 height-3" aria-hidden="true" focusable="false" role="img">
+                    <use xlink:href="/static/img/sprite.svg#close"></use>
+                </svg>
+             </button>
+        </div>
+
+        
+
+<div class="citation-text-block">
+  <div class="citation-text margin-bottom-2"></div>
+  <ul class="usa-list usa-list--unstyled display-inline-flex flex-justify width-full flex-align-center">
+      <li>
+        <button
+          class="usa-button usa-button--unstyled text-no-underline display-flex flex-align-center copy-button dialog-focus"
+          data-ga-category="save_share"
+          data-ga-action="cite"
+          data-ga-label="copy"
+          tabindex="2">
+            <svg class="usa-icon width-3 height-3" aria-hidden="true" focusable="false" role="img">
+                <use xlink:href="/static/img/sprite.svg#content_copy"></use>
+            </svg>
+            <span>Copy</span>
+        </button>
+      </li>
+      <li>
+          <a
+              href="#"
+              role="button"
+              class="usa-button usa-button--unstyled text-no-underline display-flex flex-align-center export-button"
+              data-ga-category="save_share"
+              data-ga-action="cite"
+              data-ga-label="download"
+              title="Download a file for external citation management software"
+              tabindex="3">
+                <svg class="usa-icon width-3 height-3" aria-hidden="true" focusable="false" role="img">
+                    <use xlink:href="/static/img/sprite.svg#file_download"></use>
+                </svg>
+                <span class="display-none mobile-lg:display-inline">Download .nbib</span>
+                <span class="display-inline mobile-lg:display-none">.nbib</span>
+            </a>
+      </li>
+      <li>
+          
+
+<div class="display-inline-flex flex-align-center">
+  <label class="usa-label margin-top-0">Format:</label>
+  <select aria-label="Format" class="usa-select citation-style-selector padding-1 margin-top-0 border-0 padding-right-4" tabindex="4" >
+    
+      <option data-style-url-name="ama"
+              value="AMA"
+              >
+        AMA
+      </option>
+    
+      <option data-style-url-name="apa"
+              value="APA"
+              >
+        APA
+      </option>
+    
+      <option data-style-url-name="mla"
+              value="MLA"
+              >
+        MLA
+      </option>
+    
+      <option data-style-url-name="nlm"
+              value="NLM"
+              selected="selected">
+        NLM
+      </option>
+    
+  </select>
+</div>
+      </li>
+  </ul>
+</div>
+    </div>
+</div>
+
+        <div class="overlay" role="dialog" hidden>
+  <div id="collections-action-dialog" class="dialog collections-dialog" aria-hidden="true">
+   <div class="display-inline-flex flex-align-center flex-justify width-full margin-bottom-2">
+        <h2 class="usa-modal__heading margin-0">Add to Collections</h2>
+    </div>
+    <div class="collections-action-panel action-panel">
+      
+
+
+<form id="collections-action-dialog-form"
+      class="usa-form maxw-full collections-action-panel-form action-panel-content action-form action-panel-smaller-selectors"
+      data-existing-collections-url="/list-existing-collections/"
+      data-add-to-existing-collection-url="/add-to-existing-collection/"
+      data-create-and-add-to-new-collection-url="/create-and-add-to-new-collection/"
+      data-myncbi-max-collection-name-length="100"
+      data-collections-root-url="https://www.ncbi.nlm.nih.gov/myncbi/collections/">
+
+    <input type="hidden" name="csrfmiddlewaretoken" value="XWS4dZtBHOvuNDOGknePpJPxz9We2Qp58nNyqrNwPL0HdwJShMGDxImLPtRX75aQ">
+
+    <fieldset class="usa-fieldset margin-bottom-2">
+        <div class="usa-radio">
+            <input type="radio"
+            id="collections-action-dialog-new"
+            class="usa-radio__input usa-radio__input--tile collections-new  margin-top-0"
+            name="collections"
+            value="new"
+            data-ga-category="collections_button"
+            data-ga-action="click"
+            data-ga-label="collections_radio_new" />
+            <label class="usa-radio__label" for="collections-action-dialog-new">Create a new collection</label>
+        </div>
+        <div class="usa-radio">
+            <input type="radio"
+            id="collections-action-dialog-existing"
+            class="usa-radio__input usa-radio__input--tile collections-existing"
+            name="collections"
+            value="existing"
+            checked="true"
+            data-ga-category="collections_button"
+            data-ga-action="click"
+            data-ga-label="collections_radio_existing" />
+            <label class="usa-radio__label" for="collections-action-dialog-existing">Add to an existing collection</label>
+        </div>
+    </fieldset>
+
+    <fieldset class="usa-fieldset margin-bottom-2">
+        <div class="action-panel-control-wrap new-collections-controls">
+           <label for="collections-action-dialog-add-to-new" class="usa-label margin-top-0">
+                Name your collection
+               <abbr title="required" class="usa-hint usa-hint--required text-no-underline">*</abbr>
+          </label>
+          <input
+            type="text"
+            name="add-to-new-collection"
+            id="collections-action-dialog-add-to-new"
+            class="usa-input collections-action-add-to-new"
+            pattern="[^&quot;&amp;=&lt;&gt;/]*" title="The following characters are not allowed in the Name field: &quot;&amp;=&lt;&gt;/"
+            maxlength=""
+            data-ga-category="collections_button"
+            data-ga-action="create_collection"
+            data-ga-label="non_favorties_collection"
+            required
+          />
+        </div>
+        <div class="action-panel-control-wrap existing-collections-controls">
+             <label for="collections-action-dialog-add-to-existing" class="usa-label margin-top-0">
+                Choose a collection
+              </label>
+              <select id="collections-action-dialog-add-to-existing"
+                      class="usa-select collections-action-add-to-existing"
+                      data-ga-category="collections_button"
+                      data-ga-action="select_collection"
+                      data-ga-label="($('.collections-action-add-to-existing').val() === 'Favorites') ? 'Favorites' : 'non_favorites_collection'">
+              </select>
+              <div class="collections-retry-load-on-error usa-input-error-message selection-validation-message">
+                Unable to load your collection due to an error<br>
+                <a href="#">Please try again</a>
+              </div>
+        </div>
+    </fieldset>
+
+    <div class="display-inline-flex">
+        <button class="usa-button margin-top-0 action-panel-submit"
+            type="submit"
+            data-loading-label="Adding..."
+            data-pinger-ignore
+            data-ga-category="collections_button"
+            data-ga-action="click"
+            data-ga-label="add">
+          Add
+        </button>
+        <button class="usa-button usa-button--outline margin-top-0 action-panel-cancel"
+                aria-label="Close 'Add to Collections' panel"
+                ref="linksrc=close_collections_panel"
+                data-ga-category="collections_button"
+                data-ga-action="click"
+                data-ga-label="cancel">
+          Cancel
+        </button>
+    </div>
+</form>
+    </div>
+  </div>
+</div>
+
+        
+
+      </div>
+    </div>
+  </div>
+
+
+
+        
+    
+    
+
+<footer class="ncbi-footer ncbi-dark-background " >
+    
+        <div class="ncbi-footer__icon-section">
+            <div class="ncbi-footer__social-header">
+                Follow NCBI
+            </div>
+
+            <div class="grid-container ncbi-footer__ncbi-social-icons-container">
+                
+                    <a href="https://twitter.com/ncbi"
+                       class="ncbi-footer__social-icon ncbi-footer__social-icon--gray"
+                       target="_blank"
+                       rel="noreferrer noopener">
+                        <svg width="40"
+                             height="40"
+                             viewBox="0 0 40 40"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg"
+                             focusable="false"
+                             aria-hidden="true">
+                            <path d="m6.067 8 10.81 13.9L6 33.2h4.2l8.4-9.1 7.068 9.1H34L22.8 18.5 31.9 8h-3.5l-7.7 8.4L14.401 8H6.067Zm3.6 1.734h3.266l16.8 21.732H26.57L9.668 9.734Z">
+                            </path>
+                        </svg>
+                        <span class="usa-sr-only">NCBI on X (formerly known as Twitter)</span>
+                    </a>
+                
+
+                
+                    <a href="https://www.facebook.com/ncbi.nlm"
+                       class="ncbi-footer__social-icon ncbi-footer__social-icon--gray"
+                       target="_blank"
+                       rel="noreferrer noopener">
+                        <svg width="16"
+                             height="29"
+                             focusable="false"
+                             aria-hidden="true"
+                             viewBox="0 0 16 29"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.8809 21.4002C3.8809 19.0932 3.8809 16.7876 3.8809 14.478C3.8809 14.2117 3.80103 14.1452 3.54278 14.1492C2.53372 14.1638 1.52334 14.1492 0.514288 14.1598C0.302626 14.1598 0.248047 14.0972 0.248047 13.8936C0.256034 12.4585 0.256034 11.0239 0.248047 9.58978C0.248047 9.37013 0.302626 9.30224 0.528931 9.3049C1.53798 9.31688 2.54837 9.3049 3.55742 9.31555C3.80103 9.31555 3.8809 9.26097 3.87957 9.00272C3.87158 8.00565 3.85428 7.00592 3.90753 6.00884C3.97142 4.83339 4.31487 3.73115 5.04437 2.78467C5.93095 1.63318 7.15699 1.09005 8.56141 0.967577C10.5582 0.79319 12.555 0.982221 14.5518 0.927641C14.7102 0.927641 14.7462 0.99287 14.7449 1.13664C14.7449 2.581 14.7449 4.02668 14.7449 5.47104C14.7449 5.67604 14.6517 5.68669 14.4946 5.68669C13.4523 5.68669 12.4113 5.68669 11.3703 5.68669C10.3506 5.68669 9.92057 6.10868 9.90593 7.13904C9.89661 7.7647 9.91525 8.39303 9.89794 9.01869C9.88995 9.26364 9.96583 9.31822 10.2015 9.31688C11.7204 9.30623 13.2393 9.31688 14.7595 9.3049C15.0257 9.3049 15.0723 9.3728 15.0444 9.62439C14.89 10.9849 14.7515 12.3467 14.6144 13.7085C14.5691 14.1571 14.5785 14.1585 14.1458 14.1585C12.8386 14.1585 11.5313 14.1665 10.2254 14.1518C9.95119 14.1518 9.89794 14.2317 9.89794 14.4899C9.90593 19.0799 9.89794 23.6752 9.91125 28.2612C9.91125 28.5674 9.8407 28.646 9.53186 28.6433C7.77866 28.6273 6.02414 28.6366 4.27094 28.634C3.82499 28.634 3.87158 28.6992 3.87158 28.22C3.87602 25.9472 3.87913 23.6739 3.8809 21.4002Z">
+                            </path>
+                        </svg>
+                        <span class="usa-sr-only">NCBI on Facebook</span>
+                    </a>
+                
+
+                
+                    <a href="https://www.linkedin.com/company/ncbinlm"
+                       class="ncbi-footer__social-icon ncbi-footer__social-icon--gray"
+                       target="_blank"
+                       rel="noreferrer noopener">
+                        <svg width="25"
+                             height="23"
+                             viewBox="0 0 26 24"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg"
+                             focusable="false"
+                             aria-hidden="true">
+                            <path d="M14.6983 9.98423C15.6302 9.24808 16.5926 8.74754 17.6762 8.51991C19.673 8.09126 21.554 8.30824 23.1262 9.7526C24.2351 10.7723 24.7529 12.1115 25.0165 13.5612C25.1486 14.3363 25.2105 15.1218 25.2015 15.9081C25.2015 18.3043 25.2015 20.6898 25.2082 23.0806C25.2082 23.3468 25.1549 23.444 24.8621 23.4414C23.1297 23.4272 21.3992 23.4272 19.6704 23.4414C19.4041 23.4414 19.3429 23.3588 19.3442 23.1019C19.3535 20.5194 19.3442 17.9368 19.3442 15.3543C19.3442 14.0005 18.3258 12.9448 17.0266 12.9488C15.7273 12.9528 14.6983 14.0071 14.6983 15.361C14.6983 17.9328 14.6917 20.5047 14.6983 23.0753C14.6983 23.3708 14.6198 23.444 14.3296 23.4427C12.6185 23.4294 10.9079 23.4294 9.19779 23.4427C8.93155 23.4427 8.86099 23.3735 8.86232 23.1086C8.8783 19.7619 8.88628 16.4144 8.88628 13.066C8.88628 11.5688 8.87874 10.0708 8.86365 8.57182C8.86365 8.3575 8.90758 8.27896 9.14054 8.28029C10.9048 8.29094 12.6687 8.29094 14.4321 8.28029C14.6464 8.28029 14.6983 8.34818 14.6983 8.54653C14.6903 9.00047 14.6983 9.45441 14.6983 9.98423Z">
+                            </path>
+                            <path d="M6.55316 15.8443C6.55316 18.2564 6.55316 20.6699 6.55316 23.082C6.55316 23.3629 6.48127 23.4388 6.19906 23.4374C4.47737 23.4241 2.75568 23.4241 1.03399 23.4374C0.767751 23.4374 0.69986 23.3629 0.701191 23.1006C0.709178 18.2648 0.709178 13.4281 0.701191 8.59053C0.701191 8.34026 0.765089 8.27237 1.01669 8.2737C2.74991 8.28435 4.48048 8.28435 6.20838 8.2737C6.47462 8.2737 6.5465 8.33627 6.54517 8.6065C6.54783 11.0186 6.55316 13.4308 6.55316 15.8443Z">
+                            </path>
+                            <path d="M3.65878 0.243898C5.36804 0.243898 6.58743 1.45529 6.58743 3.1406C6.58743 4.75801 5.32145 5.95742 3.60819 5.96807C3.22177 5.97614 2.83768 5.90639 2.47877 5.76299C2.11985 5.61959 1.79344 5.40546 1.51897 5.13334C1.24449 4.86123 1.02755 4.53668 0.881058 4.17902C0.734563 3.82136 0.661505 3.43788 0.666231 3.05141C0.67555 1.42601 1.9362 0.242566 3.65878 0.243898Z">
+                            </path>
+                        </svg>
+                        <span class="usa-sr-only">NCBI on LinkedIn</span>
+                    </a>
+                
+
+                
+                    <a href="https://github.com/ncbi"
+                       class="ncbi-footer__social-icon ncbi-footer__social-icon--gray"
+                       target="_blank"
+                       rel="noreferrer noopener">
+                        <svg width="28"
+                             height="27"
+                             viewBox="0 0 28 28"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg"
+                             focusable="false"
+                             aria-hidden="true">
+                            <path d="M16.7228 20.6334C17.5057 20.5527 18.2786 20.3944 19.0301 20.1608C21.3108 19.4193 22.5822 17.8259 22.963 15.4909C23.1228 14.5112 23.1814 13.5287 22.9883 12.5437C22.8106 11.6423 22.4013 10.8028 21.8007 10.1076C21.7526 10.0605 21.7197 10 21.7064 9.934C21.6931 9.86799 21.7 9.79952 21.7262 9.73748C22.0856 8.6206 21.9711 7.51969 21.601 6.42677C21.582 6.3497 21.5345 6.2827 21.468 6.23923C21.4016 6.19577 21.3211 6.17906 21.2429 6.19248C20.7329 6.21649 20.2313 6.33051 19.7611 6.52928C19.1103 6.7908 18.4899 7.12198 17.9104 7.51703C17.84 7.56996 17.7581 7.60551 17.6713 7.62078C17.5846 7.63605 17.4954 7.6306 17.4112 7.60489C15.2596 7.05882 13.0054 7.06203 10.8554 7.61421C10.7806 7.63586 10.7018 7.63967 10.6253 7.62534C10.5487 7.611 10.4766 7.57892 10.4148 7.53167C9.64788 7.03247 8.85171 6.58918 7.96368 6.33359C7.65781 6.24338 7.34123 6.19458 7.02239 6.18849C6.94879 6.17986 6.87462 6.19893 6.81432 6.242C6.75402 6.28507 6.71191 6.34904 6.69621 6.42145C6.32342 7.51437 6.2209 8.61527 6.56307 9.73348C6.59635 9.84264 6.64694 9.93316 6.54177 10.0516C5.47666 11.2604 5.09988 12.6834 5.19574 14.2676C5.2663 15.4244 5.46201 16.5466 6.01454 17.5769C6.84399 19.1171 8.21664 19.9119 9.85158 20.3352C10.3938 20.4706 10.9444 20.5698 11.4998 20.632C11.5384 20.7492 11.4506 20.7798 11.408 20.8291C11.1734 21.1179 10.9894 21.4441 10.8634 21.7942C10.7622 22.0458 10.8315 22.4039 10.6065 22.5516C10.263 22.7766 9.83827 22.8485 9.42421 22.8871C8.17936 23.0056 7.26471 22.4877 6.6283 21.4348C6.25552 20.8184 5.76956 20.3325 5.08523 20.0663C4.76981 19.9325 4.42139 19.8967 4.08537 19.9638C3.7898 20.029 3.73788 20.1901 3.93891 20.4111C4.03639 20.5234 4.14989 20.6207 4.27575 20.6999C4.9796 21.1318 5.51717 21.7884 5.80152 22.5636C6.37002 23.9973 7.48039 24.5697 8.93825 24.6323C9.43741 24.6575 9.93768 24.615 10.4254 24.5058C10.5892 24.4672 10.6531 24.4872 10.6517 24.6762C10.6451 25.4936 10.6637 26.3123 10.6517 27.131C10.6517 27.6635 10.1684 27.9297 9.58663 27.7393C8.17396 27.2671 6.84977 26.5631 5.66838 25.656C2.59555 23.2891 0.720966 20.1861 0.217704 16.3376C-0.357453 11.9127 0.911353 8.00824 3.98551 4.73881C6.11909 2.42656 8.99932 0.939975 12.1203 0.540191C16.5351 -0.0601815 20.4347 1.14323 23.7232 4.16373C26.2449 6.47869 27.724 9.37672 28.1048 12.7726C28.5828 17.0325 27.3686 20.7945 24.4768 23.9827C22.9762 25.6323 21.0956 26.8908 18.9982 27.6488C18.8783 27.6927 18.7585 27.738 18.636 27.7726C18.0356 27.9404 17.6189 27.6395 17.6189 27.0098C17.6189 25.7452 17.6308 24.4806 17.6295 23.2159C17.6329 22.9506 17.6128 22.6856 17.5696 22.4238C17.4325 21.6664 17.3419 21.484 16.7228 20.6334Z">
+                            </path>
+                        </svg>
+                        <span class="usa-sr-only">NCBI on GitHub</span>
+                    </a>
+                
+
+                
+                    <a href="https://ncbiinsights.ncbi.nlm.nih.gov/"
+                       class="ncbi-footer__social-icon ncbi-footer__social-icon--gray"
+                       target="_blank"
+                       rel="noreferrer noopener">
+                        <svg width="26"
+                             height="26"
+                             viewBox="0 0 27 27"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg"
+                             focusable="false"
+                             aria-hidden="true">
+                            <path d="M23.7778 26.4574C23.1354 26.3913 22.0856 26.8024 21.636 26.3087C21.212 25.8444 21.4359 24.8111 21.324 24.0347C19.9933 14.8323 14.8727 8.80132 6.09057 5.85008C4.37689 5.28406 2.58381 4.99533 0.779072 4.99481C0.202773 4.99481 -0.0229751 4.83146 0.00455514 4.21479C0.0660406 3.08627 0.0660406 1.95525 0.00455514 0.826734C-0.0413285 0.0815827 0.259669 -0.0193618 0.896534 0.00266238C6.96236 0.222904 12.3693 2.24179 16.9889 6.16209C22.9794 11.2478 26.1271 17.7688 26.4372 25.648C26.4629 26.294 26.3179 26.5271 25.6609 26.4684C25.0827 26.417 24.4991 26.4574 23.7778 26.4574Z">
+                            </path>
+                            <path d="M14.8265 26.441C14.0924 26.441 13.2371 26.6795 12.6626 26.3786C12.0092 26.0372 12.3781 25.0644 12.246 24.378C11.1154 18.5324 6.6849 14.5497 0.74755 14.1001C0.217135 14.0615 -0.0104482 13.9422 0.0134113 13.3659C0.0519536 12.1454 0.0482829 10.9213 0.0134113 9.69524C-0.00127145 9.14464 0.196946 9.03268 0.703502 9.04736C9.21217 9.27128 16.5994 16.2511 17.2804 24.7231C17.418 26.4446 17.418 26.4446 15.6579 26.4446H14.832L14.8265 26.441Z">
+                            </path>
+                            <path d="M3.58928 26.4555C2.64447 26.4618 1.73584 26.0925 1.06329 25.4289C0.39073 24.7653 0.00933763 23.8617 0.0030097 22.9169C-0.00331824 21.9721 0.365937 21.0635 1.02954 20.3909C1.69315 19.7184 2.59675 19.337 3.54156 19.3306C4.48637 19.3243 5.39499 19.6936 6.06755 20.3572C6.7401 21.0208 7.1215 21.9244 7.12782 22.8692C7.13415 23.814 6.7649 24.7226 6.10129 25.3952C5.43768 26.0677 4.53409 26.4491 3.58928 26.4555Z">
+                            </path>
+                        </svg>
+                        <span class="usa-sr-only">NCBI RSS feed</span>
+                    </a>
+                
+            </div>
+        </div>
+    
+
+    <div data-testid="gridContainer"
+         class="grid-container ncbi-footer__container">
+        <div class="grid-row ncbi-footer__main-content-container"
+             data-testid="grid">
+            
+                <div class="ncbi-footer__column">
+                    
+                        <p class="ncbi-footer__circled-icons-heading">
+                            Connect with NLM
+                        </p>
+                    
+
+                    <div class="ncbi-footer__circled-icons-list">
+                        
+                            <a href=https://twitter.com/nlm_nih class="ncbi-footer__social-icon ncbi-footer__social-icon--circled" target="_blank" rel="noreferrer noopener">
+                                <svg width="32"
+                                     height="32"
+                                     viewBox="0 0 40 40"
+                                     fill="none"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     focusable="false"
+                                     aria-hidden="true">
+                                    <path d="m6.067 8 10.81 13.9L6 33.2h4.2l8.4-9.1 7.068 9.1H34L22.8 18.5 31.9 8h-3.5l-7.7 8.4L14.401 8H6.067Zm3.6 1.734h3.266l16.8 21.732H26.57L9.668 9.734Z">
+                                    </path>
+                                </svg>
+                                <span class="usa-sr-only">NLM on X (formerly known as Twitter)</span>
+                            </a>
+                        
+
+                        
+                            <a href=https://www.facebook.com/nationallibraryofmedicine class="ncbi-footer__social-icon ncbi-footer__social-icon--circled" target="_blank" rel="noreferrer noopener">
+                                <svg width="13"
+                                     height="24"
+                                     viewBox="0 0 13 24"
+                                     fill="none"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     focusable="false"
+                                     aria-hidden="true">
+                                    <path d="M4.11371 23.1369C4.11371 23.082 4.11371 23.0294 4.11371 22.9745V12.9411H0.817305C0.6709 12.9411 0.670898 12.9411 0.670898 12.8016C0.670898 11.564 0.670898 10.3287 0.670898 9.09341C0.670898 8.97903 0.705213 8.95158 0.815017 8.95158C1.8673 8.95158 2.91959 8.95158 3.97417 8.95158H4.12057V8.83263C4.12057 7.8055 4.12057 6.7738 4.12057 5.74897C4.1264 4.92595 4.31387 4.11437 4.66959 3.37217C5.12916 2.38246 5.94651 1.60353 6.95717 1.1921C7.64827 0.905008 8.3913 0.764035 9.13953 0.778051C10.0019 0.791777 10.8644 0.830666 11.7268 0.860404C11.8869 0.860404 12.047 0.894717 12.2072 0.90158C12.2964 0.90158 12.3261 0.940469 12.3261 1.02968C12.3261 1.5421 12.3261 2.05452 12.3261 2.56465C12.3261 3.16857 12.3261 3.7725 12.3261 4.37642C12.3261 4.48165 12.2964 4.51367 12.1912 4.51138C11.5369 4.51138 10.8804 4.51138 10.2261 4.51138C9.92772 4.51814 9.63058 4.5526 9.33855 4.61433C9.08125 4.6617 8.84537 4.78881 8.66431 4.97766C8.48326 5.16652 8.3662 5.40755 8.32972 5.66661C8.28476 5.89271 8.26027 6.1224 8.25652 6.35289C8.25652 7.19014 8.25652 8.02969 8.25652 8.86923C8.25652 8.89439 8.25652 8.91955 8.25652 8.95615H12.0219C12.1797 8.95615 12.182 8.95616 12.1614 9.10714C12.0768 9.76596 11.9876 10.4248 11.9029 11.0813C11.8312 11.6319 11.7626 12.1824 11.697 12.733C11.6719 12.9434 11.6787 12.9434 11.4683 12.9434H8.26338V22.899C8.26338 22.979 8.26338 23.0591 8.26338 23.1392L4.11371 23.1369Z">
+                                    </path>
+                                </svg>
+                                <span class="usa-sr-only">NLM on Facebook</span>
+                            </a>
+                        
+
+                        
+                            <a href=https://www.youtube.com/user/NLMNIH class="ncbi-footer__social-icon ncbi-footer__social-icon--circled" target="_blank" rel="noreferrer noopener">
+                                <svg width="21"
+                                     height="15"
+                                     viewBox="0 0 21 15"
+                                     fill="none"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     focusable="false"
+                                     aria-hidden="true">
+                                    <path d="M19.2561 1.47914C18.9016 1.15888 18.5699 0.957569 17.2271 0.834039C15.5503 0.678484 13.2787 0.655608 11.563 0.65332H9.43556C7.71987 0.65332 5.4483 0.678484 3.77151 0.834039C2.43098 0.957569 2.097 1.15888 1.74242 1.47914C0.813665 2.32097 0.619221 4.62685 0.598633 6.89384C0.598633 7.31781 0.598633 7.74101 0.598633 8.16345C0.626084 10.4121 0.827391 12.686 1.74242 13.521C2.097 13.8412 2.4287 14.0425 3.77151 14.1661C5.4483 14.3216 7.71987 14.3445 9.43556 14.3468H11.563C13.2787 14.3468 15.5503 14.3216 17.2271 14.1661C18.5676 14.0425 18.9016 13.8412 19.2561 13.521C20.1712 12.6929 20.3725 10.451 20.3999 8.22064C20.3999 7.74025 20.3999 7.25986 20.3999 6.77946C20.3725 4.54907 20.1689 2.30724 19.2561 1.47914ZM8.55942 10.5311V4.65201L13.5601 7.50005L8.55942 10.5311Z"
+                                          fill="white" />
+                                </svg>
+                                <span class="usa-sr-only">NLM on YouTube</span>
+                            </a>
+                        
+                    </div>
+                </div>
+            
+
+            
+                <address class="ncbi-footer__address ncbi-footer__column">
+                    
+        <p>
+            <a class="usa-link usa-link--external"
+            href="https://www.google.com/maps/place/8600+Rockville+Pike,+Bethesda,+MD+20894/%4038.9959508,
+            -77.101021,17z/data%3D!3m1!4b1!4m5!3m4!1s0x89b7c95e25765ddb%3A0x19156f88b27635b8!8m2!3d38.9959508!
+            4d-77.0988323"
+            rel="noopener noreferrer" target="_blank">National Library of Medicine
+            <br/> 8600 Rockville Pike<br/> Bethesda, MD 20894</a>
+        </p>
+    
+                </address>
+            
+
+            
+                <ul class="usa-list usa-list--unstyled ncbi-footer__vertical-list ncbi-footer__column">
+                    
+                        <li class="ncbi-footer__vertical-list-item">
+                            
+
+
+
+
+
+
+
+
+
+    <a href="https://www.nlm.nih.gov/web_policies.html" class="usa-link  usa-link--alt ncbi-footer__link"  >
+        
+
+        
+            Web Policies
+        
+
+        
+    </a>
+
+
+                        </li>
+                    
+                        <li class="ncbi-footer__vertical-list-item">
+                            
+
+
+
+
+
+
+
+
+
+    <a href="https://www.nih.gov/institutes-nih/nih-office-director/office-communications-public-liaison/freedom-information-act-office" class="usa-link  usa-link--alt ncbi-footer__link"  >
+        
+
+        
+            FOIA
+        
+
+        
+    </a>
+
+
+                        </li>
+                    
+                        <li class="ncbi-footer__vertical-list-item">
+                            
+
+
+
+
+
+
+
+
+
+    <a href="https://www.hhs.gov/vulnerability-disclosure-policy/index.html" class="usa-link usa-link--external usa-link--alt ncbi-footer__link" rel="noreferrer noopener" target='_blank' >
+        
+
+        
+            HHS Vulnerability Disclosure
+        
+
+        
+    </a>
+
+
+                        </li>
+                    
+                </ul>
+            
+
+            
+                <ul class="usa-list usa-list--unstyled ncbi-footer__vertical-list ncbi-footer__column">
+                    
+                        <li class="ncbi-footer__vertical-list-item">
+                            
+
+
+
+
+
+
+
+
+
+    <a href="https://support.nlm.nih.gov/" class="usa-link  usa-link--alt ncbi-footer__link"  >
+        
+
+        
+            Help
+        
+
+        
+    </a>
+
+
+                        </li>
+                    
+                        <li class="ncbi-footer__vertical-list-item">
+                            
+
+
+
+
+
+
+
+
+
+    <a href="https://www.nlm.nih.gov/accessibility.html" class="usa-link  usa-link--alt ncbi-footer__link"  >
+        
+
+        
+            Accessibility
+        
+
+        
+    </a>
+
+
+                        </li>
+                    
+                        <li class="ncbi-footer__vertical-list-item">
+                            
+
+
+
+
+
+
+
+
+
+    <a href="https://www.nlm.nih.gov/careers/careers.html" class="usa-link  usa-link--alt ncbi-footer__link"  >
+        
+
+        
+            Careers
+        
+
+        
+    </a>
+
+
+                        </li>
+                    
+                </ul>
+            
+        </div>
+
+        
+            <div class="grid-row grid-col-12" data-testid="grid">
+                <ul class="ncbi-footer__bottom-links-list">
+                    
+                        <li class="ncbi-footer__bottom-list-item">
+                            
+
+
+
+
+
+
+
+
+
+    <a href="https://www.nlm.nih.gov/" class="usa-link  usa-link--alt ncbi-footer__link"  >
+        
+
+        
+            NLM
+        
+
+        
+    </a>
+
+
+                        </li>
+                    
+                        <li class="ncbi-footer__bottom-list-item">
+                            
+
+
+
+
+
+
+
+
+
+    <a href="https://www.nih.gov/" class="usa-link  usa-link--alt ncbi-footer__link"  >
+        
+
+        
+            NIH
+        
+
+        
+    </a>
+
+
+                        </li>
+                    
+                        <li class="ncbi-footer__bottom-list-item">
+                            
+
+
+
+
+
+
+
+
+
+    <a href="https://www.hhs.gov/" class="usa-link usa-link--external usa-link--alt ncbi-footer__link" rel="noreferrer noopener" target='_blank' >
+        
+
+        
+            HHS
+        
+
+        
+    </a>
+
+
+                        </li>
+                    
+                        <li class="ncbi-footer__bottom-list-item">
+                            
+
+
+
+
+
+
+
+
+
+    <a href="https://www.usa.gov/" class="usa-link usa-link--external usa-link--alt ncbi-footer__link" rel="noreferrer noopener" target='_blank' >
+        
+
+        
+            USA.gov
+        
+
+        
+    </a>
+
+
+                        </li>
+                    
+                </ul>
+            </div>
+        
+    </div>
+</footer>
+
+    
+
+
+        
+        
+    
+  <script  type="text/javascript" src="https://cdn.ncbi.nlm.nih.gov/core/pinger/pinger.js"> </script>
+
+
+    
+        
+
+<button class="back-to-top" data-ga-category="pagination" data-ga-action="back_to_top">
+    <label>Back to Top</label>
+    <svg class="usa-icon order-0" aria-hidden="true" focusable="false" role="img">
+        <use xlink:href="/static/img/sprite.svg#arrow_upward"></use>
+    </svg>
+</button>
+    
+
+
+        
+    
+    
+    
+        
+    <script type="application/javascript">
+    window.ncbi = window.ncbi || {};
+    window.ncbi.pmc = window.ncbi.pmc || {};
+    window.ncbi.pmc.options = {
+        logLevel: 'INFO',
+        
+        staticEndpoint: '/static/',
+        
+        citeCookieName: 'pmc-cf',
+    };
+</script>
+    <script type="module" crossorigin="" src="/static/assets/base-Cp_Il6gk.js"></script>
+<link href="/static/assets/vendor-Co8Vdmw2.js" type="text/javascript" crossorigin="anonymous" rel="modulepreload" as="script" />
+    
+    <script type="text/javascript" src="https://cdn.ncbi.nlm.nih.gov/core/jquery/jquery-3.6.0.min.js">&#xA0;</script>
+    <script type="text/javascript">
+        jQuery.getScript("https://cdn.ncbi.nlm.nih.gov/core/alerts/alerts.js", function () {
+            galert(['div.nav_and_browser', 'div.header', '#universal_header', '.usa-banner', 'body > *:nth-child(1)'])
+        });
+    </script>
+
+
+    <script type="text/javascript">var exports = {};</script>
+     <script src="/static/CACHE/js/output.4e25b6297b38.js"></script>
+
+    <script type="module" crossorigin="" src="/static/assets/article-B9kehNny.js"></script>
+<link href="/static/assets/vendor-Co8Vdmw2.js" type="text/javascript" crossorigin="anonymous" rel="modulepreload" as="script" />
+<link href="/static/assets/index-DXSA0fsx.js" type="text/javascript" crossorigin="anonymous" rel="modulepreload" as="script" />
+<link href="/static/assets/secure-cookie-Br6x5jtB.js" type="text/javascript" crossorigin="anonymous" rel="modulepreload" as="script" />
+    
+    
+
+    </body>
+</html>

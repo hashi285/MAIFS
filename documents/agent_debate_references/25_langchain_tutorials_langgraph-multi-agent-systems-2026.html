@@ -1,0 +1,1694 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.27.3 by Michael Rose
+  Copyright 2013-2025 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>LangGraph Multi-Agent Systems Tutorial 2026 | LangChain Tutorials</title>
+<meta name="description" content="Master building advanced AI with this LangGraph multi agent 2026 tutorial. Dive deep into multi-agent systems and revolutionize your AI applications today!">
+
+
+  <meta name="author" content="Coding Rhodes">
+  
+  <meta property="article:author" content="Coding Rhodes">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="LangChain Tutorials">
+<meta property="og:title" content="LangGraph Multi-Agent Systems Tutorial 2026">
+<meta property="og:url" content="https://langchain-tutorials.github.io/langgraph-multi-agent-systems-2026/">
+
+
+  <meta property="og:description" content="Master building advanced AI with this LangGraph multi agent 2026 tutorial. Dive deep into multi-agent systems and revolutionize your AI applications today!">
+
+
+
+  <meta property="og:image" content="https://langchain-tutorials.github.io/assets/images/og-default.jpg">
+
+
+
+  <meta name="twitter:site" content="@langchaintuts">
+  <meta name="twitter:title" content="LangGraph Multi-Agent Systems Tutorial 2026">
+  <meta name="twitter:description" content="Master building advanced AI with this LangGraph multi agent 2026 tutorial. Dive deep into multi-agent systems and revolutionize your AI applications today!">
+  <meta name="twitter:url" content="https://langchain-tutorials.github.io/langgraph-multi-agent-systems-2026/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+      <meta name="twitter:image" content="https://langchain-tutorials.github.io/assets/images/og-default.jpg">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-12-21T00:00:00+05:30">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://langchain-tutorials.github.io/langgraph-multi-agent-systems-2026/">
+
+
+
+
+
+
+
+  <meta name="google-site-verification" content="DgGLIF5O5HfmP8Jt8kwgFKHHVk7ibvWViy3Iw5Zc7aE" />
+
+
+  <meta name="msvalidate.01" content="D949E2F107551F710F1D7CCF92BE9E7E">
+
+
+
+  <meta name="yandex-verification" content="3eac8ea856ff5a7d">
+
+
+  <meta name="naver-site-verification" content="naverbcb32f6555dc6f64089179f593e7cba3">
+
+
+<!-- end _includes/seo.html -->
+
+<link rel="icon" href="/assets/images/favicon.ico">
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="LangChain Tutorials Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  window.enable_copy_code_button = true;
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+<!-- onesignal push notification setup -->
+<!-- <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "20670296-bbf3-4fe9-b176-9dedd50004ee",
+    });
+  });
+</script> -->
+<!-- google adsense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4615239386164396"
+     crossorigin="anonymous"></script>
+     
+<!-- clarity -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "uoa1kbelpf");
+</script>
+
+<!-- start webpushr code --> <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));webpushr('setup',{'key':'BDCJKCGvr1WVB52xy-3l2CJzGtmaNQo5x46zsaEgLZ-XkdmSQ2x6JqiD9qRaip3IPwfUrNiR56k9AkmHZJgI8lY' });</script><!-- end webpushr code -->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/site-logo.webp" alt="LangChain Tutorials"></a>
+        
+        <a class="site-title" href="/">
+          LangChain Tutorials
+          <span class="site-subtitle">Master AI Agents &amp; LangGraph in 2026</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about"
+                
+                
+              >About Us</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/contact"
+                
+                
+              >Contact Us</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        <li class="current">LangGraph Multi-Agent Systems Tutorial 2026</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://langchain-tutorials.github.io/">
+        <img src="/assets/images/Author-codingRhodes.webp" alt="Coding Rhodes" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://langchain-tutorials.github.io/" itemprop="url">Coding Rhodes</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>Teaching developers to build production-ready AI agents with <strong>LangChain</strong> &amp; <strong>LangGraph</strong>. New tutorials every week.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Online</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/langchain-tutorials" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/langchaintuts" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://langchain-tutorials.github.io/subscribe/" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Subscribe</span></a></li>
+          
+        
+          
+            <li><a href="https://discord.gg/QhpaC6j4" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-discord" aria-hidden="true"></i><span class="label">Discord</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:CodingRhodes@gmail.com" rel="me" class="u-email">
+            <meta itemprop="email" content="CodingRhodes@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="LangGraph Multi-Agent Systems Tutorial 2026">
+    <meta itemprop="description" content="Unlocking the Future of AI: Your Guide to LangGraph Multi-Agent Systems Tutorial 2026">
+    <meta itemprop="datePublished" content="2025-12-21T00:00:00+05:30">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">
+            <a href="https://langchain-tutorials.github.io/langgraph-multi-agent-systems-2026/" itemprop="url">LangGraph Multi-Agent Systems Tutorial 2026
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-12-21T00:00:00+05:30">December 21, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          25 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+      <section class="page__content" itemprop="text">
+        <div class="post-img">
+            <img src="/assets/images/langgraph-multi-agent-systems-2026.webp" alt="LangGraph Multi-Agent Systems Tutorial 2026" class="article-img">
+          </div>
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-list-ul"></i> Tutorial Contents</h4></header>
+              <ul class="toc__menu"><li><a href="#unlocking-the-future-of-ai-your-guide-to-langgraph-multi-agent-systems-tutorial-2026">Unlocking the Future of AI: Your Guide to LangGraph Multi-Agent Systems Tutorial 2026</a></li><li><a href="#what-exactly-are-multi-agent-systems">What Exactly Are Multi-Agent Systems?</a></li><li><a href="#why-langgraph-is-your-go-to-for-multi-agent-systems-in-2026">Why LangGraph is Your Go-To for Multi-Agent Systems in 2026</a></li><li><a href="#getting-started-a-simple-peek-at-langgraph">Getting Started: A Simple Peek at LangGraph</a></li><li><a href="#core-concepts-for-langgraph-multi-agent-systems-2026">Core Concepts for LangGraph Multi-Agent Systems 2026</a><ul><li><a href="#multi-agent-architecture-patterns">Multi-agent Architecture Patterns</a><ul><li><a href="#supervisor-agent-pattern">Supervisor Agent Pattern</a></li></ul></li><li><a href="#worker-agent-coordination">Worker Agent Coordination</a></li><li><a href="#shared-state-management">Shared State Management</a></li><li><a href="#inter-agent-communication">Inter-Agent Communication</a></li><li><a href="#hierarchical-agent-structures">Hierarchical Agent Structures</a></li><li><a href="#parallel-agent-execution">Parallel Agent Execution</a></li><li><a href="#conflict-resolution-strategies">Conflict Resolution Strategies</a></li></ul></li><li><a href="#building-a-complete-multi-agent-example-research-team-simulation">Building a Complete Multi-Agent Example: Research Team Simulation</a><ul><li><a href="#the-research-team-our-ai-agents">The Research Team: Our AI Agents</a></li><li><a href="#the-research-workflow-how-they-interact">The Research Workflow: How They Interact</a></li><li><a href="#illustrative-snippets-for-the-research-team-simulation">Illustrative Snippets for the Research Team Simulation</a></li></ul></li><li><a href="#advanced-topics--production-considerations-for-langgraph-multi-agent-systems-2026">Advanced Topics &amp; Production Considerations for LangGraph Multi-Agent Systems 2026</a><ul><li><a href="#monitoring-and-logging">Monitoring and Logging</a></li><li><a href="#scalability">Scalability</a></li><li><a href="#security-and-data-privacy">Security and Data Privacy</a></li><li><a href="#deployment">Deployment</a></li><li><a href="#ethical-ai-considerations">Ethical AI Considerations</a></li></ul></li><li><a href="#the-future-of-langgraph-multi-agent-systems-in-2026-and-beyond">The Future of LangGraph Multi-Agent Systems in 2026 and Beyond</a></li><li><a href="#conclusion">Conclusion</a></li></ul>
+            </nav>
+          </aside>
+        
+        <h3 id="unlocking-the-future-of-ai-your-guide-to-langgraph-multi-agent-systems-tutorial-2026">Unlocking the Future of AI: Your Guide to LangGraph Multi-Agent Systems Tutorial 2026</h3>
+
+<p>Imagine a team of smart AI helpers, all working together to solve a big problem. This is what we call a multi-agent system. Instead of one big AI trying to do everything, many smaller AIs specialize and cooperate.</p>
+
+<p>In this LangGraph multi agent 2026 tutorial, we’ll explore how you can build these powerful systems. You’ll discover how LangGraph helps these AI agents talk, share information, and work like a well-oiled machine. Get ready to dive into the exciting world of advanced AI cooperation.</p>
+
+<h3 id="what-exactly-are-multi-agent-systems">What Exactly Are Multi-Agent Systems?</h3>
+
+<p>Think of a football team with different players like strikers, defenders, and a goalie. Each player has a specific role and works with others. They all share the goal of winning the game.</p>
+
+<p>Multi-agent systems are similar, but with AI programs. Each AI is an “agent” with its own job, knowledge, and goals. They interact with each other and their environment to achieve a larger objective.</p>
+
+<p>These systems are super useful for complex tasks that a single AI might struggle with. They can break down big problems into smaller, manageable parts. This makes solving complicated challenges much easier and more efficient.</p>
+
+<h3 id="why-langgraph-is-your-go-to-for-multi-agent-systems-in-2026">Why LangGraph is Your Go-To for Multi-Agent Systems in 2026</h3>
+
+<p>LangGraph is a special tool that helps you build these AI teams. It’s like a blueprint designer for how your AI agents will interact and flow. It helps you draw connections between different AI actions.</p>
+
+<p>This tool lets you define how agents talk, decide what to do next, and even switch between different agents. LangGraph makes it easy to see and manage the whole process, step by step. It’s particularly powerful for creating dynamic and adaptable multi-agent architecture patterns.</p>
+
+<p>For building sophisticated LangGraph multi agent 2026 solutions, its visual and flexible nature is a huge advantage. You can design complex workflows that might otherwise be very difficult. LangGraph is truly setting the standard for AI team coordination.</p>
+
+<h3 id="getting-started-a-simple-peek-at-langgraph">Getting Started: A Simple Peek at LangGraph</h3>
+
+<p>To begin your journey, you first need to get LangGraph ready on your computer. It’s like setting up a new toy for the first time. You just open your computer’s command line and type a simple command to install it.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>pip <span class="nb">install </span>langgraph langchain_core langchain_openai
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Once installed, you can create a very basic AI agent. This agent might just say hello or answer a simple question. It’s the building block for our bigger systems. You’re giving it a brain, even if it’s a small one to start.</p>
+
+<p>Here’s a tiny example of how you might start to define an agent in LangGraph:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre></td><td class="rouge-code"><pre><span class="kn">from</span> <span class="nn">langgraph.graph</span> <span class="kn">import</span> <span class="n">StateGraph</span><span class="p">,</span> <span class="n">END</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+
+<span class="c1"># Define the state for our graph
+</span><span class="k">class</span> <span class="nc">AgentState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">messages</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">operator</span><span class="p">.</span><span class="n">add</span><span class="p">]</span>
+    <span class="n">next_agent</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="c1"># Our simplest agent
+</span><span class="k">def</span> <span class="nf">say_hello_agent</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Hello from the agent!"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">"messages"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Agent says hello!"</span><span class="p">]}</span>
+
+<span class="c1"># Build a basic graph
+</span><span class="n">workflow</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">AgentState</span><span class="p">)</span>
+<span class="n">workflow</span><span class="p">.</span><span class="n">add_node</span><span class="p">(</span><span class="s">"hello_agent"</span><span class="p">,</span> <span class="n">say_hello_agent</span><span class="p">)</span>
+<span class="n">workflow</span><span class="p">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s">"hello_agent"</span><span class="p">)</span>
+<span class="n">workflow</span><span class="p">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s">"hello_agent"</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">workflow</span><span class="p">.</span><span class="nb">compile</span><span class="p">()</span>
+<span class="c1"># app.invoke({"messages": []}) # This would run it!
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>This snippet shows how LangGraph helps manage what information passes between steps. The <code class="language-plaintext highlighter-rouge">AgentState</code> holds shared data, making it easy for different parts of your system to communicate. You’re essentially creating a shared whiteboard for your AI team.</p>
+
+<h3 id="core-concepts-for-langgraph-multi-agent-systems-2026">Core Concepts for LangGraph Multi-Agent Systems 2026</h3>
+
+<p>Building a full multi-agent system requires understanding some key ideas. These ideas help us design how our AI agents work together. They are like the rules of the game for our AI team.</p>
+
+<p>We will look at how agents are organized, how they share information, and how they talk to each other. These concepts are vital for creating effective and smart LangGraph multi agent 2026 solutions. Mastering them will make you a pro at building complex AI teams.</p>
+
+<h4 id="multi-agent-architecture-patterns">Multi-agent Architecture Patterns</h4>
+
+<p>Think about different ways you can arrange your team to solve a problem. You could have everyone working on separate tasks, or one leader telling everyone what to do. These arrangements are called multi-agent architecture patterns. They are blueprints for how your agents are structured.</p>
+
+<p>One common pattern is having a boss agent who oversees others. Another is a group of agents that all work on the same problem, passing ideas back and forth. Choosing the right pattern depends on what you want your AI team to achieve.</p>
+
+<p>LangGraph helps you implement these patterns by defining the flow and transitions between different agents. You can easily draw connections, like arrows on a map, showing where information goes next. This flexibility is what makes LangGraph so powerful for designing custom agent systems.</p>
+
+<h5 id="supervisor-agent-pattern">Supervisor Agent Pattern</h5>
+
+<p>The supervisor agent pattern is like having a team leader. This special agent doesn’t do the main tasks itself. Instead, it decides which other agents should work on a problem. It checks the overall progress and makes sure everything is going smoothly.</p>
+
+<p>This supervisor agent is very smart and can choose the best worker agent for a specific job. If the task is about writing, it might send it to a “Writer Agent.” If it’s about numbers, it goes to a “Math Agent.” This pattern helps to manage complexity and ensures that tasks are handled by the most capable agent.</p>
+
+<p>LangGraph is perfect for building a supervisor agent pattern. You can create a node in your graph that represents the supervisor. This node then has logic to choose the next node, which could be any of your specialized worker agents. It’s like a traffic controller directing cars to different lanes.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+</pre></td><td class="rouge-code"><pre><span class="kn">from</span> <span class="nn">langgraph.graph</span> <span class="kn">import</span> <span class="n">StateGraph</span><span class="p">,</span> <span class="n">END</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="n">BaseMessage</span><span class="p">,</span> <span class="n">HumanMessage</span>
+
+<span class="c1"># Define the state again, including the current task
+</span><span class="k">class</span> <span class="nc">SupervisorState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">messages</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">],</span> <span class="n">operator</span><span class="p">.</span><span class="n">add</span><span class="p">]</span>
+    <span class="n">current_task</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">next_agent</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="c1"># Example worker agents
+</span><span class="k">def</span> <span class="nf">researcher_agent</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">SupervisorState</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Researcher is working..."</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">"messages"</span><span class="p">:</span> <span class="p">[</span><span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s">"Research findings: [details here]"</span><span class="p">)]}</span>
+
+<span class="k">def</span> <span class="nf">writer_agent</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">SupervisorState</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Writer is working..."</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">"messages"</span><span class="p">:</span> <span class="p">[</span><span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s">"Draft content: [text here]"</span><span class="p">)]}</span>
+
+<span class="c1"># Our supervisor agent
+</span><span class="k">def</span> <span class="nf">supervisor_agent_node</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">SupervisorState</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Supervisor received task: </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s">'current_task'</span><span class="p">]</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    <span class="c1"># Simple logic for now: decide next agent based on task keyword
+</span>    <span class="k">if</span> <span class="s">"research"</span> <span class="ow">in</span> <span class="n">state</span><span class="p">[</span><span class="s">"current_task"</span><span class="p">].</span><span class="n">lower</span><span class="p">():</span>
+        <span class="n">next_agent</span> <span class="o">=</span> <span class="s">"researcher"</span>
+    <span class="k">elif</span> <span class="s">"write"</span> <span class="ow">in</span> <span class="n">state</span><span class="p">[</span><span class="s">"current_task"</span><span class="p">].</span><span class="n">lower</span><span class="p">():</span>
+        <span class="n">next_agent</span> <span class="o">=</span> <span class="s">"writer"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">next_agent</span> <span class="o">=</span> <span class="s">"researcher"</span> <span class="c1"># Default or error handling
+</span>    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Supervisor chose: </span><span class="si">{</span><span class="n">next_agent</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">"next_agent"</span><span class="p">:</span> <span class="n">next_agent</span><span class="p">}</span>
+
+<span class="c1"># Build the workflow
+</span><span class="n">workflow</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">SupervisorState</span><span class="p">)</span>
+
+<span class="c1"># Add nodes for supervisor and worker agents
+</span><span class="n">workflow</span><span class="p">.</span><span class="n">add_node</span><span class="p">(</span><span class="s">"supervisor"</span><span class="p">,</span> <span class="n">supervisor_agent_node</span><span class="p">)</span>
+<span class="n">workflow</span><span class="p">.</span><span class="n">add_node</span><span class="p">(</span><span class="s">"researcher"</span><span class="p">,</span> <span class="n">researcher_agent</span><span class="p">)</span>
+<span class="n">workflow</span><span class="p">.</span><span class="n">add_node</span><span class="p">(</span><span class="s">"writer"</span><span class="p">,</span> <span class="n">writer_agent</span><span class="p">)</span>
+
+<span class="c1"># Set the entry point to the supervisor
+</span><span class="n">workflow</span><span class="p">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s">"supervisor"</span><span class="p">)</span>
+
+<span class="c1"># Define conditional edges from the supervisor
+</span><span class="n">workflow</span><span class="p">.</span><span class="n">add_conditional_edges</span><span class="p">(</span>
+    <span class="s">"supervisor"</span><span class="p">,</span>
+    <span class="k">lambda</span> <span class="n">state</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s">"next_agent"</span><span class="p">],</span> <span class="c1"># Function to decide next step
+</span>    <span class="p">{</span>
+        <span class="s">"researcher"</span><span class="p">:</span> <span class="s">"researcher"</span><span class="p">,</span>
+        <span class="s">"writer"</span><span class="p">:</span> <span class="s">"writer"</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="c1"># After a worker finishes, send control back to supervisor or end
+</span><span class="n">workflow</span><span class="p">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s">"researcher"</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span> <span class="c1"># For simplicity, ends after research
+</span><span class="n">workflow</span><span class="p">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s">"writer"</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span> <span class="c1"># For simplicity, ends after writing
+</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">workflow</span><span class="p">.</span><span class="nb">compile</span><span class="p">()</span>
+
+<span class="c1"># Example invocation
+# print("\n--- Running Research Task ---")
+# app.invoke({"messages": [HumanMessage(content="Start research on AI trends.")], "current_task": "research AI trends"})
+</span>
+<span class="c1"># print("\n--- Running Writing Task ---")
+# app.invoke({"messages": [HumanMessage(content="Write an article about the research.")], "current_task": "write article"})
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>This example shows how the supervisor makes decisions about which worker to activate. You define the logic inside the supervisor_agent_node, and LangGraph handles the transitions. This makes implementing a powerful supervisor agent pattern straightforward and clear.</p>
+
+<h4 id="worker-agent-coordination">Worker Agent Coordination</h4>
+
+<p>Worker agent coordination is all about how your specialized AI agents work together. It’s not just about one boss telling them what to do. It’s also about how they pass information and results among themselves. They might need to hand off tasks, ask questions, or combine their findings.</p>
+
+<p>Imagine a group project where one person finds facts, another draws pictures, and a third writes the report. They need to coordinate to make sure everything fits together. Your AI agents do the same. This coordination is crucial for a successful LangGraph multi agent 2026 system.</p>
+
+<p>LangGraph helps manage this coordination by letting you define clear paths for information flow. Agents can return specific outputs that then become inputs for other agents. This creates a smooth pipeline for collaborative work.</p>
+
+<h4 id="shared-state-management">Shared State Management</h4>
+
+<p>In any team, everyone needs to know the important details about the project. This is like having a shared whiteboard or a common document. In multi-agent systems, this shared information is called shared state. It’s where agents store and access common data.</p>
+
+<p>For example, if your agents are working on building a house, the shared state might contain the blueprint, the list of materials needed, and the current progress. Every agent can look at this state to understand what’s happening. This helps in worker agent coordination.</p>
+
+<p>LangGraph provides an easy way to manage this shared state. When you set up your graph, you define a <code class="language-plaintext highlighter-rouge">state</code> object. All agents within that graph can read from and write to this shared state. This ensures that everyone is always on the same page.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="rouge-code"><pre><span class="c1"># Reusing a part of the earlier setup
+</span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="n">BaseMessage</span><span class="p">,</span> <span class="n">HumanMessage</span>
+
+<span class="c1"># Define the shared state for our multi-agent system
+</span><span class="k">class</span> <span class="nc">ResearchProjectState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">topic</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">research_notes</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">operator</span><span class="p">.</span><span class="n">add</span><span class="p">]</span> <span class="c1"># Notes can be added over time
+</span>    <span class="n">article_draft</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">reviewer_feedback</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">operator</span><span class="p">.</span><span class="n">add</span><span class="p">]</span>
+    <span class="n">current_agent_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1"># To track who is active
+</span>    <span class="n">iteration_count</span><span class="p">:</span> <span class="nb">int</span>
+
+<span class="c1"># An agent that adds to the research_notes
+</span><span class="k">def</span> <span class="nf">gather_research_agent</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">ResearchProjectState</span><span class="p">):</span>
+    <span class="n">new_notes</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"Found some data on </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s">'topic'</span><span class="p">]</span><span class="si">}</span><span class="s">."</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">"research_notes"</span><span class="p">:</span> <span class="p">[</span><span class="n">new_notes</span><span class="p">],</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Gatherer"</span><span class="p">}</span>
+
+<span class="c1"># An agent that uses research_notes to draft an article
+</span><span class="k">def</span> <span class="nf">write_draft_agent</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">ResearchProjectState</span><span class="p">):</span>
+    <span class="n">draft</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"Article on </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s">'topic'</span><span class="p">]</span><span class="si">}</span><span class="s"> using notes: </span><span class="si">{</span><span class="s">', '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s">'research_notes'</span><span class="p">])</span><span class="si">}</span><span class="s">."</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">"article_draft"</span><span class="p">:</span> <span class="n">draft</span><span class="p">,</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Writer"</span><span class="p">}</span>
+
+<span class="c1"># Here, 'research_notes' and 'article_draft' are parts of the shared state.
+# All agents can read and update these fields, facilitating shared state management.
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">ResearchProjectState</code> acts as the central hub for all project information. When an agent updates <code class="language-plaintext highlighter-rouge">research_notes</code>, every other agent knows about it automatically. This is fundamental for seamless collaboration and for handling complex tasks within LangGraph multi agent 2026 systems.</p>
+
+<h4 id="inter-agent-communication">Inter-Agent Communication</h4>
+
+<p>Just like people in a team talk to each other, AI agents need to communicate. This is called inter-agent communication. It’s how they share discoveries, ask for help, or pass on completed tasks. Without good communication, a team can’t work well.</p>
+
+<p>Communication can be direct, like one agent sending a message to another. Or it can be indirect, like an agent updating the shared state for others to read. Both are important for making your multi-agent system effective.</p>
+
+<p>LangGraph simplifies inter-agent communication by building it into the graph flow. When an agent completes its job, its output automatically updates the shared state. This updated state then guides the next agent’s actions, creating a natural conversation between your AI team members.</p>
+
+<h4 id="hierarchical-agent-structures">Hierarchical Agent Structures</h4>
+
+<p>Sometimes, you need a more organized team structure, like a company with managers and employees. This is a hierarchical agent structure. You have high-level agents that set overall goals and manage lower-level agents. These lower-level agents then perform the actual tasks.</p>
+
+<p>The supervisor agent pattern we discussed earlier is a form of hierarchy. The supervisor is at a higher level, directing worker agents below it. This structure is great for very large and complex problems, where different layers of management are helpful. It helps in managing the workflow of your LangGraph multi agent 2026 solutions.</p>
+
+<p>LangGraph lets you build these hierarchies by nesting graphs or by defining conditional logic in your supervisor. A higher-level agent can invoke a smaller sub-graph of agents to complete a specific task. This allows for powerful and scalable system designs.</p>
+
+<h4 id="parallel-agent-execution">Parallel Agent Execution</h4>
+
+<p>Imagine you have many tasks that don’t depend on each other. Instead of doing them one by one, you could have multiple agents working on them at the same time. This is parallel agent execution. It makes your system much faster.</p>
+
+<p>If your team needs to research three different aspects of a topic, three different researcher agents could work simultaneously. Once they all finish, their results can be combined. This speeds up the overall process significantly.</p>
+
+<p>LangGraph supports parallel execution patterns, allowing you to design flows where multiple paths are taken at once. You can use tools and language models to decide when to run tasks in parallel. This is a key feature for optimizing performance in LangGraph multi agent 2026 systems.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+</pre></td><td class="rouge-code"><pre><span class="c1"># Example for parallel execution (conceptual)
+# In LangGraph, this is typically handled by defining multiple edges from a node
+# that trigger different subsequent nodes, or by using tools that fan out work.
+</span>
+<span class="c1"># Example: A node that dispatches two independent research tasks
+</span><span class="k">def</span> <span class="nf">dispatch_parallel_research</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">ResearchProjectState</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Dispatching parallel research tasks..."</span><span class="p">)</span>
+    <span class="c1"># This would typically return a signal to run two different "researcher" nodes
+</span>    <span class="c1"># or trigger functions that run concurrently outside the main graph logic
+</span>    <span class="c1"># For LangGraph's native parallelism, you'd design the graph to fork.
+</span>    <span class="k">return</span> <span class="p">{</span><span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Dispatcher"</span><span class="p">,</span> <span class="s">"next_actions"</span><span class="p">:</span> <span class="p">[</span><span class="s">"research_a"</span><span class="p">,</span> <span class="s">"research_b"</span><span class="p">]}</span>
+
+<span class="k">def</span> <span class="nf">research_task_a</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">ResearchProjectState</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Executing Research Task A..."</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">"research_notes"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Findings from Task A"</span><span class="p">],</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Researcher A"</span><span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">research_task_b</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">ResearchProjectState</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Executing Research Task B..."</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">"research_notes"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Findings from Task B"</span><span class="p">],</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Researcher B"</span><span class="p">}</span>
+
+<span class="c1"># Then, a 'join' node would collect results
+</span><span class="k">def</span> <span class="nf">combine_parallel_results</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">ResearchProjectState</span><span class="p">):</span>
+    <span class="n">all_notes</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s">"research_notes"</span><span class="p">]</span>
+    <span class="n">combined</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"Combined notes: </span><span class="si">{</span><span class="s">', '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">all_notes</span><span class="p">)</span><span class="si">}</span><span class="s">"</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">"article_draft"</span><span class="p">:</span> <span class="n">combined</span><span class="p">,</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Combiner"</span><span class="p">}</span>
+
+<span class="c1"># A LangGraph workflow would then have a dispatch node
+# leading to two parallel research nodes, which then converge to a combine node.
+# The graph structure itself defines this fan-out/fan-in.
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>This conceptual outline shows how you can think about structuring your graph for parallel execution. The power of LangGraph lies in its ability to manage these complex flows. It ensures that once all parallel tasks are done, their results are properly gathered.</p>
+
+<h4 id="conflict-resolution-strategies">Conflict Resolution Strategies</h4>
+
+<p>What happens if two agents disagree or provide conflicting information? This is where conflict resolution strategies come in. Just like in a human team, you need a plan for handling disagreements. Without a strategy, your AI team might get stuck or produce incorrect results.</p>
+
+<p>One strategy could be to have the supervisor agent make the final decision. Another might be for agents to debate and find common ground. Or, you could have a voting system if multiple agents provide solutions.</p>
+
+<p>LangGraph allows you to build these strategies into your graph. You can create a specific node for conflict resolution. This node receives conflicting information and applies a defined rule to resolve it. This ensures your LangGraph multi agent 2026 system always moves forward.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="c1"># Simple conflict resolution example logic
+</span><span class="k">def</span> <span class="nf">conflict_resolver_agent</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">ResearchProjectState</span><span class="p">):</span>
+    <span class="n">feedback</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s">"reviewer_feedback"</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">feedback</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># Simple rule: if conflicting feedback, ask for supervisor override
+</span>        <span class="k">if</span> <span class="s">"major revision"</span> <span class="ow">in</span> <span class="n">feedback</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="s">"minor edits"</span> <span class="ow">in</span> <span class="n">feedback</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"Conflicting feedback detected. Escalating to supervisor."</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s">"next_agent"</span><span class="p">:</span> <span class="s">"supervisor_for_override"</span><span class="p">,</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Resolver"</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"Minor feedback differences, writer can proceed."</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s">"next_agent"</span><span class="p">:</span> <span class="s">"writer"</span><span class="p">,</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Resolver"</span><span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">"next_agent"</span><span class="p">:</span> <span class="s">"writer"</span><span class="p">,</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Resolver"</span><span class="p">}</span> <span class="c1"># Default to writer
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>This snippet illustrates how a dedicated agent can implement rules for conflict resolution. The output <code class="language-plaintext highlighter-rouge">next_agent</code> then guides the LangGraph flow, ensuring that disputes are handled systematically.</p>
+
+<h3 id="building-a-complete-multi-agent-example-research-team-simulation">Building a Complete Multi-Agent Example: Research Team Simulation</h3>
+
+<p>Let’s put all these ideas together and build a fun example. Imagine a team of AI researchers working on a new scientific paper. This will be a complete multi-agent example (research team simulation). Our LangGraph multi agent 2026 system will mimic a real research team.</p>
+
+<p>We will have different AI agents, each with a special role. They will collaborate, share findings, and even review each other’s work. This simulation will show you how powerful LangGraph can be for complex, real-world problems.</p>
+
+<h4 id="the-research-team-our-ai-agents">The Research Team: Our AI Agents</h4>
+
+<p>Our AI research team will have a few key members:</p>
+
+<ul>
+  <li><strong>Project Supervisor Agent:</strong> The team leader. It assigns tasks, monitors progress, and resolves big disagreements. This is our supervisor agent pattern in action.</li>
+  <li><strong>Researcher Agent:</strong> Finds information, reads papers, and gathers data on the topic. We might even have multiple Researcher Agents for parallel execution.</li>
+  <li><strong>Data Analyst Agent:</strong> Processes numbers, creates charts, and finds insights from the data.</li>
+  <li><strong>Writer Agent:</strong> Puts all the information together into a readable paper draft.</li>
+  <li><strong>Reviewer Agent:</strong> Checks the paper draft for mistakes, clarity, and completeness.</li>
+</ul>
+
+<p>Each of these agents will use shared state management to keep track of the paper’s progress. They will also rely on inter-agent communication to pass on their results and requests.</p>
+
+<h4 id="the-research-workflow-how-they-interact">The Research Workflow: How They Interact</h4>
+
+<p>The process will flow something like this:</p>
+
+<ol>
+  <li>The <strong>Project Supervisor Agent</strong> gets a new research topic. It starts by telling the <strong>Researcher Agent</strong> to gather initial information.</li>
+  <li>The <strong>Researcher Agent</strong> finds facts and updates the shared <code class="language-plaintext highlighter-rouge">research_notes</code>.</li>
+  <li>Once enough research is done, the <strong>Supervisor</strong> might ask the <strong>Data Analyst Agent</strong> to process any numbers found.</li>
+  <li>The <strong>Data Analyst</strong> creates summaries and adds them to the shared <code class="language-plaintext highlighter-rouge">data_insights</code>.</li>
+  <li>With research and data insights ready, the <strong>Supervisor</strong> tells the <strong>Writer Agent</strong> to create a first draft.</li>
+  <li>The <strong>Writer Agent</strong> uses <code class="language-plaintext highlighter-rouge">research_notes</code> and <code class="language-plaintext highlighter-rouge">data_insights</code> from the shared state to write <code class="language-plaintext highlighter-rouge">article_draft</code>. This is worker agent coordination.</li>
+  <li>The <strong>Supervisor</strong> then sends the <code class="language-plaintext highlighter-rouge">article_draft</code> to the <strong>Reviewer Agent</strong>.</li>
+  <li>The <strong>Reviewer Agent</strong> reads the draft, provides <code class="language-plaintext highlighter-rouge">reviewer_feedback</code>, and adds it to the shared state.</li>
+  <li>If the feedback is critical, the <strong>Supervisor</strong> might send it back to the <strong>Writer</strong> or even the <strong>Researcher</strong> for more work. This shows a basic conflict resolution strategy.</li>
+  <li>This cycle continues until the paper is perfect. We can also have hierarchical agent structures, where the Supervisor oversees sub-teams for different parts of the paper.</li>
+</ol>
+
+<h4 id="illustrative-snippets-for-the-research-team-simulation">Illustrative Snippets for the Research Team Simulation</h4>
+
+<p>Let’s expand our <code class="language-plaintext highlighter-rouge">ResearchProjectState</code> to handle our full research team simulation:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+</pre></td><td class="rouge-code"><pre><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="n">BaseMessage</span><span class="p">,</span> <span class="n">HumanMessage</span><span class="p">,</span> <span class="n">AIMessage</span>
+
+<span class="c1"># Define a more comprehensive shared state for our research project
+</span><span class="k">class</span> <span class="nc">ResearchProjectState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">topic</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">research_notes</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">operator</span><span class="p">.</span><span class="n">add</span><span class="p">]</span> <span class="c1"># Accumulates research findings
+</span>    <span class="n">data_insights</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">operator</span><span class="p">.</span><span class="n">add</span><span class="p">]</span> <span class="c1"># Accumulates data analysis results
+</span>    <span class="n">article_draft</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">reviewer_feedback</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">operator</span><span class="p">.</span><span class="n">add</span><span class="p">]</span> <span class="c1"># Feedback for the writer
+</span>    <span class="n">iteration_count</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">current_agent_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1"># Helps track which agent is active
+</span>    <span class="n">next_action</span><span class="p">:</span> <span class="nb">str</span> <span class="c1"># What the supervisor decides next
+</span>    <span class="n">error_message</span><span class="p">:</span> <span class="nb">str</span> <span class="c1"># For simple error handling
+</span>
+<span class="c1"># Helper function to create an AI message
+</span><span class="k">def</span> <span class="nf">ai_message</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AIMessage</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">AIMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">)</span>
+
+<span class="c1"># 1. Project Supervisor Agent
+</span><span class="k">def</span> <span class="nf">project_supervisor_agent</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">ResearchProjectState</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="se">\n</span><span class="s">--- Supervisor: Current iteration </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s">'iteration_count'</span><span class="p">]</span><span class="si">}</span><span class="s"> ---"</span><span class="p">)</span>
+    <span class="n">current_action</span> <span class="o">=</span> <span class="n">state</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"next_action"</span><span class="p">,</span> <span class="s">"start_research"</span><span class="p">)</span>
+    <span class="n">feedback</span> <span class="o">=</span> <span class="n">state</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"reviewer_feedback"</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">draft</span> <span class="o">=</span> <span class="n">state</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"article_draft"</span><span class="p">,</span> <span class="s">""</span><span class="p">)</span>
+    <span class="n">notes</span> <span class="o">=</span> <span class="n">state</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"research_notes"</span><span class="p">,</span> <span class="p">[])</span>
+
+    <span class="k">if</span> <span class="n">current_action</span> <span class="o">==</span> <span class="s">"start_research"</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Supervisor: Initiating research phase."</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"next_action"</span><span class="p">:</span> <span class="s">"research"</span><span class="p">,</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Supervisor"</span><span class="p">,</span> <span class="s">"iteration_count"</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s">"iteration_count"</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span>
+    <span class="k">elif</span> <span class="n">current_action</span> <span class="o">==</span> <span class="s">"research_done"</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">draft</span><span class="p">:</span> <span class="c1"># If research is done but no draft, start writing
+</span>        <span class="k">print</span><span class="p">(</span><span class="s">"Supervisor: Research complete, moving to writing phase."</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"next_action"</span><span class="p">:</span> <span class="s">"write_draft"</span><span class="p">,</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Supervisor"</span><span class="p">,</span> <span class="s">"iteration_count"</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s">"iteration_count"</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span>
+    <span class="k">elif</span> <span class="n">current_action</span> <span class="o">==</span> <span class="s">"draft_ready"</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Supervisor: Draft ready, sending for review."</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"next_action"</span><span class="p">:</span> <span class="s">"review_draft"</span><span class="p">,</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Supervisor"</span><span class="p">,</span> <span class="s">"iteration_count"</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s">"iteration_count"</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span>
+    <span class="k">elif</span> <span class="n">current_action</span> <span class="o">==</span> <span class="s">"review_done"</span> <span class="ow">and</span> <span class="n">feedback</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Supervisor: Review feedback received."</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="s">"major revision"</span> <span class="ow">in</span> <span class="n">f</span><span class="p">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">feedback</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"Supervisor: Major revisions needed, sending back to writer."</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s">"next_action"</span><span class="p">:</span> <span class="s">"revise_draft"</span><span class="p">,</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Supervisor"</span><span class="p">,</span> <span class="s">"iteration_count"</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s">"iteration_count"</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span>
+        <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="s">"minor edits"</span> <span class="ow">in</span> <span class="n">f</span><span class="p">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">feedback</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"Supervisor: Minor edits needed, sending back to writer."</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s">"next_action"</span><span class="p">:</span> <span class="s">"revise_draft"</span><span class="p">,</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Supervisor"</span><span class="p">,</span> <span class="s">"iteration_count"</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s">"iteration_count"</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"Supervisor: Paper looks good, finalizing."</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s">"next_action"</span><span class="p">:</span> <span class="s">"finalize"</span><span class="p">,</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Supervisor"</span><span class="p">,</span> <span class="s">"iteration_count"</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s">"iteration_count"</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span>
+    <span class="k">elif</span> <span class="n">current_action</span> <span class="o">==</span> <span class="s">"finalize"</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Supervisor: Research paper finalized! Great work team."</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"next_action"</span><span class="p">:</span> <span class="s">"end_workflow"</span><span class="p">,</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Supervisor"</span><span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Supervisor: Unknown action or state: </span><span class="si">{</span><span class="n">current_action</span><span class="si">}</span><span class="s">. Defaulting to research."</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"next_action"</span><span class="p">:</span> <span class="s">"research"</span><span class="p">,</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Supervisor"</span><span class="p">,</span> <span class="s">"iteration_count"</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s">"iteration_count"</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span>
+
+<span class="c1"># 2. Researcher Agent
+</span><span class="k">def</span> <span class="nf">researcher_agent</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">ResearchProjectState</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Researcher: Gathering notes on '</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s">'topic'</span><span class="p">]</span><span class="si">}</span><span class="s">'..."</span><span class="p">)</span>
+    <span class="n">new_note</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"Found key findings on </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s">'topic'</span><span class="p">]</span><span class="si">}</span><span class="s"> for iteration </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s">'iteration_count'</span><span class="p">]</span><span class="si">}</span><span class="s">."</span>
+    <span class="k">if</span> <span class="n">state</span><span class="p">[</span><span class="s">"iteration_count"</span><span class="p">]</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># Simulate different types of research
+</span>        <span class="n">new_note</span> <span class="o">+=</span> <span class="s">" (Focusing on historical context)"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">new_note</span> <span class="o">+=</span> <span class="s">" (Focusing on recent developments)"</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">"research_notes"</span><span class="p">:</span> <span class="p">[</span><span class="n">new_note</span><span class="p">],</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Researcher"</span><span class="p">,</span> <span class="s">"next_action"</span><span class="p">:</span> <span class="s">"research_done"</span><span class="p">}</span>
+
+<span class="c1"># 3. Data Analyst Agent (optional, could be triggered by supervisor for specific research needs)
+</span><span class="k">def</span> <span class="nf">data_analyst_agent</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">ResearchProjectState</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Data Analyst: Analyzing data related to '</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s">'topic'</span><span class="p">]</span><span class="si">}</span><span class="s">'..."</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">state</span><span class="p">[</span><span class="s">"research_notes"</span><span class="p">]:</span>
+        <span class="n">data_insight</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"Analyzed some data based on notes: '</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s">'research_notes'</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s">'. Found a trend!"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data_insight</span> <span class="o">=</span> <span class="s">"No specific data to analyze yet."</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">"data_insights"</span><span class="p">:</span> <span class="p">[</span><span class="n">data_insight</span><span class="p">],</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Data Analyst"</span><span class="p">,</span> <span class="s">"next_action"</span><span class="p">:</span> <span class="s">"data_analysis_done"</span><span class="p">}</span> <span class="c1"># Could go back to supervisor or to writer directly
+</span>
+<span class="c1"># 4. Writer Agent
+</span><span class="k">def</span> <span class="nf">writer_agent</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">ResearchProjectState</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Writer: Drafting paper for '</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s">'topic'</span><span class="p">]</span><span class="si">}</span><span class="s">'..."</span><span class="p">)</span>
+    <span class="n">current_draft</span> <span class="o">=</span> <span class="n">state</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"article_draft"</span><span class="p">,</span> <span class="s">""</span><span class="p">)</span>
+    <span class="n">notes</span> <span class="o">=</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s">"research_notes"</span><span class="p">])</span>
+    <span class="n">insights</span> <span class="o">=</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s">"data_insights"</span><span class="p">])</span>
+    <span class="n">feedback</span> <span class="o">=</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"reviewer_feedback"</span><span class="p">,</span> <span class="p">[]))</span>
+
+    <span class="n">new_content</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"Draft iteration </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s">'iteration_count'</span><span class="p">]</span><span class="si">}</span><span class="s">:</span><span class="se">\n</span><span class="s">"</span>
+    <span class="k">if</span> <span class="n">feedback</span><span class="p">:</span>
+        <span class="n">new_content</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">"Addressing feedback: '</span><span class="si">{</span><span class="n">feedback</span><span class="si">}</span><span class="s">'</span><span class="se">\n</span><span class="s">"</span>
+    <span class="n">new_content</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">"Based on research notes: '</span><span class="si">{</span><span class="n">notes</span><span class="si">}</span><span class="s">'</span><span class="se">\n</span><span class="s">"</span>
+    <span class="k">if</span> <span class="n">insights</span><span class="p">:</span>
+        <span class="n">new_content</span> <span class="o">+=</span> <span class="sa">f</span><span class="s">"And data insights: '</span><span class="si">{</span><span class="n">insights</span><span class="si">}</span><span class="s">'</span><span class="se">\n</span><span class="s">"</span>
+    <span class="n">new_content</span> <span class="o">+=</span> <span class="s">"This is the current paper body..."</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s">"article_draft"</span><span class="p">:</span> <span class="n">new_content</span><span class="p">,</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Writer"</span><span class="p">,</span> <span class="s">"next_action"</span><span class="p">:</span> <span class="s">"draft_ready"</span><span class="p">,</span> <span class="s">"reviewer_feedback"</span><span class="p">:</span> <span class="p">[]}</span> <span class="c1"># Clear feedback after addressing
+</span>
+<span class="c1"># 5. Reviewer Agent
+</span><span class="k">def</span> <span class="nf">reviewer_agent</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">ResearchProjectState</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Reviewer: Reviewing draft for '</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s">'topic'</span><span class="p">]</span><span class="si">}</span><span class="s">'..."</span><span class="p">)</span>
+    <span class="n">draft</span> <span class="o">=</span> <span class="n">state</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"article_draft"</span><span class="p">,</span> <span class="s">"No draft to review."</span><span class="p">)</span>
+    <span class="n">feedback_msg</span> <span class="o">=</span> <span class="s">""</span>
+    <span class="k">if</span> <span class="s">"trend"</span> <span class="ow">in</span> <span class="n">draft</span><span class="p">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">and</span> <span class="s">"historical context"</span> <span class="ow">in</span> <span class="n">draft</span><span class="p">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">and</span> <span class="n">state</span><span class="p">[</span><span class="s">"iteration_count"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">feedback_msg</span> <span class="o">=</span> <span class="s">"Looks good, minor edits needed for flow. (minor edits)"</span>
+    <span class="k">elif</span> <span class="n">state</span><span class="p">[</span><span class="s">"iteration_count"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">feedback_msg</span> <span class="o">=</span> <span class="s">"Draft is too short, needs major revision and more detail. (major revision)"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">feedback_msg</span> <span class="o">=</span> <span class="s">"Good progress, check references. (minor edits)"</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s">"reviewer_feedback"</span><span class="p">:</span> <span class="p">[</span><span class="n">feedback_msg</span><span class="p">],</span> <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Reviewer"</span><span class="p">,</span> <span class="s">"next_action"</span><span class="p">:</span> <span class="s">"review_done"</span><span class="p">}</span>
+
+
+<span class="c1"># Build the LangGraph workflow
+</span><span class="n">workflow</span> <span class="o">=</span> <span class="n">StateGraph</span><span class="p">(</span><span class="n">ResearchProjectState</span><span class="p">)</span>
+
+<span class="c1"># Add all agents as nodes
+</span><span class="n">workflow</span><span class="p">.</span><span class="n">add_node</span><span class="p">(</span><span class="s">"supervisor"</span><span class="p">,</span> <span class="n">project_supervisor_agent</span><span class="p">)</span>
+<span class="n">workflow</span><span class="p">.</span><span class="n">add_node</span><span class="p">(</span><span class="s">"researcher"</span><span class="p">,</span> <span class="n">researcher_agent</span><span class="p">)</span>
+<span class="n">workflow</span><span class="p">.</span><span class="n">add_node</span><span class="p">(</span><span class="s">"data_analyst"</span><span class="p">,</span> <span class="n">data_analyst_agent</span><span class="p">)</span>
+<span class="n">workflow</span><span class="p">.</span><span class="n">add_node</span><span class="p">(</span><span class="s">"writer"</span><span class="p">,</span> <span class="n">writer_agent</span><span class="p">)</span>
+<span class="n">workflow</span><span class="p">.</span><span class="n">add_node</span><span class="p">(</span><span class="s">"reviewer"</span><span class="p">,</span> <span class="n">reviewer_agent</span><span class="p">)</span>
+
+<span class="c1"># Set the entry point
+</span><span class="n">workflow</span><span class="p">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="s">"supervisor"</span><span class="p">)</span>
+
+<span class="c1"># Define conditional edges from the supervisor
+</span><span class="n">workflow</span><span class="p">.</span><span class="n">add_conditional_edges</span><span class="p">(</span>
+    <span class="s">"supervisor"</span><span class="p">,</span>
+    <span class="k">lambda</span> <span class="n">state</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s">"next_action"</span><span class="p">],</span> <span class="c1"># The supervisor decides the next step
+</span>    <span class="p">{</span>
+        <span class="s">"research"</span><span class="p">:</span> <span class="s">"researcher"</span><span class="p">,</span>
+        <span class="s">"research_done"</span><span class="p">:</span> <span class="s">"supervisor"</span><span class="p">,</span> <span class="c1"># Supervisor will decide next after researcher
+</span>        <span class="s">"data_analysis_done"</span><span class="p">:</span> <span class="s">"supervisor"</span><span class="p">,</span> <span class="c1"># Supervisor will decide next after data analyst
+</span>        <span class="s">"write_draft"</span><span class="p">:</span> <span class="s">"writer"</span><span class="p">,</span>
+        <span class="s">"draft_ready"</span><span class="p">:</span> <span class="s">"supervisor"</span><span class="p">,</span> <span class="c1"># Supervisor will decide next after writer
+</span>        <span class="s">"review_draft"</span><span class="p">:</span> <span class="s">"reviewer"</span><span class="p">,</span>
+        <span class="s">"review_done"</span><span class="p">:</span> <span class="s">"supervisor"</span><span class="p">,</span> <span class="c1"># Supervisor will decide next after reviewer
+</span>        <span class="s">"revise_draft"</span><span class="p">:</span> <span class="s">"writer"</span><span class="p">,</span> <span class="c1"># If revisions needed, go back to writer
+</span>        <span class="s">"finalize"</span><span class="p">:</span> <span class="n">END</span><span class="p">,</span> <span class="c1"># End the workflow
+</span>        <span class="s">"end_workflow"</span><span class="p">:</span> <span class="n">END</span> <span class="c1"># Explicit end
+</span>    <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="c1"># Define simple edges for workers that complete a specific task
+</span><span class="n">workflow</span><span class="p">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s">"researcher"</span><span class="p">,</span> <span class="s">"supervisor"</span><span class="p">)</span> <span class="c1"># Researcher always reports back to supervisor
+</span><span class="n">workflow</span><span class="p">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s">"data_analyst"</span><span class="p">,</span> <span class="s">"supervisor"</span><span class="p">)</span> <span class="c1"># Data analyst always reports back to supervisor
+</span><span class="n">workflow</span><span class="p">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s">"writer"</span><span class="p">,</span> <span class="s">"supervisor"</span><span class="p">)</span> <span class="c1"># Writer always reports back to supervisor
+</span><span class="n">workflow</span><span class="p">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s">"reviewer"</span><span class="p">,</span> <span class="s">"supervisor"</span><span class="p">)</span> <span class="c1"># Reviewer always reports back to supervisor
+</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">workflow</span><span class="p">.</span><span class="nb">compile</span><span class="p">()</span>
+
+<span class="c1"># Initial state for the simulation
+</span><span class="n">initial_state</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"topic"</span><span class="p">:</span> <span class="s">"The Future of AI in Healthcare"</span><span class="p">,</span>
+    <span class="s">"research_notes"</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s">"data_insights"</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s">"article_draft"</span><span class="p">:</span> <span class="s">""</span><span class="p">,</span>
+    <span class="s">"reviewer_feedback"</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s">"iteration_count"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">"current_agent_name"</span><span class="p">:</span> <span class="s">"Start"</span><span class="p">,</span>
+    <span class="s">"next_action"</span><span class="p">:</span> <span class="s">"start_research"</span><span class="p">,</span>
+    <span class="s">"error_message"</span><span class="p">:</span> <span class="s">""</span>
+<span class="p">}</span>
+
+<span class="c1"># Run the simulation for a few steps
+</span><span class="k">print</span><span class="p">(</span><span class="s">"--- Starting Research Team Simulation ---"</span><span class="p">)</span>
+<span class="c1"># for s in app.stream(initial_state):
+#    print(s)
+# This will iterate through the graph until END is reached,
+# showing the flow of control and state changes between agents.
+# The output will show which agent is active and what decisions are made.
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>This extended example shows the supervisor agent pattern guiding the flow. Worker agent coordination happens as researchers, writers, and reviewers pass information via the <code class="language-plaintext highlighter-rouge">ResearchProjectState</code>. Shared state management is evident as all agents read from and write to this central state. Inter-agent communication is implicit in the state transitions and explicit in the print statements. The <code class="language-plaintext highlighter-rouge">iteration_count</code> helps track progress. This complete multi-agent example (research team simulation) demonstrates how different LSI keywords come together in a practical LangGraph multi agent 2026 system.</p>
+
+<h3 id="advanced-topics--production-considerations-for-langgraph-multi-agent-systems-2026">Advanced Topics &amp; Production Considerations for LangGraph Multi-Agent Systems 2026</h3>
+
+<p>As you move from simple examples to real-world applications, there are more things to think about. These are like making sure your AI team can handle big projects and stays safe. We’re talking about production considerations.</p>
+
+<p>These advanced topics help ensure your LangGraph multi agent 2026 systems are not just smart, but also reliable, secure, and ready for prime time. They are crucial for moving beyond experiments into actual deployments.</p>
+
+<h4 id="monitoring-and-logging">Monitoring and Logging</h4>
+
+<p>When your AI team is running, you need to know what they are doing. Monitoring is like watching them work to see if everything is okay. Logging is keeping a diary of every action they take.</p>
+
+<p>This helps you understand if your agents are working efficiently or if they are getting stuck. If something goes wrong, the logs can help you figure out why. Tools exist to visualize LangGraph executions, which is a powerful form of monitoring.</p>
+
+<p>For LangGraph multi agent 2026 applications, robust monitoring and logging are not optional. They are essential for debugging, performance analysis, and ensuring the system operates as expected. You need to know when your agents are having a bad day.</p>
+
+<h4 id="scalability">Scalability</h4>
+
+<p>What if your multi-agent system suddenly needs to handle ten times more tasks? Scalability means your system can grow to handle more work without breaking down. It’s like having a team that can easily expand when a big project comes along.</p>
+
+<p>This involves thinking about how many agents you can run at once and how they share resources. You might need to use powerful computer systems or cloud services to scale effectively. Ensuring your LangGraph multi agent 2026 solution can scale is vital for future growth.</p>
+
+<p>LangGraph’s design, which separates concerns and manages state, can help with scalability. By having clear agent boundaries and well-defined state transitions, you can distribute parts of your system across different computing resources more easily. This modularity aids in building large-scale multi-agent systems.</p>
+
+<h4 id="security-and-data-privacy">Security and Data Privacy</h4>
+
+<p>Your AI agents might handle sensitive information. Security means protecting this information from unauthorized access. Data privacy means making sure you handle personal data responsibly and according to rules.</p>
+
+<p>For example, if your research team is working with patient data, you need to make sure it’s secure. You also need to follow laws like GDPR (General Data Protection Regulation) or CCPA (California Consumer Privacy Act). These laws protect people’s private information.</p>
+
+<h4 id="deployment">Deployment</h4>
+
+<p>Once your multi-agent system is built and tested, you need to make it available for use. This process is called deployment. It’s like launching your finished product into the world. You might deploy it on a server or as a cloud service.</p>
+
+<p>This involves setting up the environment, configuring all the parts, and making sure it can run continuously. Deployment also includes managing updates and fixes when needed. Planning for how you will deploy your LangGraph multi agent 2026 system early can save a lot of headaches later.</p>
+
+<p>LangGraph outputs a compiled graph, which can often be run in various environments. The key is to containerize your application (e.g., using Docker) and deploy it to platforms like Kubernetes, AWS, Google Cloud, or Azure. These platforms provide the infrastructure needed for robust deployment.</p>
+
+<h4 id="ethical-ai-considerations">Ethical AI Considerations</h4>
+
+<p>As AI becomes more powerful, we must think about its ethical use. This means making sure your AI agents are fair, transparent, and don’t cause harm. For instance, if your research team publishes a paper, you want to ensure the findings are unbiased.</p>
+
+<p>Consider how your agents make decisions and what data they use. Are there any biases in the data that could lead to unfair outcomes? It’s important to design your LangGraph multi agent 2026 systems with these ethical guidelines in mind. Responsible AI development is crucial for building trust and ensuring positive impact.</p>
+
+<h3 id="the-future-of-langgraph-multi-agent-systems-in-2026-and-beyond">The Future of LangGraph Multi-Agent Systems in 2026 and Beyond</h3>
+
+<p>The world of AI is changing very quickly. LangGraph multi agent 2026 systems are just the beginning of how AI teams will work. We can expect these systems to become even smarter and more adaptable in the coming years.</p>
+
+<p>Imagine AI teams that can learn new roles on their own or even create new agents to solve unforeseen problems. The ability for agents to dynamically adjust multi-agent architecture patterns will lead to even more intelligent systems. LangGraph provides a strong foundation for these future innovations.</p>
+
+<p>We will see more sophisticated conflict resolution strategies and even more seamless integration with various tools and data sources. The potential for these collaborative AI systems to solve some of the world’s toughest problems is immense. Your journey into LangGraph multi agent 2026 is a step into this exciting future.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>You’ve now taken a deep dive into the world of LangGraph multi agent 2026 systems. You’ve learned about the building blocks of AI teams, from simple agents to complex research simulations. We covered how they communicate, share information, and work together.</p>
+
+<p>Understanding multi-agent architecture patterns, the supervisor agent pattern, and worker agent coordination is key. You also explored important concepts like shared state management, inter-agent communication, and hierarchical agent structures. Even challenges like parallel agent execution and conflict resolution strategies are now clearer.</p>
+
+<p>We even built a complete multi-agent example (research team simulation) to see it all in action. And we touched upon crucial production considerations for your real-world projects. Now, it’s your turn to start building! The tools and knowledge you’ve gained will empower you to create amazing AI collaborations.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#langgraph-multi-agent-2026" class="page__taxonomy-item p-category" rel="tag">langgraph multi agent 2026</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2025-12-21T00:00:00+05:30">December 21, 2025</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://x.com/intent/tweet?via=langchaintuts&text=LangGraph+Multi-Agent+Systems+Tutorial+2026%20https%3A%2F%2Flangchain-tutorials.github.io%2Flanggraph-multi-agent-systems-2026%2F" class="btn btn--x" aria-label="Share on X" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on X">
+    <i class="fab fa-fw fa-x-twitter" aria-hidden="true"></i><span> X</span>
+  </a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Flangchain-tutorials.github.io%2Flanggraph-multi-agent-systems-2026%2F" class="btn btn--facebook" aria-label="Share on Facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook">
+    <i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span>
+  </a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://langchain-tutorials.github.io/langgraph-multi-agent-systems-2026/" class="btn btn--linkedin" aria-label="Share on LinkedIn" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn">
+    <i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span>
+  </a>
+
+  <a href="https://bsky.app/intent/compose?text=LangGraph+Multi-Agent+Systems+Tutorial+2026%20https%3A%2F%2Flangchain-tutorials.github.io%2Flanggraph-multi-agent-systems-2026%2F" class="btn btn--bluesky" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Bluesky">
+    <i class="fab fa-fw fa-bluesky" aria-hidden="true"></i><span> Bluesky</span>
+  </a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/langchain-streaming-responses-2026/" class="pagination--pager" title="LangChain Streaming Responses Tutorial 2026">Previous</a>
+    
+    
+      <a href="/build-production-streaming-chatbots-langchain/" class="pagination--pager" title="Build Production-Ready Streaming Chatbots: LangChain Tutorial with Code Examples">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+      
+        <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">Leave a comment</h4>
+      <section id="disqus_thread"></section>
+    
+</div>
+
+      
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/teaser-default.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/langgraph-memory-implementation-complete-guide/" rel="permalink">LangGraph Memory Implementation: Complete Guide to Persistent AI Agent State
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-23T00:00:00+05:30">January 23, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          22 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">LangGraph Memory Implementation: Complete Guide to Persistent AI Agent State
+
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/teaser-default.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/langchain-vector-store-query-million-documents-efficiently/" rel="permalink">LangChain Vector Store Tutorial: Store and Query 1M+ Documents Efficiently
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-22T00:00:00+05:30">January 22, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          33 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">LangChain Vector Store Tutorial: Store and Query 1M+ Documents Efficiently
+
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/teaser-default.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/exploring-langchain-alternatives-best-options-developers-2025/" rel="permalink">Exploring LangChain Alternatives: Best Options for Developers in 2025
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-22T00:00:00+05:30">January 22, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          25 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Getting Started with AI: Exploring LangChain Alternatives for Developers in 2025
+
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/teaser-default.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/build-chatbot-memory-context-langchain-2026-natural/" rel="permalink">Build Chatbot LangChain 2026: Add Memory and Context for Natural Conversations
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-22T00:00:00+05:30">January 22, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          26 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Introduction: Chatbots That Really Understand You (2026)
+
+</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <!-- <li><strong>Follow:</strong></li> -->
+    
+
+    
+      
+        
+          <li><a href="https://langchain-tutorials.github.io/privacy-policy" rel="nofollow noopener noreferrer"><i class="fas fa-link" aria-hidden="true"></i> Privacy Policy</a></li>
+        
+      
+        
+          <li><a href="https://langchain-tutorials.github.io/affilicate-discloser" rel="nofollow noopener noreferrer"><i class="fas fa-link" aria-hidden="true"></i> Affiliate Disclosure</a></li>
+        
+      
+        
+          <li><a href="https://twitter.com/langchaintuts" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://langchain-tutorials.github.io/feed.xml" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> RSS Feed</a></li>
+        
+      
+    
+      
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">&copy; 2025 - 2026 <a href="https://langchain-tutorials.github.io">LangChain Tutorials</a>. Powered by <a href="/">LangChain Tutorials</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KJG6E00LT8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KJG6E00LT8', { 'anonymize_ip': false});
+</script>
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://langchain-tutorials.github.io/langgraph-multi-agent-systems-2026/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/langgraph-multi-agent-systems-2026"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://langchain-tutorials.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+  </body>
+</html>

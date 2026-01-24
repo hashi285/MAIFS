@@ -1,0 +1,9 @@
+[submodule "documents/agent_debate_references/github/07_Multi-Agents-Debate"]
+	path = documents/agent_debate_references/github/07_Multi-Agents-Debate
+	url = https://github.com/Skytliang/Multi-Agents-Debate
+[submodule "documents/agent_debate_references/github/26_Deb8flow"]
+	path = documents/agent_debate_references/github/26_Deb8flow
+	url = https://github.com/iason-solomos/Deb8flow
+[submodule "documents/agent_debate_references/github/36_M2F2_Det"]
+	path = documents/agent_debate_references/github/36_M2F2_Det
+	url = https://github.com/CHELSEA234/M2F2_Det

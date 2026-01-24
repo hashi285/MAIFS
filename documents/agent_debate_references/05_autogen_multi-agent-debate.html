@@ -1,0 +1,1218 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Multi-Agent Debate &#8212; AutoGen</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=069332a8" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../../_static/documentation_options.js?v=ea3bebfc"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>(function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "lnxpe6skj1");</script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user-guide/core-user-guide/design-patterns/multi-agent-debate';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/microsoft/autogen/refs/heads/main/docs/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'stable';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script src="../../../_static/custom-icon.js?v=a32026ea"></script>
+    <script src="../../../_static/banner-override.js?v=8cd4f749"></script>
+    <script src="../../../_static/custom.js?v=70c1e88a"></script>
+    <link rel="canonical" href="/autogen/stable//user-guide/core-user-guide/design-patterns/multi-agent-debate.html" />
+    <link rel="icon" href="../../../_static/favicon-512x512.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Reflection" href="reflection.html" />
+    <link rel="prev" title="Mixture of Agents" href="mixture-of-agents.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.4" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="AutoGen - Home"/>
+    <img src="../../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="AutoGen - Home"/>
+  
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../agentchat-user-guide/index.html">
+    AgentChat
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Core
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../extensions-user-guide/index.html">
+    Extensions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../autogenstudio-user-guide/index.html">
+    Studio
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://microsoft.github.io/autogen/dotnet/">
+    .NET
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://microsoft.github.io/autogen/0.2/">
+    0.2 Docs
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/microsoft/autogen" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://aka.ms/autogen-discord" title="Discord" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-discord fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Discord</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/pyautogen" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../agentchat-user-guide/index.html">
+    AgentChat
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Core
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../extensions-user-guide/index.html">
+    Extensions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../autogenstudio-user-guide/index.html">
+    Studio
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://microsoft.github.io/autogen/dotnet/">
+    .NET
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://microsoft.github.io/autogen/0.2/">
+    0.2 Docs
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/microsoft/autogen" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://aka.ms/autogen-discord" title="Discord" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-discord fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Discord</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/pyautogen" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-twitter fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links" aria-label="Section Navigation">
+    <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../core-concepts/agent-and-multi-agent-application.html">Agent and Multi-Agent Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core-concepts/architecture.html">Agent Runtime Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core-concepts/application-stack.html">Application Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core-concepts/agent-identity-and-lifecycle.html">Agent Identity and Lifecycle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core-concepts/topic-and-subscription.html">Topic and Subscription</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Framework Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../framework/agent-and-agent-runtime.html">Agent and Agent Runtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework/message-and-communication.html">Message and Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework/logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework/telemetry.html">Open Telemetry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework/distributed-agent-runtime.html">Distributed Agent Runtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework/component-config.html">Component config</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Components Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../components/model-clients.html">Model Clients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../components/model-context.html">Model Context</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../components/tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../components/workbench.html">Workbench (and MCP)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../components/command-line-code-executors.html">Command Line Code Executors</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Multi-Agent Design Patterns</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Intro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concurrent-agents.html">Concurrent Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sequential-workflow.html">Sequential Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="group-chat.html">Group Chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handoffs.html">Handoffs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mixture-of-agents.html">Mixture of Agents</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Multi-Agent Debate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reflection.html">Reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code-execution-groupchat.html">Code Execution</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">More</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cookbook/index.html">Cookbook</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cookbook/azure-openai-with-aad-auth.html">Azure OpenAI with AAD Auth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cookbook/termination-with-intervention.html">Termination using Intervention Handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cookbook/tool-use-with-intervention.html">User Approval for Tool Execution using Intervention Handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cookbook/extracting-results-with-an-agent.html">Extracting Results with an Agent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cookbook/openai-assistant-agent.html">OpenAI Assistant Agent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cookbook/langgraph-agent.html">Using LangGraph-Backed Agent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cookbook/llamaindex-agent.html">Using LlamaIndex-Backed Agent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cookbook/local-llms-ollama-litellm.html">Local LLMs with LiteLLM &amp; Ollama</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cookbook/instrumenting.html">Instrumentating your code locally</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cookbook/topic-subscription-scenarios.html">Topic and Subscription Example Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cookbook/structured-output-agent.html">Structured output using GPT-4o models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cookbook/llm-usage-logger.html">Tracking LLM usage with a logger</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../faqs.html">FAQs</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../reference/python/autogen_core.html">
+                    <i class="fa-solid fa-file-code"></i>
+                    API Reference
+                </a>
+            </li>
+            <li class="toctree-l1">
+                <a target="_blank" class="reference internal" href="https://pypi.org/project/autogen-core/">
+                    <i class="fa-brands fa-python"></i>
+                    PyPi
+                    <i class="fa-solid fa-arrow-up-right-from-square fa-2xs"></i>
+                </a>
+            </li>
+            <li class="toctree-l1">
+                <a target="_blank" class="reference internal"
+                    href="https://github.com/microsoft/autogen/tree/main/python/packages/autogen-core">
+                    <i class="fa-brands fa-github"></i>
+                    Source
+                    <i class="fa-solid fa-arrow-up-right-from-square fa-2xs"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Core</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Multi-Agent Debate</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="multi-agent-debate">
+<h1>Multi-Agent Debate<a class="headerlink" href="#multi-agent-debate" title="Link to this heading">#</a></h1>
+<p>Multi-Agent Debate is a multi-agent design pattern that simulates a multi-turn interaction
+where in each turn, agents exchange their responses with each other, and refine
+their responses based on the responses from other agents.</p>
+<p>This example shows an implementation of the multi-agent debate pattern for solving
+math problems from the <a class="reference external" href="https://huggingface.co/datasets/openai/gsm8k">GSM8K benchmark</a>.</p>
+<p>There are of two types of agents in this pattern: solver agents and an aggregator agent.
+The solver agents are connected in a sparse manner following the technique described in
+<a class="reference external" href="https://arxiv.org/abs/2406.11776">Improving Multi-Agent Debate with Sparse Communication Topology</a>.
+The solver agents are responsible for solving math problems and exchanging responses with each other.
+The aggregator agent is responsible for distributing math problems to the solver agents,
+waiting for their final responses, and aggregating the responses to get the final answer.</p>
+<p>The pattern works as follows:</p>
+<ol class="arabic simple">
+<li><p>User sends a math problem to the aggregator agent.</p></li>
+<li><p>The aggregator agent distributes the problem to the solver agents.</p></li>
+<li><p>Each solver agent processes the problem, and publishes a response to its neighbors.</p></li>
+<li><p>Each solver agent uses the responses from its neighbors to refine its response, and publishes a new response.</p></li>
+<li><p>Repeat step 4 for a fixed number of rounds. In the final round, each solver agent publishes a final response.</p></li>
+<li><p>The aggregator agent uses majority voting to aggregate the final responses from all solver agents to get a final answer, and publishes the answer.</p></li>
+</ol>
+<p>We will be using the broadcast API, i.e., <a class="reference internal" href="../../../reference/python/autogen_core.html#autogen_core.BaseAgent.publish_message" title="autogen_core.BaseAgent.publish_message"><code class="xref py py-meth docutils literal notranslate"><span class="pre">publish_message()</span></code></a>,
+and we will be using topic and subscription to implement the communication topology.
+Read about <a class="reference internal" href="../core-concepts/topic-and-subscription.html"><span class="std std-doc">Topics and Subscriptions</span></a> to understand how they work.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">autogen_core</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DefaultTopicId</span><span class="p">,</span>
+    <span class="n">MessageContext</span><span class="p">,</span>
+    <span class="n">RoutedAgent</span><span class="p">,</span>
+    <span class="n">SingleThreadedAgentRuntime</span><span class="p">,</span>
+    <span class="n">TypeSubscription</span><span class="p">,</span>
+    <span class="n">default_subscription</span><span class="p">,</span>
+    <span class="n">message_handler</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">autogen_core.models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AssistantMessage</span><span class="p">,</span>
+    <span class="n">ChatCompletionClient</span><span class="p">,</span>
+    <span class="n">LLMMessage</span><span class="p">,</span>
+    <span class="n">SystemMessage</span><span class="p">,</span>
+    <span class="n">UserMessage</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">autogen_ext.models.openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAIChatCompletionClient</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="message-protocol">
+<h2>Message Protocol<a class="headerlink" href="#message-protocol" title="Link to this heading">#</a></h2>
+<p>First, we define the messages used by the agents.
+<code class="docutils literal notranslate"><span class="pre">IntermediateSolverResponse</span></code> is the message exchanged among the solver agents in each round,
+and <code class="docutils literal notranslate"><span class="pre">FinalSolverResponse</span></code> is the message published by the solver agents in the final round.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Question</span><span class="p">:</span>
+    <span class="n">content</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Answer</span><span class="p">:</span>
+    <span class="n">content</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SolverRequest</span><span class="p">:</span>
+    <span class="n">content</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">question</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">IntermediateSolverResponse</span><span class="p">:</span>
+    <span class="n">content</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">question</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">answer</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="nb">round</span><span class="p">:</span> <span class="nb">int</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FinalSolverResponse</span><span class="p">:</span>
+    <span class="n">answer</span><span class="p">:</span> <span class="nb">str</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="solver-agent">
+<h2>Solver Agent<a class="headerlink" href="#solver-agent" title="Link to this heading">#</a></h2>
+<p>The solver agent is responsible for solving math problems and exchanging responses with other solver agents.
+Upon receiving a <code class="docutils literal notranslate"><span class="pre">SolverRequest</span></code>, the solver agent uses an LLM to generate an answer.
+Then, it publishes a <code class="docutils literal notranslate"><span class="pre">IntermediateSolverResponse</span></code>
+or a <code class="docutils literal notranslate"><span class="pre">FinalSolverResponse</span></code> based on the round number.</p>
+<p>The solver agent is given a topic type, which is used to indicate the topic
+to which the agent should publish intermediate responses. This topic is subscribed
+to by its neighbors to receive responses from this agent – we will show
+how this is done later.</p>
+<p>We use <code class="xref py py-meth docutils literal notranslate"><span class="pre">default_subscription()</span></code> to let
+solver agents subscribe to the default topic, which is used by the aggregator agent
+to collect the final responses from the solver agents.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@default_subscription</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MathSolver</span><span class="p">(</span><span class="n">RoutedAgent</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_client</span><span class="p">:</span> <span class="n">ChatCompletionClient</span><span class="p">,</span> <span class="n">topic_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">num_neighbors</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">max_round</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;A debator.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_topic_type</span> <span class="o">=</span> <span class="n">topic_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_model_client</span> <span class="o">=</span> <span class="n">model_client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_neighbors</span> <span class="o">=</span> <span class="n">num_neighbors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">LLMMessage</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">IntermediateSolverResponse</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_system_messages</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">SystemMessage</span><span class="p">(</span>
+                <span class="n">content</span><span class="o">=</span><span class="p">(</span>
+                    <span class="s2">&quot;You are a helpful assistant with expertise in mathematics and reasoning. &quot;</span>
+                    <span class="s2">&quot;Your task is to assist in solving a math reasoning problem by providing &quot;</span>
+                    <span class="s2">&quot;a clear and detailed solution. Limit your output within 100 words, &quot;</span>
+                    <span class="s2">&quot;and your final answer should be a single numerical number, &quot;</span>
+                    <span class="s2">&quot;in the form of {{answer}}, at the end of your response. &quot;</span>
+                    <span class="s2">&quot;For example, &#39;The answer is {{42}}.&#39;&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_round</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_round</span> <span class="o">=</span> <span class="n">max_round</span>
+
+    <span class="nd">@message_handler</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">SolverRequest</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">MessageContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Add the question to the memory.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">UserMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">))</span>
+        <span class="c1"># Make an inference using the model.</span>
+        <span class="n">model_result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_client</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_system_messages</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_result</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="c1"># Add the response to the memory.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AssistantMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">model_result</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="se">\n</span><span class="s2">Solver </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> round </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_round</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">model_result</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># Extract the answer from the response.</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\{\{(\-?\d+(\.\d+)?)\}\}&quot;</span><span class="p">,</span> <span class="n">model_result</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The model response does not contain the answer.&quot;</span><span class="p">)</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Increment the counter.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_round</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_round</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_round</span><span class="p">:</span>
+            <span class="c1"># If the counter reaches the maximum round, publishes a final response.</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">publish_message</span><span class="p">(</span><span class="n">FinalSolverResponse</span><span class="p">(</span><span class="n">answer</span><span class="o">=</span><span class="n">answer</span><span class="p">),</span> <span class="n">topic_id</span><span class="o">=</span><span class="n">DefaultTopicId</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Publish intermediate response to the topic associated with this solver.</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">publish_message</span><span class="p">(</span>
+                <span class="n">IntermediateSolverResponse</span><span class="p">(</span>
+                    <span class="n">content</span><span class="o">=</span><span class="n">model_result</span><span class="o">.</span><span class="n">content</span><span class="p">,</span>
+                    <span class="n">question</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">question</span><span class="p">,</span>
+                    <span class="n">answer</span><span class="o">=</span><span class="n">answer</span><span class="p">,</span>
+                    <span class="nb">round</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_round</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">topic_id</span><span class="o">=</span><span class="n">DefaultTopicId</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_topic_type</span><span class="p">),</span>
+            <span class="p">)</span>
+
+    <span class="nd">@message_handler</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">IntermediateSolverResponse</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">MessageContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Add neighbor&#39;s response to the buffer.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">round</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="c1"># Check if all neighbors have responded.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">[</span><span class="n">message</span><span class="o">.</span><span class="n">round</span><span class="p">])</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_neighbors</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="se">\n</span><span class="s2">Solver </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> round </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">round</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">Received all responses from </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_neighbors</span><span class="si">}</span><span class="s2"> neighbors.&quot;</span>
+            <span class="p">)</span>
+            <span class="c1"># Prepare the prompt for the next question.</span>
+            <span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;These are the solutions to the problem from other agents:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="k">for</span> <span class="n">resp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">[</span><span class="n">message</span><span class="o">.</span><span class="n">round</span><span class="p">]:</span>
+                <span class="n">prompt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;One agent solution: </span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">prompt</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="s2">&quot;Using the solutions from other agents as additional information, &quot;</span>
+                <span class="s2">&quot;can you provide your answer to the math problem? &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;The original math problem is </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">question</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="s2">&quot;Your final answer should be a single numerical number, &quot;</span>
+                <span class="s2">&quot;in the form of {{answer}}, at the end of your response.&quot;</span>
+            <span class="p">)</span>
+            <span class="c1"># Send the question to the agent itself to solve.</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">SolverRequest</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">question</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="c1"># Clear the buffer.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">round</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="aggregator-agent">
+<h2>Aggregator Agent<a class="headerlink" href="#aggregator-agent" title="Link to this heading">#</a></h2>
+<p>The aggregator agent is responsible for handling user question and
+distributing math problems to the solver agents.</p>
+<p>The aggregator subscribes to the default topic using
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">default_subscription()</span></code>. The default topic is used to
+recieve user question, receive the final responses from the solver agents,
+and publish the final answer back to the user.</p>
+<p>In a more complex application when you want to isolate the multi-agent debate into a
+sub-component, you should use
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">type_subscription()</span></code> to set a specific topic
+type for the aggregator-solver communication,
+and have the both the solver and aggregator publish and subscribe to that topic type.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@default_subscription</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MathAggregator</span><span class="p">(</span><span class="n">RoutedAgent</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_solvers</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Math Aggregator&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_solvers</span> <span class="o">=</span> <span class="n">num_solvers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FinalSolverResponse</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="nd">@message_handler</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_question</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Question</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">MessageContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="se">\n</span><span class="s2">Aggregator </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> received question:</span><span class="se">\n</span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">prompt</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Can you solve the following math problem?</span><span class="se">\n</span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Explain your reasoning. Your final answer should be a single numerical number, &quot;</span>
+            <span class="s2">&quot;in the form of {{answer}}, at the end of your response.&quot;</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="se">\n</span><span class="s2">Aggregator </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> publishes initial solver request.&quot;</span><span class="p">)</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">publish_message</span><span class="p">(</span><span class="n">SolverRequest</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">),</span> <span class="n">topic_id</span><span class="o">=</span><span class="n">DefaultTopicId</span><span class="p">())</span>
+
+    <span class="nd">@message_handler</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_final_solver_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">FinalSolverResponse</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">MessageContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_solvers</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="se">\n</span><span class="s2">Aggregator </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> received all final answers from </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_solvers</span><span class="si">}</span><span class="s2"> solvers.&quot;</span><span class="p">)</span>
+            <span class="c1"># Find the majority answer.</span>
+            <span class="n">answers</span> <span class="o">=</span> <span class="p">[</span><span class="n">resp</span><span class="o">.</span><span class="n">answer</span> <span class="k">for</span> <span class="n">resp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">]</span>
+            <span class="n">majority_answer</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">answers</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">answers</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+            <span class="c1"># Publish the aggregated response.</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">publish_message</span><span class="p">(</span><span class="n">Answer</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">majority_answer</span><span class="p">),</span> <span class="n">topic_id</span><span class="o">=</span><span class="n">DefaultTopicId</span><span class="p">())</span>
+            <span class="c1"># Clear the responses.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">80</span><span class="si">}</span><span class="se">\n</span><span class="s2">Aggregator </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> publishes final answer:</span><span class="se">\n</span><span class="si">{</span><span class="n">majority_answer</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="setting-up-a-debate">
+<h2>Setting Up a Debate<a class="headerlink" href="#setting-up-a-debate" title="Link to this heading">#</a></h2>
+<p>We will now set up a multi-agent debate with 4 solver agents and 1 aggregator agent.
+The solver agents will be connected in a sparse manner as illustrated in the figure
+below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">---</span> <span class="n">B</span>
+<span class="o">|</span>     <span class="o">|</span>
+<span class="o">|</span>     <span class="o">|</span>
+<span class="n">D</span> <span class="o">---</span> <span class="n">C</span>
+</pre></div>
+</div>
+<p>Each solver agent is connected to two other solver agents.
+For example, agent A is connected to agents B and C.</p>
+<p>Let’s first create a runtime and register the agent types.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">runtime</span> <span class="o">=</span> <span class="n">SingleThreadedAgentRuntime</span><span class="p">()</span>
+
+<span class="n">model_client</span> <span class="o">=</span> <span class="n">OpenAIChatCompletionClient</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">)</span>
+
+<span class="k">await</span> <span class="n">MathSolver</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">runtime</span><span class="p">,</span>
+    <span class="s2">&quot;MathSolverA&quot;</span><span class="p">,</span>
+    <span class="k">lambda</span><span class="p">:</span> <span class="n">MathSolver</span><span class="p">(</span>
+        <span class="n">model_client</span><span class="o">=</span><span class="n">model_client</span><span class="p">,</span>
+        <span class="n">topic_type</span><span class="o">=</span><span class="s2">&quot;MathSolverA&quot;</span><span class="p">,</span>
+        <span class="n">num_neighbors</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">max_round</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="k">await</span> <span class="n">MathSolver</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">runtime</span><span class="p">,</span>
+    <span class="s2">&quot;MathSolverB&quot;</span><span class="p">,</span>
+    <span class="k">lambda</span><span class="p">:</span> <span class="n">MathSolver</span><span class="p">(</span>
+        <span class="n">model_client</span><span class="o">=</span><span class="n">model_client</span><span class="p">,</span>
+        <span class="n">topic_type</span><span class="o">=</span><span class="s2">&quot;MathSolverB&quot;</span><span class="p">,</span>
+        <span class="n">num_neighbors</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">max_round</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="k">await</span> <span class="n">MathSolver</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">runtime</span><span class="p">,</span>
+    <span class="s2">&quot;MathSolverC&quot;</span><span class="p">,</span>
+    <span class="k">lambda</span><span class="p">:</span> <span class="n">MathSolver</span><span class="p">(</span>
+        <span class="n">model_client</span><span class="o">=</span><span class="n">model_client</span><span class="p">,</span>
+        <span class="n">topic_type</span><span class="o">=</span><span class="s2">&quot;MathSolverC&quot;</span><span class="p">,</span>
+        <span class="n">num_neighbors</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">max_round</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="k">await</span> <span class="n">MathSolver</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">runtime</span><span class="p">,</span>
+    <span class="s2">&quot;MathSolverD&quot;</span><span class="p">,</span>
+    <span class="k">lambda</span><span class="p">:</span> <span class="n">MathSolver</span><span class="p">(</span>
+        <span class="n">model_client</span><span class="o">=</span><span class="n">model_client</span><span class="p">,</span>
+        <span class="n">topic_type</span><span class="o">=</span><span class="s2">&quot;MathSolverD&quot;</span><span class="p">,</span>
+        <span class="n">num_neighbors</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">max_round</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="k">await</span> <span class="n">MathAggregator</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="s2">&quot;MathAggregator&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">MathAggregator</span><span class="p">(</span><span class="n">num_solvers</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AgentType(type=&#39;MathAggregator&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we will create the solver agent topology using <code class="xref py py-class docutils literal notranslate"><span class="pre">TypeSubscription</span></code>,
+which maps each solver agent’s publishing topic type to its neighbors’ agent types.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Subscriptions for topic published to by MathSolverA.</span>
+<span class="k">await</span> <span class="n">runtime</span><span class="o">.</span><span class="n">add_subscription</span><span class="p">(</span><span class="n">TypeSubscription</span><span class="p">(</span><span class="s2">&quot;MathSolverA&quot;</span><span class="p">,</span> <span class="s2">&quot;MathSolverD&quot;</span><span class="p">))</span>
+<span class="k">await</span> <span class="n">runtime</span><span class="o">.</span><span class="n">add_subscription</span><span class="p">(</span><span class="n">TypeSubscription</span><span class="p">(</span><span class="s2">&quot;MathSolverA&quot;</span><span class="p">,</span> <span class="s2">&quot;MathSolverB&quot;</span><span class="p">))</span>
+
+<span class="c1"># Subscriptions for topic published to by MathSolverB.</span>
+<span class="k">await</span> <span class="n">runtime</span><span class="o">.</span><span class="n">add_subscription</span><span class="p">(</span><span class="n">TypeSubscription</span><span class="p">(</span><span class="s2">&quot;MathSolverB&quot;</span><span class="p">,</span> <span class="s2">&quot;MathSolverA&quot;</span><span class="p">))</span>
+<span class="k">await</span> <span class="n">runtime</span><span class="o">.</span><span class="n">add_subscription</span><span class="p">(</span><span class="n">TypeSubscription</span><span class="p">(</span><span class="s2">&quot;MathSolverB&quot;</span><span class="p">,</span> <span class="s2">&quot;MathSolverC&quot;</span><span class="p">))</span>
+
+<span class="c1"># Subscriptions for topic published to by MathSolverC.</span>
+<span class="k">await</span> <span class="n">runtime</span><span class="o">.</span><span class="n">add_subscription</span><span class="p">(</span><span class="n">TypeSubscription</span><span class="p">(</span><span class="s2">&quot;MathSolverC&quot;</span><span class="p">,</span> <span class="s2">&quot;MathSolverB&quot;</span><span class="p">))</span>
+<span class="k">await</span> <span class="n">runtime</span><span class="o">.</span><span class="n">add_subscription</span><span class="p">(</span><span class="n">TypeSubscription</span><span class="p">(</span><span class="s2">&quot;MathSolverC&quot;</span><span class="p">,</span> <span class="s2">&quot;MathSolverD&quot;</span><span class="p">))</span>
+
+<span class="c1"># Subscriptions for topic published to by MathSolverD.</span>
+<span class="k">await</span> <span class="n">runtime</span><span class="o">.</span><span class="n">add_subscription</span><span class="p">(</span><span class="n">TypeSubscription</span><span class="p">(</span><span class="s2">&quot;MathSolverD&quot;</span><span class="p">,</span> <span class="s2">&quot;MathSolverC&quot;</span><span class="p">))</span>
+<span class="k">await</span> <span class="n">runtime</span><span class="o">.</span><span class="n">add_subscription</span><span class="p">(</span><span class="n">TypeSubscription</span><span class="p">(</span><span class="s2">&quot;MathSolverD&quot;</span><span class="p">,</span> <span class="s2">&quot;MathSolverA&quot;</span><span class="p">))</span>
+
+<span class="c1"># All solvers and the aggregator subscribe to the default topic.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="solving-math-problems">
+<h2>Solving Math Problems<a class="headerlink" href="#solving-math-problems" title="Link to this heading">#</a></h2>
+<p>Now let’s run the debate to solve a math problem.
+We publish a <code class="docutils literal notranslate"><span class="pre">SolverRequest</span></code> to the default topic,
+and the aggregator agent will start the debate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?&quot;</span>
+<span class="n">runtime</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="k">await</span> <span class="n">runtime</span><span class="o">.</span><span class="n">publish_message</span><span class="p">(</span><span class="n">Question</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">question</span><span class="p">),</span> <span class="n">DefaultTopicId</span><span class="p">())</span>
+<span class="c1"># Wait for the runtime to stop when idle.</span>
+<span class="k">await</span> <span class="n">runtime</span><span class="o">.</span><span class="n">stop_when_idle</span><span class="p">()</span>
+<span class="c1"># Close the connection to the model client.</span>
+<span class="k">await</span> <span class="n">model_client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--------------------------------------------------------------------------------
+Aggregator MathAggregator:default received question:
+Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?
+--------------------------------------------------------------------------------
+Aggregator MathAggregator:default publishes initial solver request.
+--------------------------------------------------------------------------------
+Solver MathSolverC:default round 0:
+In April, Natalia sold 48 clips. In May, she sold half as many, which is 48 / 2 = 24 clips. To find the total number of clips sold in April and May, we add the amounts: 48 (April) + 24 (May) = 72 clips. 
+
+Thus, the total number of clips sold by Natalia is {{72}}.
+--------------------------------------------------------------------------------
+Solver MathSolverB:default round 0:
+In April, Natalia sold 48 clips. In May, she sold half as many clips, which is 48 / 2 = 24 clips. To find the total clips sold in April and May, we add both amounts: 
+
+48 (April) + 24 (May) = 72.
+
+Thus, the total number of clips sold altogether is {{72}}.
+--------------------------------------------------------------------------------
+Solver MathSolverD:default round 0:
+Natalia sold 48 clips in April. In May, she sold half as many, which is \( \frac{48}{2} = 24 \) clips. To find the total clips sold in both months, we add the clips sold in April and May together:
+
+\[ 48 + 24 = 72 \]
+
+Thus, Natalia sold a total of 72 clips.
+
+The answer is {{72}}.
+--------------------------------------------------------------------------------
+Solver MathSolverC:default round 1:
+Received all responses from 2 neighbors.
+--------------------------------------------------------------------------------
+Solver MathSolverA:default round 1:
+Received all responses from 2 neighbors.
+--------------------------------------------------------------------------------
+Solver MathSolverA:default round 0:
+In April, Natalia sold clips to 48 friends. In May, she sold half as many, which is calculated as follows:
+
+Half of 48 is \( 48 \div 2 = 24 \).
+
+Now, to find the total clips sold in April and May, we add the totals from both months:
+
+\( 48 + 24 = 72 \).
+
+Thus, the total number of clips Natalia sold altogether in April and May is {{72}}.
+--------------------------------------------------------------------------------
+Solver MathSolverD:default round 1:
+Received all responses from 2 neighbors.
+--------------------------------------------------------------------------------
+Solver MathSolverB:default round 1:
+Received all responses from 2 neighbors.
+--------------------------------------------------------------------------------
+Solver MathSolverC:default round 1:
+In April, Natalia sold 48 clips. In May, she sold half as many, which is 48 / 2 = 24 clips. The total number of clips sold in April and May is calculated by adding the two amounts: 48 (April) + 24 (May) = 72 clips. 
+
+Therefore, the answer is {{72}}.
+--------------------------------------------------------------------------------
+Solver MathSolverA:default round 1:
+In April, Natalia sold 48 clips. In May, she sold half of that amount, which is 48 / 2 = 24 clips. To find the total clips sold in both months, we sum the clips from April and May: 
+
+48 (April) + 24 (May) = 72.
+
+Thus, Natalia sold a total of {{72}} clips. 
+
+The answer is {{72}}.
+--------------------------------------------------------------------------------
+Solver MathSolverD:default round 2:
+Received all responses from 2 neighbors.
+--------------------------------------------------------------------------------
+Solver MathSolverB:default round 2:
+Received all responses from 2 neighbors.
+--------------------------------------------------------------------------------
+Solver MathSolverD:default round 1:
+Natalia sold 48 clips in April. In May, she sold half of that, which is \( 48 \div 2 = 24 \) clips. To find the total clips sold, we add the clips sold in both months:
+
+\[ 48 + 24 = 72 \]
+
+Therefore, the total number of clips sold by Natalia is {{72}}.
+--------------------------------------------------------------------------------
+Solver MathSolverB:default round 1:
+In April, Natalia sold 48 clips. In May, she sold half that amount, which is 48 / 2 = 24 clips. To find the total clips sold in both months, we add the amounts: 
+
+48 (April) + 24 (May) = 72.
+
+Therefore, the total number of clips sold altogether by Natalia is {{72}}.
+--------------------------------------------------------------------------------
+Solver MathSolverA:default round 2:
+Received all responses from 2 neighbors.
+--------------------------------------------------------------------------------
+Solver MathSolverC:default round 2:
+Received all responses from 2 neighbors.
+--------------------------------------------------------------------------------
+Solver MathSolverA:default round 2:
+In April, Natalia sold 48 clips. In May, she sold half of that amount, which is \( 48 \div 2 = 24 \) clips. To find the total clips sold in both months, we add the amounts from April and May:
+
+\( 48 + 24 = 72 \).
+
+Thus, the total number of clips sold by Natalia is {{72}}.
+--------------------------------------------------------------------------------
+Solver MathSolverC:default round 2:
+In April, Natalia sold 48 clips. In May, she sold half of that amount, which is \( 48 \div 2 = 24 \) clips. To find the total number of clips sold in both months, we add the clips sold in April and May: 
+
+48 (April) + 24 (May) = 72. 
+
+Thus, the total number of clips sold altogether by Natalia is {{72}}.
+--------------------------------------------------------------------------------
+Solver MathSolverB:default round 2:
+In April, Natalia sold 48 clips. In May, she sold half as many, calculated as \( 48 \div 2 = 24 \) clips. To find the total clips sold over both months, we sum the totals: 
+
+\( 48 (April) + 24 (May) = 72 \).
+
+Therefore, the total number of clips Natalia sold is {{72}}.
+--------------------------------------------------------------------------------
+Solver MathSolverD:default round 2:
+To solve the problem, we know that Natalia sold 48 clips in April. In May, she sold half that amount, which is calculated as \( 48 \div 2 = 24 \) clips. To find the total number of clips sold over both months, we add the two amounts together:
+
+\[ 48 + 24 = 72 \]
+
+Thus, the total number of clips sold by Natalia is {{72}}.
+--------------------------------------------------------------------------------
+Aggregator MathAggregator:default received all final answers from 4 solvers.
+--------------------------------------------------------------------------------
+Aggregator MathAggregator:default publishes final answer:
+72
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="mixture-of-agents.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Mixture of Agents</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="reflection.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Reflection</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#message-protocol">Message Protocol</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solver-agent">Solver Agent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregator-agent">Aggregator Agent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-a-debate">Setting Up a Debate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-math-problems">Solving Math Problems</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/microsoft/autogen/edit/main/python/docs/src/user-guide/core-user-guide/design-patterns/multi-agent-debate.ipynb">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../../_sources/user-guide/core-user-guide/design-patterns/multi-agent-debate.ipynb.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, Microsoft.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p><a href="https://go.microsoft.com/fwlink/?LinkId=521839">Privacy Policy</a> | <a href="https://go.microsoft.com/fwlink/?linkid=2259814">Consumer Health Privacy</a> </p></div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+        <div class="footer-item"><script src="_static/banner-override.js"></script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

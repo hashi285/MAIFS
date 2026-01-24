@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+
+        <script src="https://assets.adobedtm.com/0fdeaa586937/856fb3ac771d/launch-5ebaccacafe8.min.js" async></script>
+          <!-- Google Tag Manager -->
+      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-5P793ZX');</script>
+      <!-- End Google Tag Manager -->
+      <!-- Google Tag Manager -->
+      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NCWDQ7J');</script>
+      <!-- End Google Tag Manager -->
+        <!-- Swifttype -->
+    <script type="text/javascript"> (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){ (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t); e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e); })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st'); _st('install','vgdDQsqZoV8S2kJ9FzV9','2.0.0'); </script>
+    <!-- End Swifttype -->
+    <meta charset="utf-8" />
+<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta class="swiftype" name="site_url" data-type="string" content="biostatistics" />
+<link rel="icon" href="/biostatistics/themes/custom/vanderbilt_d8/favicon.ico" type="image/vnd.microsoft.icon" />
+<link rel="canonical" href="https://www.vumc.org/biostatistics/game-theoretic-llm-agent-workflow-negotiation-games" />
+<link rel="shortlink" href="https://www.vumc.org/biostatistics/node/874" />
+
+    <title>Game-Theoretic LLM: Agent Workflow for Negotiation Games | Department of Biostatistics</title>
+    <link rel="stylesheet" media="all" href="/biostatistics/modules/miniorange_saml/css/miniorange_saml_licensing.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/css/miniorange_saml_module.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/system/components/align.module.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/system/components/fieldgroup.module.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/system/components/container-inline.module.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/system/components/clearfix.module.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/system/components/details.module.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/system/components/hidden.module.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/system/components/item-list.module.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/system/components/js.module.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/system/components/nowrap.module.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/system/components/position-container.module.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/system/components/reset-appearance.module.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/system/components/resize.module.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/system/components/system-status-counter.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/system/components/system-status-report-counters.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/system/components/system-status-report-general-info.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/system/components/tablesort.module.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/modules/contrib/paragraphs/css/paragraphs.unpublished.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/modules/custom/vumc-datatables/css/datatables.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/modules/custom/vumc-datatables/css/stripe.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/core/assets/vendor/normalize-css/normalize.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/contrib/stable/css/core/normalize-fixes.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/bootstrap/bootstrap-base.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/css/font-awesome.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/css/vumc-misc.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/css/sprites.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/css/base.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/css/media.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/css/messages.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/css/l-main.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/action-links.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/breadcrumb.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/button.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/collapse-processed.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/container-inline.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/details.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/exposed-filters.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/field.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/form.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/icons.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/inline-form.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/item-list.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/link.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/links.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/menu.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/more-link.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/pager.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/tabledrag.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/tableselect.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/tablesort.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/tabs.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/textarea.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/ui-dialog.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/messages.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/classy/css/components/node.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/bootstrap/bootstrap-dropdowns.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/css/menus.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/css/content-header.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/css/footer.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/bootstrap/bootstrap-labels.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/css/flyout-menu.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/css/admin-menu-adjustment.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/css/header.css?t9a85a" />
+<link rel="stylesheet" media="all" href="/biostatistics/themes/custom/vanderbilt_d8/dist/css/header_main.css?t9a85a" />
+<link rel="stylesheet" media="all" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Roboto:100,300,400,500" />
+
+    
+  </head>
+  <body class="path-node page-node-type-page node-type-page mc__body">
+          <!-- Google Tag Manager (noscript) -->
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P793ZX"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <!-- End Google Tag Manager (noscript) -->
+      <!-- Google Tag Manager (noscript) -->
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NCWDQ7J"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <!-- End Google Tag Manager (noscript) -->
+            <a href="#main-content" class="visually-hidden focusable">
+      Skip to main content
+    </a>
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+    
+
+
+
+          
+  
+    
+
+          
+  
+    
+
+          
+  
+    
+
+
+<div class="l-main__header">
+    
+<div class="mc__site__wrap mc__site__header__wrap header__wrapper">
+  <div class="container-fluid">
+    <div class="header-container"><div class="module__uCahImzsepiMhVv7LBNgz module__1nKii7fYCsdPGWV6eEE0fj module__2SJHmMQqaR6VY-Sm7Uu9uv">
+      <div class="module__1BJ9NnLJca4H-haVz52jFp">
+        <div class="module__2UisNpHfH9YWnrSm8vSlMv module__2ztLVk8XWokPVw2s7UymSC module__2SJHmMQqaR6VY-Sm7Uu9uv module__39Zge6qcpdInhSOkpxGlqQ">
+          <nav role="navigation">
+            <div class="module__1qy2ngsjOcCEaYSfFNwIbg module__DkjwEnCc0-JllP7KBr_4e data-tracker-deskTopNavQuickLinksMenu">
+              <div class="data-tracker-deskTopNavQuickLinksMenu module__2SP6GuoF7JqnErl3UV2o2- module__1e_Woyk-X4FbFgy_RAnE2p module__2SJHmMQqaR6VY-Sm7Uu9uv">
+              </div>
+              <div class="data-tracker-deskTopNavSecondaryMenu module__2SP6GuoF7JqnErl3UV2o2- module__1e_Woyk-X4FbFgy_RAnE2p module__2SJHmMQqaR6VY-Sm7Uu9uv">
+                <ul class="module__2OVctmilRV7mRRuOsvYZDn">
+                                  </ul>
+              </div>
+            </div>
+            <a class="module__I7mJdX3e-pRJYa532-08u data-tracker-desktopSiteLogo" href="/">
+            <span class="module__2SJHmMQqaR6VY-Sm7Uu9uv module__2vZF2B_mzgO1-EL4cUC8LW module__PeUJHvTe3EAaRtg8FMaor mc__sprite mc__sprite--logo-header" data-icon-type="logo_vanderbilt_health" data-icon="true">
+
+            </span>
+            </a>
+            <div class="module__37wnfRpwJ9oO_cj731MUmf module__su_JcY0rpmRX1f01uj-Aj">
+              <div class="data-tracker-deskTopNavPrimaryMenu module__2nWlN-IKI0w5Gf_oXw1jLa module__2XJ0GSh02l4f_Qk-Uv5wYw module__2SJHmMQqaR6VY-Sm7Uu9uv">
+                <ul id="PrimaryNavTopMenu" class="module__3Gas0g-TkA94zhL42psPkh module__1v1_BVnSLfcwLgP0-kDHMA">
+                                      <li class="module__2Qq7qWbfQllLbMEjcKO51e module__247X9684xcvPvRjbpNKxxg ">
+                      <a href="https://give.vanderbilthealth.org/give/197783/?utm_source=VUMCORG&amp;utm_medium=website&amp;utm_content=homepg#!/donation/checkout?c_src=1680A&amp;c_src2=VUMCORG" target="_self" rel="" class="data-tracker-giving-link" data-toggle="">Giving</a>
+                    </li>
+                                      <li class="module__2Qq7qWbfQllLbMEjcKO51e module__247X9684xcvPvRjbpNKxxg ">
+                      <a href="https://www.vumc.org/careers" target="_self" rel="" class="data-tracker-careers-link" data-toggle="">Careers</a>
+                    </li>
+                                      <li class="module__2Qq7qWbfQllLbMEjcKO51e module__247X9684xcvPvRjbpNKxxg ">
+                      <a href="https://www.vanderbilthealth.com" target="_self" rel="" class="data-tracker-patient-care-link" data-toggle="">Patient Care</a>
+                    </li>
+                                      <li class="module__2Qq7qWbfQllLbMEjcKO51e module__247X9684xcvPvRjbpNKxxg ">
+                      <a href="https://www.vanderbilthealth.com/healthcare-professionals/referring-providers" target="_self" rel="" class="data-tracker-referring-providers-link" data-toggle="">Referring Providers</a>
+                    </li>
+                                      <li class="module__2Qq7qWbfQllLbMEjcKO51e module__247X9684xcvPvRjbpNKxxg ">
+                      <a href="https://www.vumc.org/pricetransparency" target="_self" rel="" class="data-tracker-price-transparency-link" data-toggle="">Price Transparency</a>
+                    </li>
+                                      <li class="module__2Qq7qWbfQllLbMEjcKO51e module__247X9684xcvPvRjbpNKxxg ">
+                      <a href="https://www.vumc.org/main/resources-employees" target="_self" rel="" class="data-tracker-employee-resources-link" data-toggle="">Employee Resources</a>
+                    </li>
+                                      <li class="module__2Qq7qWbfQllLbMEjcKO51e module__247X9684xcvPvRjbpNKxxg ">
+                      <a href="https://www.myworkday.com/wday/authgwy/vumc/login.htmld" target="_self" rel="" class="data-tracker-myworkday-link" data-toggle="">MyWorkday</a>
+                    </li>
+                                    <li class="module__2Qq7qWbfQllLbMEjcKO51e module__247X9684xcvPvRjbpNKxxg search-menu">
+                    <button data-target="desktopSearchFormSlideout" class="data-tracker-desktop-topnav-search-button searchButton">
+                      <span class="module__2SJHmMQqaR6VY-Sm7Uu9uv module__2vZF2B_mzgO1-EL4cUC8LW module__PeUJHvTe3EAaRtg8FMaor" style="max-width:11px" data-icon-type="search" data-icon="true"><svg style="stroke:#0e5981;stroke-width:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16.281 16.281" aria-labelledby="SearchTitle" role="img"><title id="SearchTitle">search</title><g><line class="a" style="stroke:#0e5981;stroke-width:2px" x2="4.604" y2="4.604" transform="translate(10.971 10.971)"></line><g class="a" style="stroke:#0e5981;stroke-width:2px"><circle class="b" style="stroke:none;fill:none" cx="6.814" cy="6.814" r="6.814"></circle><circle class="c" style="fill:none" cx="6.814" cy="6.814" r="5.814"></circle></g></g></svg></span>Search
+                    </button>
+                  </li>
+                </ul>
+                <ul id="PrimaryNavSlideOutMenu" class="module__1HF2nGI_laXt8NGBFZP2OY module__3Kvl7MtsAVEAm_OwIRNlhh">
+                  <li id="desktopSearchFormSlideout" tabindex="0" class="desktopSearchFormSlideout slideOutMenu module__2bxSFPXDtgvN9d5AFEHWo module__-nFmMMRhqZN4A8eOHlLIv">
+                  <div class="desktopGlobalSearchContainer">
+                    <div class="h4"><span>What are you looking for?</span></div>
+                    <form action="https://search.vumc.org" class="desktopGlobalSearchForm" id="DesktopGlobalSearchForm" role="search">
+                      <span class="module__2RBiZjbwWHEuIDPsxrjglD module__2SJHmMQqaR6VY-Sm7Uu9uv module__38rqTmrcmE8h1Vk081K2-O module__t5Zwct0oK27DSeqvRqnTc">
+                        <input type="text" class="st-default-search-input module__196GUGkbukQ-xLtKw90sa7 module__29rLlZGVyyFLcGx_gmqKVc " placeholder="I'm looking for...">
+                      </span>
+                      <button type="submit" form="DesktopGlobalSearchForm" value="Search" class="data-tracker-desktopSearchButton module__2SJHmMQqaR6VY-Sm7Uu9uv module__di2Az7TvAHksDXGVxfVtZ module__2iMoF9X2o0C7B51CRzMDRn undefined" tabindex="0" style="width:200px">
+                      <span class="">Search</span></button>
+                    </form>
+                  </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+            <div class="module__ZK94cvlQN4FT_drq0WPa">
+        <div class="data-tracker-mobileHamburgerMenu module__2xIsxIikHmUkPdh6AuKt8I module__2Y_fbfZRhl5rEP3y6RjJ4o module__2SJHmMQqaR6VY-Sm7Uu9uv module__2F1GrEE7UcQoE7asSO5jxr">
+          <div id="MobileHeaderBarContainer" class="module__1pE-lg2rpi5LFkP4hJWA6C module__Hh4JXXCsIe1F49uZ7UmVx">
+            <a class="data-tracker-mobileSiteLogo module__M7kQHjqvxUbl0JNhyj4Hz module__3R1RSy9fKpEkFAFDOvK0GN" href="/">
+              <span class="module__2SJHmMQqaR6VY-Sm7Uu9uv module__2vZF2B_mzgO1-EL4cUC8LW module__PeUJHvTe3EAaRtg8FMaor mc__sprite mc__sprite--logo-header" style="" data-icon-type="logo_vanderbilt_health" data-icon="true">
+
+              </span>
+            </a>
+          <span class="module__PHRg-jfvIuuOEIH-QPNwU">
+            <button aria-label="press button to search site with search form" class="data-tracker-mobileSearchButton module__1vGF8OXkiUokB1MAV5mDY module__BRMoBauJwvWcYCJawELUX module__3qSse1qu8v5oudHJ8oYv9a" type="button">Search
+            <span class="module__2SJHmMQqaR6VY-Sm7Uu9uv module__2vZF2B_mzgO1-EL4cUC8LW module__PeUJHvTe3EAaRtg8FMaor" style="max-width:16px" data-icon-type="search" data-icon="true"><svg style="stroke-width:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16.281 16.281" aria-labelledby="SearchTitle" role="img"><title id="SearchTitle">search</title><g><line class="a" style="stroke-width:2px" x2="4.604" y2="4.604" transform="translate(10.971 10.971)"></line><g class="a" style="stroke-width:2px"><circle class="b" style="stroke:none;fill:none" cx="6.814" cy="6.814" r="6.814"></circle><circle class="c" style="fill:none" cx="6.814" cy="6.814" r="5.814"></circle></g></g></svg></span>
+            </button>
+            <button aria-label="press button to toggle navigation menu" class="data-tracker-mobileHamburgerButton module__1vGF8OXkiUokB1MAV5mDY module__BRMoBauJwvWcYCJawELUX module__1xlXoRB29PJS-DRCeB9eI" type="button">
+              <div class="module__3feCh5nUj1ByVtpdXkLDJI">Menu</div>
+              <span class="module___vpim2fK4XZzhV1pZfPmk">
+                <span class="module__2SJHmMQqaR6VY-Sm7Uu9uv module__2vZF2B_mzgO1-EL4cUC8LW module__PeUJHvTe3EAaRtg8FMaor" style="max-width:18px" data-icon-type="hamburger" data-icon="true"><svg style="stroke-width:3px" aria-labelledby="HamburgerTitle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 15"><title id="HamburgerTitle">open menu</title><g transform="translate(149.5 -199)"><line x2="18" transform="translate(-149.5 200.5)"></line><line x2="18" transform="translate(-149.5 206.5)"></line><line x2="18" transform="translate(-149.5 212.5)"></line></g></svg></span>
+              </span>
+              <div class="module__2WXwbrXYtCYOp2WkNLNg5g">Close</div>
+                <span class="module__1frfn9nO2TTXGJHEnfQBX">
+                  <span class="module__2SJHmMQqaR6VY-Sm7Uu9uv module__2vZF2B_mzgO1-EL4cUC8LW module__PeUJHvTe3EAaRtg8FMaor" style="max-width:18px" data-icon-type="close" data-icon="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" style="color:#e8e8e8;fill:#e8e8e8" aria-labelledby="CloseTitle" role="img"><title id="CloseTitle">close menu</title><g id="close_icon" data-name="close icon" transform="translate(-336 -110)"><g style="fill:#fff;stroke:#e8e8e8;opacity:0.998;stroke-width:3px" id="Ellipse_1" data-name="Ellipse 1" class="cls-1" transform="translate(336 110)"><circle style="stroke:none" class="cls-3" cx="12.5" cy="12.5" r="12.5"></circle><circle style="fill:none" class="cls-4" cx="12.5" cy="12.5" r="11"></circle></g><g id="Group_102" data-name="Group 102" transform="translate(527.383 -242.382) rotate(45)"><line style="fill:none;stroke:#2a2b2e;stroke-width:3px" id="Line_4" data-name="Line 4" class="cls-2" y2="12" transform="translate(131.5 378.5)"></line><line style="fill:none;stroke:#2a2b2e;stroke-width:3px" id="Line_5" data-name="Line 5" class="cls-2" y2="12" transform="translate(137.5 384.5) rotate(90)"></line></g></g></svg></span>
+                </span>
+            </button>
+          </span>
+          </div>
+          <div id="MobileHeaderNavContainer" tabindex="0" class="module__2exNbqNkY1KDmPMUvwxksk module__29kFRTgatK1CWbToyKlX65"><div class="data-tracker-mobileHamburgerMenu module__1QtOlec-hE4cgU0MZQhDAi module__2-VG09gpMGicGlSJaIW5Kj module__2SJHmMQqaR6VY-Sm7Uu9uv">
+            <div class="module__2HqINv6yiiV8rpG1IAoMF_">
+              <nav aria-label="Main Site Navigation Menu" role="navigation">
+
+              <div class="module__15qpHMBRHtRlNYQyfB6aDS module__3lmHNJo_yqty-XI4JEty7i module__1v4IWxfMNWEOM-6hO8Z53m module__2SJHmMQqaR6VY-Sm7Uu9uv">
+              <form action="https://search.vumc.org" class="module__foSWM_FvkmyCjRpuYozd5 module__NmSMasgCJWm_4T9qfdSnD " id="MobileGlobalSearchForm" role="search">
+                <span class="module__2RBiZjbwWHEuIDPsxrjglD module__2SJHmMQqaR6VY-Sm7Uu9uv module__38rqTmrcmE8h1Vk081K2-O module__t5Zwct0oK27DSeqvRqnTc">
+                  <input type="text" class="st-default-search-input module__196GUGkbukQ-xLtKw90sa7 module__29rLlZGVyyFLcGx_gmqKVc " placeholder="I'm looking for...">
+                </span>
+                <button type="submit" form="MobileGlobalSearchForm" value="Search" class="data-tracker-mobileHamburgerSearchButton module__2SJHmMQqaR6VY-Sm7Uu9uv module__di2Az7TvAHksDXGVxfVtZ module__2iMoF9X2o0C7B51CRzMDRn undefined" tabindex="0" style="width:100px">
+                  <span class="">Search</span>
+                </button>
+              </form>
+                  <div>
+                    
+
+
+<nav class="mc__navbar">
+
+  
+
+
+<div class="menu__wrapper menu-type--standard"><div class="module__15qpHMBRHtRlNYQyfB6aDS module__3lmHNJo_yqty-XI4JEty7i module__1v4IWxfMNWEOM-6hO8Z53m module__2SJHmMQqaR6VY-Sm7Uu9uv"><ul class="module__13HG0bPYDSb7E0b2J1eZSn module__35oBIfBh56ydj7tZ2bUYJ1 data-tracker-primaryMenu-menu mc__nav__menu nav__menu--1"><li class="if module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--1 has-submenu"><span class="mc__navbar__trigger mc__navbar__trigger--1">About Us</span><div class="mc__nav__submenu"><a href="/biostatistics/vanderbilt-department-biostatistics" class="mc__nav__link mc__nav__link--1 ">About Us Home</a><div class="module__15qpHMBRHtRlNYQyfB6aDS module__3lmHNJo_yqty-XI4JEty7i module__1v4IWxfMNWEOM-6hO8Z53m module__2SJHmMQqaR6VY-Sm7Uu9uv"><ul class="module__13HG0bPYDSb7E0b2J1eZSn module__35oBIfBh56ydj7tZ2bUYJ1 data-tracker-primaryMenu-menu mc__nav__menu nav__menu--2"><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="/biostatistics/our-department-vision" class="mc__nav__link mc__nav__link--2 ">Vision</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="/biostatistics/goals-approaches-what-we-offer" class="mc__nav__link mc__nav__link--2 ">Goals · Approaches · What We Offer</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="/biostatistics/leaders" class="mc__nav__link mc__nav__link--2 ">Leadership</a></li></div></div></li><li class="if module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--1 has-submenu"><span class="mc__navbar__trigger mc__navbar__trigger--1">Our People</span><div class="mc__nav__submenu"><a href="/biostatistics/people" class="mc__nav__link mc__nav__link--1 ">Our People Home</a><div class="module__15qpHMBRHtRlNYQyfB6aDS module__3lmHNJo_yqty-XI4JEty7i module__1v4IWxfMNWEOM-6hO8Z53m module__2SJHmMQqaR6VY-Sm7Uu9uv"><ul class="module__13HG0bPYDSb7E0b2J1eZSn module__35oBIfBh56ydj7tZ2bUYJ1 data-tracker-primaryMenu-menu mc__nav__menu nav__menu--2"><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="/biostatistics/person/adjointadjunct-faculty" class="mc__nav__link mc__nav__link--2 ">Adjoint/Adjunct Faculty</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="https://www.vumc.org/biostatistics/person/alumni" class="mc__nav__link mc__nav__link--2 ">Alumni</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="/biostatistics/person/analyticalresearch-staff" class="mc__nav__link mc__nav__link--2 ">Analytical/Research Staff</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="/biostatistics/person/info-tech-staff" class="mc__nav__link mc__nav__link--2 ">IT Staff</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="/biostatistics/person/primary-faculty" class="mc__nav__link mc__nav__link--2 ">Primary Faculty</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="/biostatistics/person/secondary-faculty" class="mc__nav__link mc__nav__link--2 ">Secondary Faculty</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="https://www.vumc.org/biostatistics/person/all-students" class="mc__nav__link mc__nav__link--2 ">Students</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="/biostatistics/person/trainees-and-postdoctoral-fellows" class="mc__nav__link mc__nav__link--2 ">Trainees and Postdoctoral Fellows</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="https://www.vumc.org/biostatistics/person/allfacstaff" class="mc__nav__link mc__nav__link--2 ">Faculty and research/IT staff</a></li></div></div></li><li class="if module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--1 has-submenu"><span class="mc__navbar__trigger mc__navbar__trigger--1">Centers and Shared Resources</span><div class="mc__nav__submenu"><a href="https://www.vumc.org/biostatistics/centers-and-shared-resources" class="mc__nav__link mc__nav__link--1 ">Centers and Shared Resources Home</a><div class="module__15qpHMBRHtRlNYQyfB6aDS module__3lmHNJo_yqty-XI4JEty7i module__1v4IWxfMNWEOM-6hO8Z53m module__2SJHmMQqaR6VY-Sm7Uu9uv"><ul class="module__13HG0bPYDSb7E0b2J1eZSn module__35oBIfBh56ydj7tZ2bUYJ1 data-tracker-primaryMenu-menu mc__nav__menu nav__menu--2"><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="https://www.vumc.org/biostatistics/clinics" class="mc__nav__link mc__nav__link--2 ">Biostatistics Clinics</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="/biostatistics/biostatistics-collaboration-center-bcc" class="mc__nav__link mc__nav__link--2 ">Biostatistics Collaboration Center (BCC)</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="https://www.vumc.org/biostatistics/biostatistics-collaboration-plans" class="mc__nav__link mc__nav__link--2 ">Biostatistics Collaboration Plans</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="https://www.vumc.org/cqs/" class="mc__nav__link mc__nav__link--2 ">Center for Quantitative Sciences (CQS)</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="https://www.vumc.org/biostatistics/cloud-computing-and-application-development" class="mc__nav__link mc__nav__link--2 ">Cloud Computing and Application Development</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="https://www.vumc.org/biostatistics/vbdcc" class="mc__nav__link mc__nav__link--2 ">Vanderbilt Biostatistics Data Coordinating Center (VBDCC)</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="http://bioinfo.vanderbilt.edu/vangard/index.html" class="mc__nav__link mc__nav__link--2 ">Vanderbilt Technologies for Advanced Genomics Analysis and Research Design (VANGARD)</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="https://www.vumc.org/biostatistics/vicc-dssr" class="mc__nav__link mc__nav__link--2 ">VICC Data Science Shared Resource (DSSR)</a></li></div></div></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--1 no-submenu"><a href="https://www.vanderbilt.edu/biostatistics-graduate/" class="mc__nav__link mc__nav__link--1 ">Graduate Program</a></li></div></div><div class="menu__wrapper menu-type--static-colored"><div class="module__15qpHMBRHtRlNYQyfB6aDS module__3lmHNJo_yqty-XI4JEty7i module__1v4IWxfMNWEOM-6hO8Z53m module__2SJHmMQqaR6VY-Sm7Uu9uv"><ul class="module__13HG0bPYDSb7E0b2J1eZSn module__35oBIfBh56ydj7tZ2bUYJ1 data-tracker-primaryMenu-menu mc__nav__menu nav__menu--1"></div></div><div class="menu__wrapper menu-type--standard"><div class="module__15qpHMBRHtRlNYQyfB6aDS module__3lmHNJo_yqty-XI4JEty7i module__1v4IWxfMNWEOM-6hO8Z53m module__2SJHmMQqaR6VY-Sm7Uu9uv"><ul class="module__13HG0bPYDSb7E0b2J1eZSn module__35oBIfBh56ydj7tZ2bUYJ1 data-tracker-primaryMenu-menu mc__nav__menu nav__menu--1"><li class="if module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--1 has-submenu"><span class="mc__navbar__trigger mc__navbar__trigger--1">Vanderbilt University Medical Center</span><div class="mc__nav__submenu"><div class="module__15qpHMBRHtRlNYQyfB6aDS module__3lmHNJo_yqty-XI4JEty7i module__1v4IWxfMNWEOM-6hO8Z53m module__2SJHmMQqaR6VY-Sm7Uu9uv"><ul class="module__13HG0bPYDSb7E0b2J1eZSn module__35oBIfBh56ydj7tZ2bUYJ1 data-tracker-primaryMenu-menu mc__nav__menu nav__menu--2"><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="https://www.childrenshospitalvanderbilt.org/" class="mc__nav__link mc__nav__link--2 ">Monroe Carell Jr. Children&#039;s Hospital at Vanderbilt</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="http://www.vanderbilt.edu" class="mc__nav__link mc__nav__link--2 ">Vanderbilt University</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="http://research.vanderbilt.edu" class="mc__nav__link mc__nav__link--2 ">Research</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="http://www.vanderbilthealth.com" class="mc__nav__link mc__nav__link--2 ">For Patients and Visitors</a></li><li class="else module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX mc__nav__menu__item nav__menu__item--2 no-submenu"><a href="https://www.vumc.org/" class="mc__nav__link mc__nav__link--2 ">Resources for Employees and Researchers</a></li></div></div></li></div></div></nav>
+                </div>
+                <ul class="module__13HG0bPYDSb7E0b2J1eZSn module__35oBIfBh56ydj7tZ2bUYJ1 data-tracker-primaryMenu-menu">
+                                      <li class="module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX ">
+                      <a href="https://give.vanderbilthealth.org/give/197783/?utm_source=VUMCORG&amp;utm_medium=website&amp;utm_content=homepg#!/donation/checkout?c_src=1680A&amp;c_src2=VUMCORG" target="_self" rel="" class="data-tracker-giving-link" data-toggle="">Giving</a>
+                    </li>
+                                      <li class="module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX ">
+                      <a href="https://www.vumc.org/careers" target="_self" rel="" class="data-tracker-careers-link" data-toggle="">Careers</a>
+                    </li>
+                                      <li class="module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX ">
+                      <a href="https://www.vanderbilthealth.com" target="_self" rel="" class="data-tracker-patient-care-link" data-toggle="">Patient Care</a>
+                    </li>
+                                      <li class="module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX ">
+                      <a href="https://www.vanderbilthealth.com/healthcare-professionals/referring-providers" target="_self" rel="" class="data-tracker-referring-providers-link" data-toggle="">Referring Providers</a>
+                    </li>
+                                      <li class="module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX ">
+                      <a href="https://www.vumc.org/pricetransparency" target="_self" rel="" class="data-tracker-price-transparency-link" data-toggle="">Price Transparency</a>
+                    </li>
+                                      <li class="module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX ">
+                      <a href="https://www.vumc.org/main/resources-employees" target="_self" rel="" class="data-tracker-employee-resources-link" data-toggle="">Employee Resources</a>
+                    </li>
+                                      <li class="module__1ljDITU36fEMzZ4veK_1vW module__3OGVzirUoUNlr32nOqNijX ">
+                      <a href="https://www.myworkday.com/wday/authgwy/vumc/login.htmld" target="_self" rel="" class="data-tracker-myworkday-link" data-toggle="">MyWorkday</a>
+                    </li>
+                                  </ul>
+            </div>
+            <div class="module__j5aSkwCYcwVOeom_iTCTe module__3lmHNJo_yqty-XI4JEty7i module__1v4IWxfMNWEOM-6hO8Z53m module__2SJHmMQqaR6VY-Sm7Uu9uv">
+              <ul class="module__13HG0bPYDSb7E0b2J1eZSn module__35oBIfBh56ydj7tZ2bUYJ1 data-tracker-secondaryMenu-menu">
+                              </ul>
+            </div>
+          </nav>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+<div id="site-wrapper" class="l-main__page center-block">
+  <div id="site-canvas" class="l-main__page-container center-block">
+    <div class="l-main__content-header">
+            
+<div class="content-header" role="banner"><div class="content-header__page-title"><span class="site-title"><a href="/biostatistics/" class="site-title__link" style="font-size: 100%;">Department of Biostatistics</a></span></div><nav class="content-header__menu" role="navigation"><div class="menu__wrapper menu-type--standard-inline"><ul class="standard-inline-menu__menu menu-level--1"><li class="standard-inline-menu__item item-level--1   dropdown"><a class="standard-inline-menu__link link-level--1" href="/biostatistics/vanderbilt-department-biostatistics">About Us</a><a class="standard-inline-menu__dropdown-toggle" aria-haspopup="true" role="button" data-toggle="dropdown" aria-expanded="true"><i class="fa fa-caret-down"></i></a><div class="standard-inline-menu__dropdown-menu dropdown-menu"><ul class="standard-inline-menu__menu menu-level--2"><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="/biostatistics/our-department-vision">Vision</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="/biostatistics/goals-approaches-what-we-offer">Goals · Approaches · What We Offer</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="/biostatistics/leaders">Leadership</a></li></ul></div></li><li class="standard-inline-menu__item item-level--1   dropdown"><a class="standard-inline-menu__link link-level--1" href="/biostatistics/people">Our People</a><a class="standard-inline-menu__dropdown-toggle" aria-haspopup="true" role="button" data-toggle="dropdown" aria-expanded="true"><i class="fa fa-caret-down"></i></a><div class="standard-inline-menu__dropdown-menu dropdown-menu"><ul class="standard-inline-menu__menu menu-level--2"><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="/biostatistics/person/adjointadjunct-faculty">Adjoint/Adjunct Faculty</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="https://www.vumc.org/biostatistics/person/alumni">Alumni</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="/biostatistics/person/analyticalresearch-staff">Analytical/Research Staff</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="/biostatistics/person/info-tech-staff">IT Staff</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="/biostatistics/person/primary-faculty">Primary Faculty</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="/biostatistics/person/secondary-faculty">Secondary Faculty</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="https://www.vumc.org/biostatistics/person/all-students">Students</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="/biostatistics/person/trainees-and-postdoctoral-fellows">Trainees and Postdoctoral Fellows</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="https://www.vumc.org/biostatistics/person/allfacstaff">Faculty and research/IT staff</a></li></ul></div></li><li class="standard-inline-menu__item item-level--1   dropdown"><a class="standard-inline-menu__link link-level--1" href="https://www.vumc.org/biostatistics/centers-and-shared-resources">Centers and Shared Resources</a><a class="standard-inline-menu__dropdown-toggle" aria-haspopup="true" role="button" data-toggle="dropdown" aria-expanded="true"><i class="fa fa-caret-down"></i></a><div class="standard-inline-menu__dropdown-menu dropdown-menu"><ul class="standard-inline-menu__menu menu-level--2"><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="https://www.vumc.org/biostatistics/clinics">Biostatistics Clinics</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="/biostatistics/biostatistics-collaboration-center-bcc">Biostatistics Collaboration Center (BCC)</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="https://www.vumc.org/biostatistics/biostatistics-collaboration-plans">Biostatistics Collaboration Plans</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="https://www.vumc.org/cqs/">Center for Quantitative Sciences (CQS)</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="https://www.vumc.org/biostatistics/cloud-computing-and-application-development">Cloud Computing and Application Development</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="https://www.vumc.org/biostatistics/vbdcc">Vanderbilt Biostatistics Data Coordinating Center (VBDCC)</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="http://bioinfo.vanderbilt.edu/vangard/index.html">Vanderbilt Technologies for Advanced Genomics Analysis and Research Design (VANGARD)</a></li><li class="standard-inline-menu__item item-level--2"><a class="standard-inline-menu__link link-level--2" href="https://www.vumc.org/biostatistics/vicc-dssr">VICC Data Science Shared Resource (DSSR)</a></li></ul></div></li><li class="standard-inline-menu__item item-level--1"><a class="standard-inline-menu__link link-level--1" href="https://www.vanderbilt.edu/biostatistics-graduate/">Graduate Program</a></li></ul></div></nav></div>    </div>
+
+    
+          <div class="l-main__help container-fluid">
+        <div class="row">
+          <div class="col-sm-12">
+              <div class="region region-help">
+    <div data-drupal-messages-fallback class="hidden"></div>
+
+  </div>
+
+          </div>
+        </div>
+      </div>
+    
+    <main role="main" class="container-fluid l-main__main">
+      <div class="row">
+                  <div class="col-sm-12 l-main__content">
+              <div class="region region-content">
+    <div id="block-vanderbilt-d8-page-title">
+  
+    
+      
+  <h1 class="page-title"><span class="field field--name-title field--type-string field--label-hidden">Game-Theoretic LLM: Agent Workflow for Negotiation Games</span>
+</h1>
+
+
+  </div>
+<div id="block-mainpagecontent">
+  
+    
+      
+<article class="node node--type-page node--view-mode-full">
+
+  
+    
+
+  
+  <div class="node__content">
+    
+            <div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"><p><img src="https://www.vumc.org/biostatistics/sites/default/files/Department%20Seminars/Spring%202025/01152025seminar_Hua.png" width="1000" height="563" data-entity-type="file" data-entity-uuid="167d9387-d194-4c50-b4fa-4f2163235bb9" alt></p><p><strong>Abstract</strong></p><div class="page" title="Page 1"><div class="layoutArea"><div class="column"><div class="page" title="Page 1"><div class="layoutArea"><div class="column"><div class="page" title="Page 1"><div class="layoutArea"><div class="column"><div class="page" style="-webkit-text-stroke-width:0px;caret-color:rgb(0, 0, 0);color:rgb(0, 0, 0);font-style:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:auto;text-align:start;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;widows:auto;word-spacing:0px;" title="Page 1"><div class="section"><div class="layoutArea"><div class="column"><p>This paper investigates the rationality of large language models (LLMs) in strategic decision-making contexts, specifically within the framework of game theory. We evaluate several state-of-the-art LLMs across a spectrum of complete-information and incomplete-information games. Our findings reveal that LLMs frequently deviate from rational strategies, particularly as the complexity of the game increases with larger payoff matrices or deeper sequential trees. To address these limitations, we design multiple game-theoretic workflows that guide the reasoning and decision-making processes of LLMs. These workflows aim to enhance the models' ability to compute Nash Equilibria and make rational choices, even under conditions of uncertainty and incomplete information. Experimental results demonstrate that the adoption of these workflows significantly improves the rationality and robustness of LLMs in game-theoretic tasks. Specifically, with the workflow, LLMs exhibit marked improvements in identifying optimal strategies, achieving near-optimal allocations in negotiation scenarios, and reducing susceptibility to exploitation during negotiations. Furthermore, we explore the meta-strategic considerations of whether it is rational for agents to adopt such workflows, recognizing that the decision to use or forgo the workflow constitutes a game-theoretic issue in itself. Our research contributes to a deeper understanding of LLMs' decision-making capabilities in strategic contexts and provides insights into enhancing their rationality through structured workflows. The findings have implications for the development of more robust and strategically sound AI agents capable of navigating complex interactive environments.</p><p>Department students and members are invited to meet with Dr. Hua after the presentation. Sign up for your small-group appointment <a href="https://vumc365-my.sharepoint.com/:w:/g/personal/cierra_streeter_vumc_org/Eb3HSbRUTW5Jvino6igkgjsBlfcwDjw0UzwQtwYc-JK6sw?e=zPuJj3">here</a>.</p></div></div></div></div></div></div></div><hr><div class="page" style="-webkit-text-stroke-width:0px;caret-color:rgb(0, 0, 0);color:rgb(0, 0, 0);font-style:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:auto;text-align:start;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;widows:auto;word-spacing:0px;" title="Page 1"><div class="layoutArea"><div class="column"><p>Wenyue Hua is a computer science postdoctoral researcher at the University of California, Santa Barbara working primarily on large language models (LLMs) and LLM-based agents. She received her PhD from Rutgers University-New Brunswick under the supervision of professor Yongfeng Zhang. Her research focuses on the safety and efficiency of LLM agents, multi-agent interaction, and LLM reasoning. She has served as a research scientist intern at Amazon Web Services and Microsoft Research. She has published multiple papers at top natural language processing and machine learning conferences and journals such as the International Conference on Learning Representations (ICLR), the Conference on Neural Information Processing Systems (NeurIPS), the Association for Computational Linguistics (ACL), the Conference on Empirical Methods in Natural Language Processing (EMNLP), the Conference of the European Chapter of the ACL (EACL), and Transactions of the Association for Computational Linguistics (TACL).&nbsp;</p></div></div></div></div></div></div></div></div></div></div>
+      
+      <div class="field field--name-field-collapsible-section field--type-entity-reference-revisions field--label-hidden field__items">
+              <div class="field__item"></div>
+          </div>
+  
+  </div>
+
+</article>
+
+  </div>
+
+  </div>
+
+          </div>
+              </div>
+    </main>
+
+          </div>
+</div>
+
+
+<div class="vh__site__footer mc__site__footer__fixed mc__site__wrap module__2-UfodP0ZHCwdgo7h5wDyT module">
+  <div class="module__F3ONLiSmWCwP_Gne0JZqX">
+    <footer>
+      <div class="footer col-xs-12">
+        <div class="no-json module__3sgycAQHtxgHd0fO2_trjT">
+          <div class="module__MroWek4mtJn7njl9R2qLc">
+            <ul>
+                <li><a href="https://www.facebook.com/VanderbiltHealth" rel="noopener" target="_blank"><span class="module__2SJHmMQqaR6VY-Sm7Uu9uv module__2vZF2B_mzgO1-EL4cUC8LW module__PeUJHvTe3EAaRtg8FMaor" data-icon-type="facebook" data-icon="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 266.89 266.89" aria-labelledby="FacebookTitle" role="img"><title id="FacebookTitle">facebook icon</title><g><g><path d="M252.16,0H14.73A14.72,14.72,0,0,0,0,14.73V252.16a14.72,14.72,0,0,0,14.73,14.73H142.56V163.54H107.78V123.26h34.78V93.55c0-34.47,21.05-53.24,51.8-53.24a285.15,285.15,0,0,1,31.08,1.59v36H204.12c-16.73,0-20,7.95-20,19.61v25.72H224l-5.19,40.28h-34.7V266.89h68a14.72,14.72,0,0,0,14.73-14.73V14.73A14.72,14.72,0,0,0,252.16,0Z"></path></g></g></svg></span></a>
+                </li>
+                <li><a href="https://www.linkedin.com/company/vanderbilt-university-medical-center" rel="noopener" target="_blank"><span class="module__2SJHmMQqaR6VY-Sm7Uu9uv module__2vZF2B_mzgO1-EL4cUC8LW module__PeUJHvTe3EAaRtg8FMaor" data-icon-type="linkedin" data-icon="true">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+                <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
+                </svg></li>
+                <li><a href="https://www.instagram.com/vanderbilthealth/" rel="noopener" target="_blank"><span class="module__2SJHmMQqaR6VY-Sm7Uu9uv module__2vZF2B_mzgO1-EL4cUC8LW module__PeUJHvTe3EAaRtg8FMaor" data-icon-type="instagram" data-icon="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 503.84 503.84" aria-labelledby="InstagramTitle" role="img"><title id="InstagramTitle">instagram icon</title><g><g><path d="M251.92,45.39c67.27,0,75.23.26,101.8,1.47,24.56,1.12,37.9,5.22,46.78,8.67a78,78,0,0,1,29,18.85,78,78,0,0,1,18.85,29c3.45,8.88,7.55,22.22,8.67,46.78,1.21,26.57,1.47,34.53,1.47,101.8s-.26,75.23-1.47,101.8c-1.12,24.56-5.22,37.9-8.67,46.78a83.51,83.51,0,0,1-47.81,47.81c-8.88,3.45-22.22,7.55-46.78,8.67-26.56,1.21-34.53,1.47-101.8,1.47s-75.24-.26-101.8-1.47c-24.56-1.12-37.9-5.22-46.78-8.67a78,78,0,0,1-29-18.85,78,78,0,0,1-18.85-29c-3.45-8.88-7.55-22.22-8.67-46.78-1.21-26.57-1.47-34.53-1.47-101.8s.26-75.23,1.47-101.8c1.12-24.56,5.22-37.9,8.67-46.78a78,78,0,0,1,18.85-29,78,78,0,0,1,29-18.85c8.88-3.45,22.22-7.55,46.78-8.67,26.57-1.21,34.53-1.47,101.8-1.47m0-45.39c-68.42,0-77,.29-103.87,1.52S102.93,7,86.9,13.23A123.52,123.52,0,0,0,42.28,42.28a123.52,123.52,0,0,0-29,44.62C7,102.93,2.74,121.24,1.52,148.05S0,183.5,0,251.92s.29,77,1.52,103.87S7,400.91,13.23,416.94a123.52,123.52,0,0,0,29.05,44.62A123.68,123.68,0,0,0,86.9,490.62c16,6.22,34.34,10.48,61.15,11.71s35.45,1.51,103.87,1.51,77-.29,103.87-1.51,45.12-5.49,61.15-11.71a128.85,128.85,0,0,0,73.68-73.68c6.22-16,10.48-34.34,11.71-61.15s1.51-35.45,1.51-103.87-.29-77-1.51-103.87-5.49-45.12-11.71-61.15a123.68,123.68,0,0,0-29.06-44.62,123.52,123.52,0,0,0-44.62-29C400.91,7,382.6,2.74,355.79,1.52S320.34,0,251.92,0Z"></path><path d="M251.92,122.56A129.37,129.37,0,1,0,381.29,251.92,129.35,129.35,0,0,0,251.92,122.56Zm0,213.33a84,84,0,1,1,84-84A84,84,0,0,1,251.92,335.89Z"></path><circle cx="386.4" cy="117.44" r="30.23"></circle></g></g></svg></span></a>
+                </li>
+                <li><a href="https://my.vanderbilthealth.com/" rel="noopener" target="_blank">Health and Wellness Blog</a>
+                </li>
+            </ul>
+          </div>
+                  </div>
+        <div class="json module__2WWy-UR40DIdMRZLCMTea7">
+          <div>
+            <div>
+                              <h2 style="visibility: hidden;">Column 1</h2>
+                          </div>          
+              <ul>
+                                     <li><a href="https://www.vumc.org/about/" target="_blank" rel="noopener">About VUMC</a>
+                    </li>
+                                     <li><a href="https://vanderbilthealth.com/doctors" target="_blank" rel="noopener">Find a Doctor</a>
+                    </li>
+                                     <li><a href="https://www.vumc.org/medcenterparking/" target="_blank" rel="noopener">Parking and Transportation</a>
+                    </li>
+                                     <li><a href="https://medschool.vanderbilt.edu/" target="_blank" rel="noopener">School of Medicine</a>
+                    </li>
+                                     <li><a href="https://nursing.vanderbilt.edu/" target="_blank" rel="noopener">School of Nursing</a>
+                    </li>
+                                     <li><a href="https://vanderbilt.edu/" target="_blank" rel="noopener">Vanderbilt University</a>
+                    </li>
+                                     <li><a href="https://www.library.vanderbilt.edu/biomedical/" target="_blank" rel="noopener">Eskind Biomedical Library</a>
+                    </li>
+                                     <li><a href="https://www.vanderbilthealth.com/information/financial-assistance" target="_blank" rel="noopener">Financial Assistance</a>
+                    </li>
+                               </ul>
+          </div>
+          <div>
+            <div>
+                              <h2 style="visibility: hidden;">Column 2</h2>
+                          </div>          
+              <ul>
+                                     <li><a href="https://www.vumc.org/oor/" target="_blank" rel="noopener">Office of Research</a>
+                    </li>
+                                     <li><a href="https://www.vanderbilthealth.org/vanderbilt-university-medical-center-giving" target="_blank" rel="noopener">Giving</a>
+                    </li>
+                                     <li><a href="https://www.vanderbilthealth.com/volunteeratvanderbilt/" target="_blank" rel="noopener">Volunteer</a>
+                    </li>
+                                     <li><a href="https://www.vumc.org/information-privacy-security/notice-privacy-practices" target="_blank" rel="noopener">Patient Privacy</a>
+                    </li>
+                                     <li><a href="http://news.vumc.org/vumc-reporter/vumc-newscomm/" target="_blank" rel="noopener">Media</a>
+                    </li>
+                                     <li><a href="https://www.vanderbilthealth.com/main/23526" target="_blank" rel="noopener">Web Policy</a>
+                    </li>
+                                     <li><a href="https://www.vumc.org/communityhealthimprovement" target="_blank" rel="noopener">Community Health Improvement</a>
+                    </li>
+                                     <li><a href="https://www.vumc.org/compliance/integrity-line-hotline" target="_blank" rel="noopener">Integrity Line</a>
+                    </li>
+                               </ul>
+          </div>
+          <div>
+            <div>
+              <h2>Popular Links</h2>
+            </div>          
+              <ul>
+                                     <li><a href="https://www.vanderbilthealth.com/" target="_blank" rel="noopener">Vanderbilt Health</a>
+                    </li>
+                                     <li><a href="https://myhealthatvanderbilt.com" target="_blank" rel="noopener">My Health at Vanderbilt</a>
+                    </li>
+                                     <li><a href="https://www.vanderbilthealth.com/patientandvisitorinfo/53964" target="_blank" rel="noopener">Medical Record Information</a>
+                    </li>
+                                     <li><a href="https://www.vanderbilthealth.com/patientandvisitorinfo/" target="_blank" rel="noopener">Patient &amp; Visitor Information</a>
+                    </li>
+                                     <li><a href="https://myhealthatvanderbilt.com/publicforms.asp?mode=showform&amp;formname=ApptReqAdultPublic" target="_blank" rel="noopener">Request an Appointment</a>
+                    </li>
+                                     <li><a href="https://www.vumc.org/careers/" target="_blank" rel="noopener">Careers</a>
+                    </li>
+                                     <li><a href="https://www.vumc.org/pricetransparency" target="_blank" rel="noopener">Price Transparency</a>
+                    </li>
+                               </ul>
+          </div>
+          <div class="footer-address">
+            <div>
+              <h2 style="visibility: hidden;">Address</h2>
+            </div>          
+              <p><p><a href="http://maps.google.com/?saddr=Current+Location&amp;daddr=Vanderbilt%20University%20Medical%20Center%201211%20Medical%20Center%20Drive%20Nashville,%20TN,%2037232">Vanderbilt University Medical Center<br />
+1211 Medical Center Drive, Nashville, TN 37232</a><br />
+<a href="tel:+16153225000">(615) 322-5000</a></p>
+</p> 
+          </div>
+        </div>
+        <div class="json module__3q_H_2egu5S6dRlxATAeO9 module__13au6_9DW0ri-JbqAwlGL-">
+          <div>
+            <p><p><strong>Our Vision:</strong>&nbsp;The world leader in advancing personalized health<br><strong>Our Mission:&nbsp;</strong>Personalizing the patient experience through our caring spirit and distinctive capabilities</p><p>&nbsp;</p><p>Vanderbilt Health is committed to fostering an environment where everyone has the chance to thrive and is committed to the principles of equal opportunity. &nbsp;EOE/Vets/Disabled.</p></p>
+            <p>
+              Copyright <a href="/biostatistics/user/login?saml_login=mpEhyBncNzkveO0IGRRhdrH9qOyVgkuY" style="a:color:inherit;a:text-decoration:inherit;">©</a>2026 by Vanderbilt University Medical Center
+            </p>
+            <p>
+              Vanderbilt®, Vanderbilt University Medical Center®, V Oak Leaf Design®, Monroe Carell Jr. Children’s Hospital at Vanderbilt® and Vanderbilt Health® are trademarks of The Vanderbilt University.
+            </p>
+          </div>
+        </div>
+      </div>
+      </footer>
+
+  </div>
+
+</div>
+
+
+  </div>
+
+    
+    <script type="application/json" data-drupal-selector="drupal-settings-json">{"path":{"baseUrl":"\/biostatistics\/","pathPrefix":"","currentPath":"node\/874","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"en"},"pluralDelimiter":"\u0003","suppressDeprecationErrors":true,"ckeditor5Premium":{"isMediaInstalled":true},"user":{"uid":0,"permissionsHash":"50e5447e739d4872073f140fc5144644ee256e551100b63903732c9dc436b35f"}}</script>
+<script src="/biostatistics/core/assets/vendor/jquery/jquery.min.js?v=3.7.1"></script>
+<script src="/biostatistics/core/assets/vendor/once/once.min.js?v=1.0.1"></script>
+<script src="/biostatistics/core/misc/drupalSettingsLoader.js?v=10.6.2"></script>
+<script src="/biostatistics/core/misc/drupal.js?v=10.6.2"></script>
+<script src="/biostatistics/core/misc/drupal.init.js?v=10.6.2"></script>
+<script src="/biostatistics/core/misc/jquery.form.js?v=4.3.0"></script>
+<script src="/biostatistics/modules/miniorange_saml/js/dynamicPricing.js?v=10.6.2"></script>
+<script src="/biostatistics/themes/custom/vanderbilt_d8/dist/bootstrap/js/affix.js?t9a85a"></script>
+<script src="/biostatistics/themes/custom/vanderbilt_d8/dist/js/list_custom.js?t9a85a"></script>
+<script src="/biostatistics/themes/custom/vanderbilt_d8/dist/bootstrap/js/dropdown.js?t9a85a"></script>
+<script src="/biostatistics/themes/custom/vanderbilt_d8/dist/js/menus.js?t9a85a"></script>
+<script src="/biostatistics/modules/custom/vumc-datatables/js/datatables.min.js?v=10.6.2"></script>
+<script src="/biostatistics/modules/custom/vumc-datatables/js/custom.js?v=10.6.2"></script>
+
+  </body>
+</html>

@@ -1,17 +1,17 @@
-from .debate_chamber import DebateChamber, DebateResult, DebateRound
-from .protocols import (
+"""
+Debate System Module
+Multi-Agent 토론 시스템
+"""
+from .debate_protocol import (
     DebateProtocol,
-    SynchronousDebate,
-    AsynchronousDebate,
-    StructuredDebate
+    DebateTurn,
+    DebateResult,
+    DebateTerminationReason
 )
 
 __all__ = [
-    "DebateChamber",
-    "DebateResult",
-    "DebateRound",
     "DebateProtocol",
-    "SynchronousDebate",
-    "AsynchronousDebate",
-    "StructuredDebate"
+    "DebateTurn",
+    "DebateResult",
+    "DebateTerminationReason"
 ]

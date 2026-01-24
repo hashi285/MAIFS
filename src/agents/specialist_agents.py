@@ -1,6 +1,8 @@
 """
 전문가 에이전트들
 각 포렌식 분석 영역을 담당하는 전문 에이전트 구현
+
+LLM 통합으로 도메인 지식 기반 추론 및 토론 기능 지원
 """
 from typing import Dict, Optional, List
 import numpy as np
@@ -12,6 +14,7 @@ from ..tools.frequency_tool import FrequencyAnalysisTool
 from ..tools.noise_tool import NoiseAnalysisTool
 from ..tools.watermark_tool import WatermarkTool
 from ..tools.spatial_tool import SpatialAnalysisTool
+from ..llm.subagent_llm import SubAgentLLM, AgentDomain, DebateResponse
 
 
 class FrequencyAgent(BaseAgent):
@@ -20,9 +23,11 @@ class FrequencyAgent(BaseAgent):
 
     FFT 기반 주파수 스펙트럼을 분석하여
     GAN/Diffusion 생성 이미지의 특징적 패턴을 탐지합니다.
+
+    LLM 통합: 도메인 지식 기반 추론 및 토론 기능 지원
     """
 
-    def __init__(self, llm_model: Optional[str] = None):
+    def __init__(self, llm_model: Optional[str] = None, use_llm: bool = True):
         super().__init__(
             name="주파수 분석 전문가 (Frequency Expert)",
             role=AgentRole.FREQUENCY,
@@ -32,6 +37,10 @@ class FrequencyAgent(BaseAgent):
         )
         self._tool = FrequencyAnalysisTool()
         self.register_tool(self._tool)
+
+        # LLM 통합
+        self._use_llm = use_llm
+        self._llm = SubAgentLLM(AgentDomain.FREQUENCY, model=llm_model) if use_llm else None
 
     def analyze(self, image: np.ndarray, context: Optional[Dict] = None) -> AgentResponse:
         """주파수 분석 수행"""
@@ -65,13 +74,55 @@ class FrequencyAgent(BaseAgent):
         tool_results: List[ToolResult],
         context: Optional[Dict] = None
     ) -> str:
-        """추론 생성"""
+        """추론 생성 - LLM 사용 시 도메인 지식 기반 해석"""
         if not tool_results:
             return "분석 결과가 없습니다."
 
         result = tool_results[0]
         evidence = result.evidence
 
+        # LLM 기반 추론 (가능한 경우)
+        if self._use_llm and self._llm and self._llm.is_available:
+            try:
+                reasoning_result = self._llm.interpret_results(evidence, context)
+                return self._format_llm_reasoning(result, reasoning_result)
+            except Exception as e:
+                print(f"[FrequencyAgent] LLM 추론 실패, 규칙 기반 사용: {e}")
+
+        # 규칙 기반 추론 (폴백)
+        return self._generate_rule_based_reasoning(result, evidence)
+
+    def _format_llm_reasoning(self, result: ToolResult, reasoning_result) -> str:
+        """LLM 추론 결과 포맷팅"""
+        parts = [
+            f"[주파수 분석 결과 - LLM 해석]",
+            f"판정: {result.verdict.value}",
+            f"신뢰도: {result.confidence:.2%}",
+            "",
+            "## 해석",
+            reasoning_result.interpretation,
+            "",
+            "## 추론",
+            reasoning_result.reasoning,
+            "",
+            "## 판정 근거",
+            reasoning_result.verdict_rationale,
+        ]
+
+        if reasoning_result.key_findings:
+            parts.extend(["", "## 핵심 발견"])
+            for finding in reasoning_result.key_findings:
+                parts.append(f"- {finding}")
+
+        if reasoning_result.uncertainties:
+            parts.extend(["", "## 불확실성"])
+            for uncertainty in reasoning_result.uncertainties:
+                parts.append(f"- {uncertainty}")
+
+        return "\n".join(parts)
+
+    def _generate_rule_based_reasoning(self, result: ToolResult, evidence: Dict) -> str:
+        """규칙 기반 추론 생성 (LLM 폴백)"""
         reasoning_parts = [
             f"[주파수 분석 결과]",
             f"판정: {result.verdict.value}",
@@ -106,6 +157,80 @@ class FrequencyAgent(BaseAgent):
 
         return "\n".join(reasoning_parts)
 
+    def respond_to_challenge(
+        self,
+        challenger_name: str,
+        challenge: str,
+        my_response: AgentResponse
+    ) -> DebateResponse:
+        """
+        다른 에이전트의 반론에 대응 - LLM 기반 토론
+
+        Args:
+            challenger_name: 반론 제기한 에이전트 이름
+            challenge: 반론 내용
+            my_response: 내 원래 응답
+
+        Returns:
+            DebateResponse: 토론 응답
+        """
+        # LLM 기반 응답 (가능한 경우)
+        if self._use_llm and self._llm and self._llm.is_available:
+            return self._llm.respond_to_challenge(
+                challenger_name=challenger_name,
+                challenge=challenge,
+                my_verdict=my_response.verdict.value,
+                my_confidence=my_response.confidence,
+                my_evidence=my_response.evidence,
+                my_reasoning=my_response.reasoning
+            )
+
+        # 규칙 기반 응답 (폴백)
+        return DebateResponse(
+            response_type="defense",
+            content=(
+                f"[{self.name}] {challenger_name}의 지적에 대해:\n"
+                f"내 분석 결과 {my_response.verdict.value}은 다음 증거에 기반합니다:\n"
+                f"- 신뢰도: {my_response.confidence:.2%}\n"
+                f"- 주요 증거: {list(my_response.evidence.keys())}\n"
+                f"추가 검토 필요 시 토론을 계속하겠습니다."
+            ),
+            verdict_changed=False,
+            reasoning="규칙 기반 방어 응답"
+        )
+
+    def generate_challenge(
+        self,
+        target_response: AgentResponse,
+        my_response: Optional[AgentResponse] = None
+    ) -> str:
+        """
+        다른 에이전트에 대한 반론 생성
+
+        Args:
+            target_response: 대상 에이전트의 응답
+            my_response: 내 응답 (선택적)
+
+        Returns:
+            str: 반론 내용
+        """
+        my_verdict = my_response.verdict.value if my_response else ""
+        my_evidence = my_response.evidence if my_response else {}
+
+        if self._use_llm and self._llm and self._llm.is_available:
+            return self._llm.generate_challenge(
+                target_verdict=target_response.verdict.value,
+                target_confidence=target_response.confidence,
+                target_evidence=target_response.evidence,
+                my_verdict=my_verdict,
+                my_evidence=my_evidence
+            )
+
+        return (
+            f"주파수 분석 관점에서 {target_response.verdict.value} 판정에 대해 "
+            f"질문드립니다. 해당 결론에 도달한 주파수 도메인 증거가 있습니까?"
+        )
+
     def _extract_arguments(self, tool_result: ToolResult) -> List[str]:
         """토론용 논거 추출"""
         arguments = []
@@ -135,9 +260,11 @@ class NoiseAgent(BaseAgent):
 
     SRM 필터와 PRNU 분석을 통해
     카메라 센서 노이즈와 AI 생성 노이즈를 구분합니다.
+
+    LLM 통합: 도메인 지식 기반 추론 및 토론 기능 지원
     """
 
-    def __init__(self, llm_model: Optional[str] = None):
+    def __init__(self, llm_model: Optional[str] = None, use_llm: bool = True):
         super().__init__(
             name="노이즈 분석 전문가 (Noise Expert)",
             role=AgentRole.NOISE,
@@ -147,6 +274,10 @@ class NoiseAgent(BaseAgent):
         )
         self._tool = NoiseAnalysisTool()
         self.register_tool(self._tool)
+
+        # LLM 통합
+        self._use_llm = use_llm
+        self._llm = SubAgentLLM(AgentDomain.NOISE, model=llm_model) if use_llm else None
 
     def analyze(self, image: np.ndarray, context: Optional[Dict] = None) -> AgentResponse:
         """노이즈 분석 수행"""
@@ -175,13 +306,55 @@ class NoiseAgent(BaseAgent):
         tool_results: List[ToolResult],
         context: Optional[Dict] = None
     ) -> str:
-        """추론 생성"""
+        """추론 생성 - LLM 사용 시 도메인 지식 기반 해석"""
         if not tool_results:
             return "분석 결과가 없습니다."
 
         result = tool_results[0]
         evidence = result.evidence
 
+        # LLM 기반 추론 (가능한 경우)
+        if self._use_llm and self._llm and self._llm.is_available:
+            try:
+                reasoning_result = self._llm.interpret_results(evidence, context)
+                return self._format_llm_reasoning(result, reasoning_result)
+            except Exception as e:
+                print(f"[NoiseAgent] LLM 추론 실패, 규칙 기반 사용: {e}")
+
+        # 규칙 기반 추론 (폴백)
+        return self._generate_rule_based_reasoning(result, evidence)
+
+    def _format_llm_reasoning(self, result: ToolResult, reasoning_result) -> str:
+        """LLM 추론 결과 포맷팅"""
+        parts = [
+            f"[노이즈 분석 결과 - LLM 해석]",
+            f"판정: {result.verdict.value}",
+            f"신뢰도: {result.confidence:.2%}",
+            "",
+            "## 해석",
+            reasoning_result.interpretation,
+            "",
+            "## 추론",
+            reasoning_result.reasoning,
+            "",
+            "## 판정 근거",
+            reasoning_result.verdict_rationale,
+        ]
+
+        if reasoning_result.key_findings:
+            parts.extend(["", "## 핵심 발견"])
+            for finding in reasoning_result.key_findings:
+                parts.append(f"- {finding}")
+
+        if reasoning_result.uncertainties:
+            parts.extend(["", "## 불확실성"])
+            for uncertainty in reasoning_result.uncertainties:
+                parts.append(f"- {uncertainty}")
+
+        return "\n".join(parts)
+
+    def _generate_rule_based_reasoning(self, result: ToolResult, evidence: Dict) -> str:
+        """규칙 기반 추론 생성 (LLM 폴백)"""
         reasoning_parts = [
             f"[노이즈 분석 결과]",
             f"판정: {result.verdict.value}",
@@ -241,25 +414,82 @@ class NoiseAgent(BaseAgent):
 
         return arguments
 
+    def respond_to_challenge(
+        self,
+        challenger_name: str,
+        challenge: str,
+        my_response: AgentResponse
+    ) -> DebateResponse:
+        """다른 에이전트의 반론에 대응 - LLM 기반 토론"""
+        if self._use_llm and self._llm and self._llm.is_available:
+            return self._llm.respond_to_challenge(
+                challenger_name=challenger_name,
+                challenge=challenge,
+                my_verdict=my_response.verdict.value,
+                my_confidence=my_response.confidence,
+                my_evidence=my_response.evidence,
+                my_reasoning=my_response.reasoning
+            )
+
+        return DebateResponse(
+            response_type="defense",
+            content=(
+                f"[{self.name}] {challenger_name}의 지적에 대해:\n"
+                f"PRNU/SRM 분석 결과 {my_response.verdict.value}은 "
+                f"신뢰도 {my_response.confidence:.2%}의 증거에 기반합니다."
+            ),
+            verdict_changed=False,
+            reasoning="규칙 기반 방어 응답"
+        )
+
+    def generate_challenge(
+        self,
+        target_response: AgentResponse,
+        my_response: Optional[AgentResponse] = None
+    ) -> str:
+        """다른 에이전트에 대한 반론 생성"""
+        my_verdict = my_response.verdict.value if my_response else ""
+        my_evidence = my_response.evidence if my_response else {}
+
+        if self._use_llm and self._llm and self._llm.is_available:
+            return self._llm.generate_challenge(
+                target_verdict=target_response.verdict.value,
+                target_confidence=target_response.confidence,
+                target_evidence=target_response.evidence,
+                my_verdict=my_verdict,
+                my_evidence=my_evidence
+            )
+
+        return (
+            f"노이즈 분석 관점에서 {target_response.verdict.value} 판정에 대해 "
+            f"질문드립니다. 센서 노이즈(PRNU) 패턴에 대한 분석 결과가 있습니까?"
+        )
+
 
 class WatermarkAgent(BaseAgent):
     """
     워터마크 분석 전문가 에이전트
 
-    HiNet 기반 역변환 신경망을 사용하여
+    HiNet/OmniGuard 기반 역변환 신경망을 사용하여
     비가시성 워터마크를 탐지하고 무결성을 검증합니다.
+
+    LLM 통합: 도메인 지식 기반 추론 및 토론 기능 지원
     """
 
-    def __init__(self, llm_model: Optional[str] = None):
+    def __init__(self, llm_model: Optional[str] = None, use_llm: bool = True):
         super().__init__(
             name="워터마크 분석 전문가 (Watermark Expert)",
             role=AgentRole.WATERMARK,
-            description="HiNet 기반 워터마크 탐지 전문가. "
+            description="OmniGuard 기반 워터마크 탐지 전문가. "
                        "비가시성 워터마크를 추출하고 이미지 무결성을 검증합니다.",
             llm_model=llm_model
         )
         self._tool = WatermarkTool()
         self.register_tool(self._tool)
+
+        # LLM 통합
+        self._use_llm = use_llm
+        self._llm = SubAgentLLM(AgentDomain.WATERMARK, model=llm_model) if use_llm else None
 
     def analyze(self, image: np.ndarray, context: Optional[Dict] = None) -> AgentResponse:
         """워터마크 분석 수행"""
@@ -288,13 +518,55 @@ class WatermarkAgent(BaseAgent):
         tool_results: List[ToolResult],
         context: Optional[Dict] = None
     ) -> str:
-        """추론 생성"""
+        """추론 생성 - LLM 사용 시 도메인 지식 기반 해석"""
         if not tool_results:
             return "분석 결과가 없습니다."
 
         result = tool_results[0]
         evidence = result.evidence
 
+        # LLM 기반 추론 (가능한 경우)
+        if self._use_llm and self._llm and self._llm.is_available:
+            try:
+                reasoning_result = self._llm.interpret_results(evidence, context)
+                return self._format_llm_reasoning(result, reasoning_result)
+            except Exception as e:
+                print(f"[WatermarkAgent] LLM 추론 실패, 규칙 기반 사용: {e}")
+
+        # 규칙 기반 추론 (폴백)
+        return self._generate_rule_based_reasoning(result, evidence)
+
+    def _format_llm_reasoning(self, result: ToolResult, reasoning_result) -> str:
+        """LLM 추론 결과 포맷팅"""
+        parts = [
+            f"[워터마크 분석 결과 - LLM 해석]",
+            f"판정: {result.verdict.value}",
+            f"신뢰도: {result.confidence:.2%}",
+            "",
+            "## 해석",
+            reasoning_result.interpretation,
+            "",
+            "## 추론",
+            reasoning_result.reasoning,
+            "",
+            "## 판정 근거",
+            reasoning_result.verdict_rationale,
+        ]
+
+        if reasoning_result.key_findings:
+            parts.extend(["", "## 핵심 발견"])
+            for finding in reasoning_result.key_findings:
+                parts.append(f"- {finding}")
+
+        if reasoning_result.uncertainties:
+            parts.extend(["", "## 불확실성"])
+            for uncertainty in reasoning_result.uncertainties:
+                parts.append(f"- {uncertainty}")
+
+        return "\n".join(parts)
+
+    def _generate_rule_based_reasoning(self, result: ToolResult, evidence: Dict) -> str:
+        """규칙 기반 추론 생성 (LLM 폴백)"""
         reasoning_parts = [
             f"[워터마크 분석 결과]",
             f"판정: {result.verdict.value}",
@@ -344,6 +616,57 @@ class WatermarkAgent(BaseAgent):
 
         return arguments
 
+    def respond_to_challenge(
+        self,
+        challenger_name: str,
+        challenge: str,
+        my_response: AgentResponse
+    ) -> DebateResponse:
+        """다른 에이전트의 반론에 대응 - LLM 기반 토론"""
+        if self._use_llm and self._llm and self._llm.is_available:
+            return self._llm.respond_to_challenge(
+                challenger_name=challenger_name,
+                challenge=challenge,
+                my_verdict=my_response.verdict.value,
+                my_confidence=my_response.confidence,
+                my_evidence=my_response.evidence,
+                my_reasoning=my_response.reasoning
+            )
+
+        return DebateResponse(
+            response_type="defense",
+            content=(
+                f"[{self.name}] {challenger_name}의 지적에 대해:\n"
+                f"워터마크 분석 결과 {my_response.verdict.value}은 "
+                f"BER {my_response.evidence.get('bit_error_rate', 'N/A')}에 기반합니다."
+            ),
+            verdict_changed=False,
+            reasoning="규칙 기반 방어 응답"
+        )
+
+    def generate_challenge(
+        self,
+        target_response: AgentResponse,
+        my_response: Optional[AgentResponse] = None
+    ) -> str:
+        """다른 에이전트에 대한 반론 생성"""
+        my_verdict = my_response.verdict.value if my_response else ""
+        my_evidence = my_response.evidence if my_response else {}
+
+        if self._use_llm and self._llm and self._llm.is_available:
+            return self._llm.generate_challenge(
+                target_verdict=target_response.verdict.value,
+                target_confidence=target_response.confidence,
+                target_evidence=target_response.evidence,
+                my_verdict=my_verdict,
+                my_evidence=my_evidence
+            )
+
+        return (
+            f"워터마크 분석 관점에서 {target_response.verdict.value} 판정에 대해 "
+            f"질문드립니다. 이미지에 포함된 워터마크의 무결성은 검증되었습니까?"
+        )
+
 
 class SpatialAgent(BaseAgent):
     """
@@ -351,9 +674,11 @@ class SpatialAgent(BaseAgent):
 
     ViT 기반 모델을 사용하여
     픽셀 수준의 조작 영역을 탐지합니다.
+
+    LLM 통합: 도메인 지식 기반 추론 및 토론 기능 지원
     """
 
-    def __init__(self, llm_model: Optional[str] = None):
+    def __init__(self, llm_model: Optional[str] = None, use_llm: bool = True):
         super().__init__(
             name="공간 분석 전문가 (Spatial Expert)",
             role=AgentRole.SPATIAL,
@@ -363,6 +688,10 @@ class SpatialAgent(BaseAgent):
         )
         self._tool = SpatialAnalysisTool()
         self.register_tool(self._tool)
+
+        # LLM 통합
+        self._use_llm = use_llm
+        self._llm = SubAgentLLM(AgentDomain.SPATIAL, model=llm_model) if use_llm else None
 
     def analyze(self, image: np.ndarray, context: Optional[Dict] = None) -> AgentResponse:
         """공간 분석 수행"""
@@ -391,13 +720,55 @@ class SpatialAgent(BaseAgent):
         tool_results: List[ToolResult],
         context: Optional[Dict] = None
     ) -> str:
-        """추론 생성"""
+        """추론 생성 - LLM 사용 시 도메인 지식 기반 해석"""
         if not tool_results:
             return "분석 결과가 없습니다."
 
         result = tool_results[0]
         evidence = result.evidence
 
+        # LLM 기반 추론 (가능한 경우)
+        if self._use_llm and self._llm and self._llm.is_available:
+            try:
+                reasoning_result = self._llm.interpret_results(evidence, context)
+                return self._format_llm_reasoning(result, reasoning_result)
+            except Exception as e:
+                print(f"[SpatialAgent] LLM 추론 실패, 규칙 기반 사용: {e}")
+
+        # 규칙 기반 추론 (폴백)
+        return self._generate_rule_based_reasoning(result, evidence)
+
+    def _format_llm_reasoning(self, result: ToolResult, reasoning_result) -> str:
+        """LLM 추론 결과 포맷팅"""
+        parts = [
+            f"[공간 분석 결과 - LLM 해석]",
+            f"판정: {result.verdict.value}",
+            f"신뢰도: {result.confidence:.2%}",
+            "",
+            "## 해석",
+            reasoning_result.interpretation,
+            "",
+            "## 추론",
+            reasoning_result.reasoning,
+            "",
+            "## 판정 근거",
+            reasoning_result.verdict_rationale,
+        ]
+
+        if reasoning_result.key_findings:
+            parts.extend(["", "## 핵심 발견"])
+            for finding in reasoning_result.key_findings:
+                parts.append(f"- {finding}")
+
+        if reasoning_result.uncertainties:
+            parts.extend(["", "## 불확실성"])
+            for uncertainty in reasoning_result.uncertainties:
+                parts.append(f"- {uncertainty}")
+
+        return "\n".join(parts)
+
+    def _generate_rule_based_reasoning(self, result: ToolResult, evidence: Dict) -> str:
+        """규칙 기반 추론 생성 (LLM 폴백)"""
         reasoning_parts = [
             f"[공간 분석 결과]",
             f"판정: {result.verdict.value}",
@@ -449,3 +820,54 @@ class SpatialAgent(BaseAgent):
             )
 
         return arguments
+
+    def respond_to_challenge(
+        self,
+        challenger_name: str,
+        challenge: str,
+        my_response: AgentResponse
+    ) -> DebateResponse:
+        """다른 에이전트의 반론에 대응 - LLM 기반 토론"""
+        if self._use_llm and self._llm and self._llm.is_available:
+            return self._llm.respond_to_challenge(
+                challenger_name=challenger_name,
+                challenge=challenge,
+                my_verdict=my_response.verdict.value,
+                my_confidence=my_response.confidence,
+                my_evidence=my_response.evidence,
+                my_reasoning=my_response.reasoning
+            )
+
+        return DebateResponse(
+            response_type="defense",
+            content=(
+                f"[{self.name}] {challenger_name}의 지적에 대해:\n"
+                f"공간 분석 결과 {my_response.verdict.value}은 "
+                f"조작 영역 {my_response.evidence.get('manipulation_ratio', 0):.1%}에 기반합니다."
+            ),
+            verdict_changed=False,
+            reasoning="규칙 기반 방어 응답"
+        )
+
+    def generate_challenge(
+        self,
+        target_response: AgentResponse,
+        my_response: Optional[AgentResponse] = None
+    ) -> str:
+        """다른 에이전트에 대한 반론 생성"""
+        my_verdict = my_response.verdict.value if my_response else ""
+        my_evidence = my_response.evidence if my_response else {}
+
+        if self._use_llm and self._llm and self._llm.is_available:
+            return self._llm.generate_challenge(
+                target_verdict=target_response.verdict.value,
+                target_confidence=target_response.confidence,
+                target_evidence=target_response.evidence,
+                my_verdict=my_verdict,
+                my_evidence=my_evidence
+            )
+
+        return (
+            f"공간 분석 관점에서 {target_response.verdict.value} 판정에 대해 "
+            f"질문드립니다. 픽셀 수준의 조작 영역 분석 결과는 어떻습니까?"
+        )

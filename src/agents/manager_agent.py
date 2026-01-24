@@ -1,10 +1,12 @@
 """
 Manager Agent
 다중 에이전트를 조율하고 최종 판단을 내리는 총괄 에이전트
+Claude API를 활용한 지능형 판단 시스템
 """
 from typing import Dict, Optional, List, Any
 import numpy as np
 import time
+import json
 from dataclasses import dataclass, field
 
 from .base_agent import BaseAgent, AgentRole, AgentResponse
@@ -15,6 +17,15 @@ from .specialist_agents import (
     SpatialAgent
 )
 from ..tools.base_tool import Verdict
+
+# LLM 클라이언트 (선택적)
+try:
+    from ..llm.claude_client import ClaudeClient, LLMResponse
+    LLM_AVAILABLE = True
+except ImportError:
+    LLM_AVAILABLE = False
+    ClaudeClient = None
+    LLMResponse = None
 
 
 @dataclass
@@ -79,7 +90,12 @@ class ManagerAgent(BaseAgent):
 4. 최종 판정에 대한 명확한 근거를 제시하세요
 """
 
-    def __init__(self, llm_model: str = "gpt-4o"):
+    def __init__(
+        self,
+        llm_model: str = "claude-sonnet-4-20250514",
+        api_key: Optional[str] = None,
+        use_llm: bool = True
+    ):
         super().__init__(
             name="Manager Agent (총괄 관리자)",
             role=AgentRole.MANAGER,
@@ -102,6 +118,16 @@ class ManagerAgent(BaseAgent):
             "watermark": 0.90,
             "spatial": 0.85,
         }
+
+        # LLM 클라이언트 초기화
+        self.use_llm = use_llm and LLM_AVAILABLE
+        self.llm_client: Optional[ClaudeClient] = None
+
+        if self.use_llm and ClaudeClient is not None:
+            self.llm_client = ClaudeClient(api_key=api_key, model=llm_model)
+            if not self.llm_client.is_available:
+                print("[ManagerAgent] LLM 사용 불가, 규칙 기반 모드로 전환")
+                self.use_llm = False
 
     def analyze(self, image: np.ndarray, context: Optional[Dict] = None) -> ForensicReport:
         """
@@ -357,3 +383,183 @@ class ManagerAgent(BaseAgent):
     ) -> str:
         """BaseAgent 추상 메서드 구현"""
         return "Manager Agent는 직접적인 Tool 분석을 수행하지 않습니다."
+
+    def analyze_with_llm(
+        self,
+        image: np.ndarray,
+        context: Optional[Dict] = None
+    ) -> ForensicReport:
+        """
+        LLM을 활용한 고급 포렌식 분석
+
+        Args:
+            image: 분석할 RGB 이미지
+            context: 추가 컨텍스트
+
+        Returns:
+            ForensicReport: LLM 기반 종합 분석 보고서
+        """
+        start_time = time.time()
+
+        # 1. 모든 전문가에게 분석 요청
+        agent_responses = self._collect_analyses(image, context)
+
+        # 2. 합의 도출
+        consensus = self._compute_consensus(agent_responses)
+
+        # 3. 불일치 확인 및 토론
+        debate_history = []
+        if consensus["disagreement_level"] > 0.3:
+            debate_history = self._conduct_debate(agent_responses)
+            consensus = self._compute_consensus(agent_responses)
+
+        # 4. LLM 기반 분석 (사용 가능한 경우)
+        if self.use_llm and self.llm_client and self.llm_client.is_available:
+            llm_response = self.llm_client.analyze_forensics(
+                agent_responses=agent_responses,
+                consensus_info=consensus,
+                debate_history=debate_history
+            )
+
+            # LLM 응답 파싱
+            try:
+                llm_result = json.loads(llm_response.content)
+                final_verdict = Verdict(llm_result.get("verdict", "UNCERTAIN"))
+                confidence = llm_result.get("confidence", 0.5)
+                summary = llm_result.get("summary", "")
+                detailed_reasoning = llm_result.get("reasoning", "")
+            except (json.JSONDecodeError, ValueError):
+                # JSON 파싱 실패 시 기본 분석 사용
+                final_verdict, confidence = self._make_final_decision(agent_responses, consensus)
+                summary = self._generate_summary(final_verdict, confidence, agent_responses)
+                detailed_reasoning = llm_response.content
+        else:
+            # 규칙 기반 분석
+            final_verdict, confidence = self._make_final_decision(agent_responses, consensus)
+            summary = self._generate_summary(final_verdict, confidence, agent_responses)
+            detailed_reasoning = self._generate_detailed_reasoning(
+                agent_responses, consensus, debate_history
+            )
+
+        total_time = time.time() - start_time
+
+        return ForensicReport(
+            final_verdict=final_verdict,
+            confidence=confidence,
+            summary=summary,
+            detailed_reasoning=detailed_reasoning,
+            agent_responses=agent_responses,
+            consensus_info=consensus,
+            debate_history=debate_history,
+            total_processing_time=total_time
+        )
+
+    def generate_human_report(
+        self,
+        report: ForensicReport,
+        language: str = "ko"
+    ) -> str:
+        """
+        사람이 읽기 쉬운 보고서 생성
+
+        Args:
+            report: ForensicReport 객체
+            language: 출력 언어 (ko/en)
+
+        Returns:
+            str: 포맷팅된 보고서
+        """
+        if self.use_llm and self.llm_client and self.llm_client.is_available:
+            return self.llm_client.generate_report(
+                verdict=report.final_verdict.value,
+                confidence=report.confidence,
+                agent_responses=report.agent_responses,
+                language=language
+            )
+        else:
+            return self._generate_fallback_report(report, language)
+
+    def _generate_fallback_report(
+        self,
+        report: ForensicReport,
+        language: str = "ko"
+    ) -> str:
+        """규칙 기반 보고서 생성"""
+        if language == "ko":
+            verdict_text = {
+                Verdict.AUTHENTIC: "원본 이미지",
+                Verdict.MANIPULATED: "조작된 이미지",
+                Verdict.AI_GENERATED: "AI 생성 이미지",
+                Verdict.UNCERTAIN: "판단 불가"
+            }
+
+            lines = [
+                "=" * 60,
+                "          MAIFS 이미지 포렌식 분석 보고서",
+                "=" * 60,
+                "",
+                f"▶ 최종 판정: {verdict_text.get(report.final_verdict, '알 수 없음')}",
+                f"▶ 신뢰도: {report.confidence:.1%}",
+                f"▶ 처리 시간: {report.total_processing_time:.2f}초",
+                "",
+                "-" * 60,
+                "전문가 분석 요약",
+                "-" * 60,
+            ]
+
+            for name, response in report.agent_responses.items():
+                agent_name = {
+                    "frequency": "주파수 분석",
+                    "noise": "노이즈 분석",
+                    "watermark": "워터마크 분석",
+                    "spatial": "공간 분석"
+                }.get(name, name)
+
+                lines.append(f"  [{agent_name}]")
+                lines.append(f"    판정: {response.verdict.value}")
+                lines.append(f"    신뢰도: {response.confidence:.1%}")
+                lines.append("")
+
+            if report.debate_history:
+                lines.append("-" * 60)
+                lines.append(f"토론 진행: {len(report.debate_history)} 라운드")
+                lines.append("-" * 60)
+
+            lines.extend([
+                "",
+                "=" * 60,
+                "        분석 완료 - MAIFS Multi-Agent System",
+                "=" * 60
+            ])
+
+            return "\n".join(lines)
+        else:
+            # English version
+            lines = [
+                "=" * 60,
+                "          MAIFS Image Forensic Analysis Report",
+                "=" * 60,
+                "",
+                f"▶ Final Verdict: {report.final_verdict.value}",
+                f"▶ Confidence: {report.confidence:.1%}",
+                f"▶ Processing Time: {report.total_processing_time:.2f}s",
+                "",
+                "-" * 60,
+                "Expert Analysis Summary",
+                "-" * 60,
+            ]
+
+            for name, response in report.agent_responses.items():
+                lines.append(f"  [{name.upper()}]")
+                lines.append(f"    Verdict: {response.verdict.value}")
+                lines.append(f"    Confidence: {response.confidence:.1%}")
+                lines.append("")
+
+            lines.extend([
+                "",
+                "=" * 60,
+                "        Analysis Complete - MAIFS Multi-Agent System",
+                "=" * 60
+            ])
+
+            return "\n".join(lines)

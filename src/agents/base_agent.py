@@ -145,6 +145,27 @@ class BaseAgent(ABC):
             f"추가 검토 필요 시 토론을 계속하겠습니다."
         )
 
+    def generate_challenge(
+        self,
+        target_response: AgentResponse,
+        my_response: Optional[AgentResponse] = None
+    ) -> str:
+        """
+        다른 에이전트에 대한 반론 생성
+
+        Args:
+            target_response: 대상 에이전트의 응답
+            my_response: 내 응답 (선택적)
+        """
+        if my_response:
+            return (
+                f"저는 {my_response.verdict.value}로 판단했습니다 "
+                f"(신뢰도 {my_response.confidence:.1%}). "
+                f"{target_response.verdict.value} 판정의 근거를 설명해주시겠습니까?"
+            )
+
+        return f"{target_response.verdict.value} 판정의 근거를 설명해주시겠습니까?"
+
     def update_trust(self, delta: float) -> None:
         """신뢰도 업데이트"""
         self.trust_score = self._trust_score + delta

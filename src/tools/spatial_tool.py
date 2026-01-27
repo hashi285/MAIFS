@@ -2,6 +2,7 @@
 공간 분석 도구
 OmniGuard의 ViT 모델을 래핑하여 이미지 조작 영역 탐지 수행
 """
+import os
 import sys
 import time
 from pathlib import Path
@@ -21,9 +22,13 @@ try:
 except ImportError:
     OMNIGUARD_PATH = Path(__file__).resolve().parents[2] / "OmniGuard-main"
 
+TRUFOR_ROOT = Path(__file__).resolve().parents[2] / "TruFor-main" / "TruFor_train_test"
+
 # OmniGuard 모듈 경로 추가
 if OMNIGUARD_PATH.exists():
     sys.path.insert(0, str(OMNIGUARD_PATH))
+if TRUFOR_ROOT.exists():
+    sys.path.insert(0, str(TRUFOR_ROOT))
 
 
 class SpatialAnalysisTool(BaseTool):
@@ -40,7 +45,10 @@ class SpatialAnalysisTool(BaseTool):
         self,
         checkpoint_path: Optional[Path] = None,
         input_size: int = None,
-        device: str = None
+        device: str = None,
+        backend: Optional[str] = None,
+        use_mvss_mask: bool = False,
+        mvss_weight: float = 0.4
     ):
         # 설정에서 로드
         if device is None:
@@ -62,9 +70,11 @@ class SpatialAnalysisTool(BaseTool):
             device=device
         )
 
+        self.backend = (backend or os.environ.get("MAIFS_SPATIAL_BACKEND", "omniguard")).lower()
+
         # 체크포인트 경로 설정
         if checkpoint_path:
-            self.checkpoint_path = checkpoint_path
+            self.checkpoint_path = Path(checkpoint_path)
         else:
             try:
                 self.checkpoint_path = config.model.omniguard_checkpoint_dir
@@ -72,10 +82,25 @@ class SpatialAnalysisTool(BaseTool):
                 self.checkpoint_path = OMNIGUARD_PATH / "checkpoint"
 
         self.input_size = input_size
+        self.use_mvss_mask = use_mvss_mask or os.environ.get("MAIFS_SPATIAL_USE_MVSS", "0") == "1"
+        env_weight = os.environ.get("MAIFS_SPATIAL_MVSS_WEIGHT")
+        self.mvss_weight = float(env_weight) if env_weight is not None else float(mvss_weight)
+        self._mvss_tool = None
+        self._trufor_config = None
+
+        trufor_ckpt = os.environ.get("MAIFS_TRUFOR_CHECKPOINT")
+        if trufor_ckpt:
+            self._trufor_checkpoint = Path(trufor_ckpt)
+        else:
+            self._trufor_checkpoint = TRUFOR_ROOT / "pretrained_models" / "trufor.pth.tar"
 
     def load_model(self) -> None:
         """ViT IML 모델 로드"""
         if self._is_loaded:
+            return
+
+        if self.backend == "trufor":
+            self._load_trufor_model()
             return
 
         try:
@@ -89,12 +114,34 @@ class SpatialAnalysisTool(BaseTool):
             )
             self._model = self._model.to(self.device)
 
-            # 체크포인트 로드
-            checkpoint_file = self.checkpoint_path / "iml_vit.pth"
-            if checkpoint_file.exists():
+            # 체크포인트 경로 결정 (파일 > 기본 iml_vit.pth > 설정값)
+            checkpoint_file = None
+            if isinstance(self.checkpoint_path, Path) and self.checkpoint_path.is_file():
+                checkpoint_file = self.checkpoint_path
+            else:
+                candidate = self.checkpoint_path / "iml_vit.pth"
+                if candidate.exists():
+                    checkpoint_file = candidate
+                else:
+                    try:
+                        checkpoint_file = config.model.vit_checkpoint
+                    except Exception:
+                        checkpoint_file = None
+
+            if checkpoint_file and checkpoint_file.exists():
                 state_dict = torch.load(checkpoint_file, map_location=self.device)
+                if isinstance(state_dict, dict):
+                    for key in ("state_dict", "model", "net"):
+                        if key in state_dict and isinstance(state_dict[key], dict):
+                            state_dict = state_dict[key]
+                            break
                 self._model.load_state_dict(state_dict, strict=False)
                 print(f"[SpatialTool] 체크포인트 로드: {checkpoint_file}")
+            else:
+                print("[SpatialTool] 체크포인트를 찾지 못했습니다. Fallback 모드로 전환합니다.")
+                self._model = None
+                self._is_loaded = True
+                return
 
             self._model.eval()
             self._is_loaded = True
@@ -103,6 +150,54 @@ class SpatialAnalysisTool(BaseTool):
         except ImportError as e:
             print(f"[SpatialTool] OmniGuard 모듈 임포트 실패: {e}")
             print("[SpatialTool] Fallback 모드로 전환")
+            self._model = None
+            self._is_loaded = True
+
+    def _load_trufor_model(self) -> None:
+        """TruFor 모델 로드"""
+        if self._is_loaded:
+            return
+        if not TRUFOR_ROOT.exists():
+            print("[SpatialTool] TruFor 디렉토리를 찾지 못했습니다. Fallback 모드로 전환합니다.")
+            self._model = None
+            self._is_loaded = True
+            return
+        if not self._trufor_checkpoint.exists():
+            print(f"[SpatialTool] TruFor 체크포인트 미존재: {self._trufor_checkpoint}")
+            self._model = None
+            self._is_loaded = True
+            return
+
+        try:
+            from lib.config import config as trufor_config
+            from lib.utils import get_model
+
+            trufor_config.defrost()
+            trufor_config.merge_from_file(str(TRUFOR_ROOT / "lib" / "config" / "trufor_ph3.yaml"))
+            trufor_config.merge_from_list(["TEST.MODEL_FILE", str(self._trufor_checkpoint)])
+            trufor_config.freeze()
+
+            try:
+                checkpoint = torch.load(
+                    self._trufor_checkpoint,
+                    map_location=self.device,
+                    weights_only=False
+                )
+            except TypeError:
+                checkpoint = torch.load(self._trufor_checkpoint, map_location=self.device)
+            state_dict = checkpoint["state_dict"] if isinstance(checkpoint, dict) and "state_dict" in checkpoint else checkpoint
+
+            model = get_model(trufor_config)
+            model.load_state_dict(state_dict, strict=True)
+            model = model.to(self.device)
+            model.eval()
+
+            self._model = model
+            self._trufor_config = trufor_config
+            self._is_loaded = True
+            print(f"[SpatialTool] TruFor 모델 로드 완료: {self._trufor_checkpoint}")
+        except Exception as e:
+            print(f"[SpatialTool] TruFor 모델 로드 실패: {e}")
             self._model = None
             self._is_loaded = True
 
@@ -167,6 +262,35 @@ class SpatialAnalysisTool(BaseTool):
             "threshold_used": 0.5
         }
 
+    def _get_mvss_mask(self, image: np.ndarray) -> Optional[Tuple[np.ndarray, float]]:
+        """MVSS 마스크를 가져와 공간 마스크와 결합"""
+        if not self.use_mvss_mask:
+            return None
+
+        try:
+            if self._mvss_tool is None:
+                from .noise_tool import NoiseAnalysisTool
+                self._mvss_tool = NoiseAnalysisTool(device=self.device, backend="mvss")
+
+            result = self._mvss_tool(image)
+            if result.manipulation_mask is None:
+                return None
+            score = float(result.evidence.get("mvss_score", 0.0))
+            return result.manipulation_mask, score
+        except Exception:
+            return None
+
+    def _merge_masks(self, spatial_mask: np.ndarray, mvss_mask: np.ndarray) -> np.ndarray:
+        """공간 마스크와 MVSS 마스크 결합"""
+        if mvss_mask.shape != spatial_mask.shape:
+            mvss_pil = Image.fromarray((mvss_mask * 255).astype(np.uint8))
+            mvss_pil = mvss_pil.resize((spatial_mask.shape[1], spatial_mask.shape[0]), Image.BILINEAR)
+            mvss_mask = np.array(mvss_pil).astype(np.float32) / 255.0
+
+        mvss_weight = min(max(self.mvss_weight, 0.0), 1.0)
+        merged = (1.0 - mvss_weight) * spatial_mask + mvss_weight * mvss_mask
+        return np.clip(merged, 0.0, 1.0)
+
     def analyze(self, image: np.ndarray) -> ToolResult:
         """
         공간 분석 실행
@@ -179,10 +303,16 @@ class SpatialAnalysisTool(BaseTool):
         """
         start_time = time.time()
 
+        if not self._is_loaded:
+            self.load_model()
+
         if self._model is None:
             return self._fallback_analysis(image, start_time)
 
         try:
+            if self.backend == "trufor":
+                return self._analyze_trufor(image, start_time)
+
             # 전처리
             img_tensor, original_size = self._preprocess(image)
 
@@ -196,8 +326,19 @@ class SpatialAnalysisTool(BaseTool):
             # 후처리
             mask = self._postprocess_mask(mask_pred, original_size)
 
+            mvss_info = self._get_mvss_mask(image)
+            if mvss_info is not None:
+                mvss_mask, mvss_score = mvss_info
+                mask = self._merge_masks(mask, mvss_mask)
+
             # 마스크 분석
             mask_analysis = self._analyze_mask(mask)
+            if mvss_info is not None:
+                mask_analysis["mvss_used"] = True
+                mask_analysis["mvss_weight"] = float(self.mvss_weight)
+                mask_analysis["mvss_score"] = float(mvss_score)
+                mask_analysis["mvss_mask_mean"] = float(np.mean(mvss_mask))
+                mask_analysis["mvss_mask_max"] = float(np.max(mvss_mask))
 
             # 판정
             manipulation_ratio = mask_analysis["manipulation_ratio"]
@@ -246,6 +387,78 @@ class SpatialAnalysisTool(BaseTool):
                 explanation=f"공간 분석 중 오류 발생: {str(e)}",
                 processing_time=processing_time
             )
+
+    def _analyze_trufor(self, image: np.ndarray, start_time: float) -> ToolResult:
+        """TruFor 기반 공간 조작 탐지"""
+        if image.dtype != np.uint8:
+            image = (image * 255).astype(np.uint8)
+
+        rgb = torch.tensor(image.transpose(2, 0, 1), dtype=torch.float32) / 255.0
+        rgb = rgb.unsqueeze(0).to(self.device)
+
+        with torch.no_grad():
+            pred, conf, det, _ = self._model(rgb, save_np=False)
+
+        conf_map = None
+        if conf is not None:
+            conf = torch.squeeze(conf, 0)
+            conf = torch.sigmoid(conf)[0]
+            conf_map = conf.cpu().numpy()
+
+        det_score = None
+        if det is not None:
+            det_score = float(torch.sigmoid(det).item())
+
+        pred = torch.squeeze(pred, 0)
+        pred = F.softmax(pred, dim=0)[1]
+        pred = pred.cpu().numpy()
+
+        if pred.shape != image.shape[:2]:
+            pred_pil = Image.fromarray((pred * 255).astype(np.uint8))
+            pred_pil = pred_pil.resize((image.shape[1], image.shape[0]), Image.BILINEAR)
+            pred = np.array(pred_pil).astype(np.float32) / 255.0
+
+        mask_analysis = self._analyze_mask(pred)
+        if det_score is not None:
+            mask_analysis["trufor_score"] = det_score
+        if conf_map is not None:
+            mask_analysis["trufor_conf_mean"] = float(np.mean(conf_map))
+            mask_analysis["trufor_conf_min"] = float(np.min(conf_map))
+            mask_analysis["trufor_conf_max"] = float(np.max(conf_map))
+
+        manipulation_ratio = mask_analysis["manipulation_ratio"]
+        if manipulation_ratio < 0.05:
+            verdict = Verdict.AUTHENTIC
+            confidence = 1.0 - manipulation_ratio
+            explanation = (
+                f"TruFor가 유의미한 조작 영역을 탐지하지 않았습니다. "
+                f"조작 비율: {manipulation_ratio:.2%}"
+            )
+        elif manipulation_ratio > 0.8:
+            verdict = Verdict.AI_GENERATED
+            confidence = manipulation_ratio
+            explanation = (
+                f"TruFor가 이미지 대부분의 조작 가능성을 탐지했습니다. "
+                f"조작 비율: {manipulation_ratio:.2%}"
+            )
+        else:
+            verdict = Verdict.MANIPULATED
+            confidence = manipulation_ratio
+            explanation = (
+                f"TruFor가 이미지 일부 조작 영역을 탐지했습니다. "
+                f"조작 비율: {manipulation_ratio:.2%}"
+            )
+
+        processing_time = time.time() - start_time
+        return ToolResult(
+            tool_name=self.name,
+            verdict=verdict,
+            confidence=confidence,
+            evidence=mask_analysis,
+            explanation=explanation,
+            manipulation_mask=pred,
+            processing_time=processing_time
+        )
 
     def _fallback_analysis(self, image: np.ndarray, start_time: float) -> ToolResult:
         """모델 없이 기본 분석 수행 (Edge detection 기반)"""

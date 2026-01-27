@@ -5,6 +5,7 @@ QwenClient를 MAIFS 시스템과 통합하는 어댑터
 기존 MAIFS 파이프라인에 Qwen vLLM 기반 추론을 연결합니다.
 """
 import asyncio
+import json
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, field
 
@@ -66,6 +67,7 @@ class QwenMAIFSAdapter:
     def __init__(
         self,
         base_url: str = "http://localhost:8000",
+        model_name: Optional[str] = None,
         enable_debate: bool = True,
         max_debate_rounds: int = 3,
         consensus_threshold: float = 0.7
@@ -75,11 +77,12 @@ class QwenMAIFSAdapter:
 
         Args:
             base_url: vLLM 서버 URL
+            model_name: vLLM에 노출된 모델 이름
             enable_debate: 토론 활성화 여부
             max_debate_rounds: 최대 토론 라운드
             consensus_threshold: 합의 임계값
         """
-        self.client = QwenClient(base_url=base_url)
+        self.client = QwenClient(base_url=base_url, model_name=model_name)
         self.enable_debate = enable_debate
         self.max_debate_rounds = max_debate_rounds
         self.consensus_threshold = consensus_threshold
@@ -111,7 +114,19 @@ class QwenMAIFSAdapter:
         analysis_results = {}
         for role, result in inference_results.items():
             name = self.ROLE_NAME_MAP.get(role, role.value)
-            analysis_results[name] = self._convert_result(result)
+            qwen_result = self._convert_result(result)
+
+            # Fallback 모드 정보를 uncertainties에 추가
+            tool_results = tool_results_map.get(name, {})
+            if tool_results.get("fallback_mode"):
+                fallback_msg = (
+                    f"{name.capitalize()} tool is running in fallback mode "
+                    f"(model unavailable). Results may be less accurate."
+                )
+                if fallback_msg not in qwen_result.uncertainties:
+                    qwen_result.uncertainties.insert(0, fallback_msg)
+
+            analysis_results[name] = qwen_result
 
         return analysis_results
 
@@ -210,17 +225,23 @@ class QwenMAIFSAdapter:
                             verdict_changed = parsed.get("verdict_changed", False)
 
                             if verdict_changed:
-                                new_verdict = parsed.get("new_verdict")
+                                new_verdict_str = parsed.get("new_verdict")
                                 new_confidence = parsed.get("new_confidence", target.confidence)
 
-                                if new_verdict:
-                                    current_results[target_name] = QwenAnalysisResult(
-                                        verdict=Verdict(new_verdict),
-                                        confidence=new_confidence,
-                                        reasoning=parsed.get("reasoning", target.reasoning),
-                                        key_evidence=target.key_evidence,
-                                        uncertainties=target.uncertainties
-                                    )
+                                if new_verdict_str:
+                                    try:
+                                        # 대문자를 소문자로 변환 (Verdict enum은 소문자)
+                                        new_verdict = Verdict(str(new_verdict_str).lower())
+                                        current_results[target_name] = QwenAnalysisResult(
+                                            verdict=new_verdict,
+                                            confidence=new_confidence,
+                                            reasoning=parsed.get("reasoning", target.reasoning),
+                                            key_evidence=target.key_evidence,
+                                            uncertainties=target.uncertainties
+                                        )
+                                    except (ValueError, AttributeError):
+                                        # Invalid verdict, keep original
+                                        pass
 
                             round_exchanges.append({
                                 "challenger": challenger_name,
@@ -272,21 +293,91 @@ class QwenMAIFSAdapter:
             )
 
         parsed = result.parsed_json
+        if not isinstance(parsed, dict):
+            return QwenAnalysisResult(
+                verdict=Verdict.UNCERTAIN,
+                confidence=0.5,
+                reasoning="응답 형식이 올바르지 않습니다.",
+                raw_result=result
+            )
 
-        # verdict 변환 (대소문자 처리)
-        verdict_str = parsed.get("verdict", "UNCERTAIN")
+        # verdict 변환 (다양한 필드명 지원)
+        verdict_str = (
+            parsed.get("verdict") or
+            parsed.get("analysis_result") or
+            parsed.get("prediction") or
+            "UNCERTAIN"
+        )
         try:
             # LLM은 대문자로 반환, Verdict enum은 소문자
-            verdict = Verdict(verdict_str.lower())
+            verdict = Verdict(str(verdict_str).lower())
         except (ValueError, AttributeError):
             verdict = Verdict.UNCERTAIN
 
+        # confidence 변환 (숫자 또는 텍스트 레벨)
+        confidence = parsed.get("confidence")
+        if confidence is None:
+            # confidence_level 텍스트를 숫자로 변환
+            conf_level = str(parsed.get("confidence_level", "")).lower()
+            confidence_map = {
+                "high": 0.85,
+                "medium": 0.65,
+                "low": 0.4,
+                "uncertain": 0.5
+            }
+            confidence = confidence_map.get(conf_level, 0.5)
+
+        # confidence가 문자열인 경우 처리
+        if isinstance(confidence, str):
+            try:
+                confidence = float(confidence)
+            except ValueError:
+                confidence = 0.5
+
+        # 범위 제한
+        confidence = max(0.0, min(1.0, float(confidence)))
+
+        # reasoning 변환 (객체면 요약)
+        reasoning = parsed.get("reasoning", "")
+        if not isinstance(reasoning, str):
+            # 객체인 경우 핵심 내용 추출
+            if isinstance(reasoning, dict):
+                parts = []
+                for key, value in reasoning.items():
+                    if isinstance(value, dict):
+                        conclusion = value.get("conclusion") or value.get("description", "")
+                        if conclusion:
+                            parts.append(f"{key}: {conclusion}")
+                    else:
+                        parts.append(f"{key}: {value}")
+                reasoning = "; ".join(parts) if parts else json.dumps(reasoning, ensure_ascii=False)
+            else:
+                reasoning = json.dumps(reasoning, ensure_ascii=False)
+
+        # key_evidence 변환
+        key_evidence = parsed.get("key_evidence", [])
+        if isinstance(key_evidence, str):
+            key_evidence = [key_evidence]
+        elif key_evidence is None:
+            key_evidence = []
+        elif not isinstance(key_evidence, list):
+            key_evidence = [str(key_evidence)]
+
+        # uncertainties 변환
+        uncertainties = parsed.get("uncertainties", [])
+        if isinstance(uncertainties, str):
+            uncertainties = [uncertainties]
+        elif uncertainties is None:
+            uncertainties = []
+        elif not isinstance(uncertainties, list):
+            uncertainties = [str(uncertainties)]
+
         return QwenAnalysisResult(
             verdict=verdict,
-            confidence=parsed.get("confidence", 0.5),
-            reasoning=parsed.get("reasoning", ""),
-            key_evidence=parsed.get("key_evidence", []),
-            uncertainties=parsed.get("uncertainties", []),
+            confidence=confidence,
+            reasoning=reasoning,
+            key_evidence=key_evidence,
+            uncertainties=uncertainties,
             raw_result=result
         )
 

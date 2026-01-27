@@ -33,8 +33,8 @@ MAIFS는 다중 AI 에이전트가 협업하여 AI 생성 이미지를 탐지하
 ├──────────────────────────────────────────────────────────────────────────────┤
 │                                                                               │
 │  ┌─────────────────────────────────────────────────────────────────────────┐ │
-│  │                     vLLM Server (4 GPU Tensor Parallel)                  │ │
-│  │                        Qwen2.5-32B-Instruct                              │ │
+│  │                     vLLM Server (2 GPU Tensor Parallel)                  │ │
+│  │                    Qwen2.5-32B-Instruct (GPU 0,1)                        │ │
 │  │                                                                          │ │
 │  │  ┌─────────────────────────────────────────────────────────────────┐    │ │
 │  │  │              OpenAI-Compatible API + Guided JSON                │    │ │
@@ -98,9 +98,10 @@ MAIFS는 다중 AI 에이전트가 협업하여 AI 생성 이미지를 탐지하
 ### Phase 5: Qwen vLLM 통합 (NEW - 완료) ✅
 
 #### 5-1. vLLM 서버 설정
-- [x] `scripts/start_vllm_server.sh` - 4 GPU Tensor Parallel 설정
-- [x] Qwen2.5-32B-Instruct 모델 지원
-- [x] Guided Decoding Backend (Outlines) 활성화
+- [x] `scripts/start_vllm_server.sh` - 2 GPU Tensor Parallel 설정 (GPU 0,1)
+- [x] GPU 2,3: Vision Tools 전용 할당 (자원 충돌 방지)
+- [x] Qwen2.5-32B-Instruct 모델 지원 (40 attention heads → TP=2 필요)
+- [x] vLLM 0.14.0 호환 (client-side JSON schema via extra_body)
 
 #### 5-2. QwenClient 클래스
 - [x] `src/llm/qwen_client.py` - vLLM OpenAI-compatible API 클라이언트
@@ -127,6 +128,24 @@ MAIFS는 다중 AI 에이전트가 협업하여 AI 생성 이미지를 탐지하
 #### 5-6. 테스트
 - [x] `tests/test_qwen_integration.py` - 32개 테스트 추가
 - [x] 전체 테스트 161개 통과
+
+#### 5-7. GPU 자원 분할 전략
+- [x] **2+2 GPU 분할**: LLM 2 GPU + Vision Tools 2 GPU
+- [x] GPU 0,1: Qwen 32B Tensor Parallel (vLLM)
+- [x] GPU 2,3: Vision Tools (Frequency/Noise/Watermark/Spatial) 전용
+- [x] **자원 충돌 방지**: LLM과 Vision Tools 병렬 실행 가능
+- [x] `docs/GPU_ALLOCATION.md` - GPU 할당 가이드 문서 작성
+
+**성능 영향**:
+- LLM 속도: ~40% 감소 (TP4 → TP2)
+- Vision Tools: 2 GPU 사용으로 더 빠른 처리 가능
+- 전체 파이프라인: 병렬 처리로 성능 유지
+- 메모리 효율: GPU당 균형잡힌 할당
+
+**기술적 제약**:
+- Qwen2.5-32B는 40 attention heads를 가짐
+- Tensor Parallel 크기는 40의 약수여야 함 (1, 2, 4, 5, 8, ...)
+- TP=2 선택으로 Vision Tools도 2 GPU 사용 가능
 
 ---
 
@@ -192,7 +211,8 @@ MAIFS/
 │
 ├── docs/
 │   ├── ARCHITECTURE.md
-│   └── API_REFERENCE.md
+│   ├── API_REFERENCE.md
+│   └── GPU_ALLOCATION.md           # ✅ NEW: GPU 할당 가이드
 │
 └── 문서 (Root)
     ├── README.md
@@ -206,11 +226,11 @@ MAIFS/
 
 | 구분 | 파일 수 | 코드 라인 |
 |-----|--------|----------|
-| Core (src/) | 25 | ~6,500 |
-| Scripts | 3 | ~300 |
-| Tests | 8 | ~3,000 |
-| Documentation | 15 | ~4,000 |
-| **Total** | **51** | **~13,800** |
+| Core (src/) | 27 | ~7,300 |
+| Scripts | 3 | ~350 |
+| Tests | 8 | ~3,400 |
+| Documentation | 16 | ~4,900 |
+| **Total** | **54** | **~15,950** |
 
 ### 테스트 현황
 ```

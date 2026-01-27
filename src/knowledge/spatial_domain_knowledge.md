@@ -6,16 +6,16 @@
 ## 📚 과학적 근거
 
 ### 핵심 논문
-1. **"Multi-Scale Vision Transformers for Image Manipulation Detection" (2023)**
-   - ViT 기반 지역 불일치 탐지
-   - Self-attention으로 조작 영역 찾기
+1. **"OmniGuard: Hybrid Manipulation Localization via Augmented Versatile Deep Image Watermarking"**
+   - OmniGuard 프로젝트에서 제공되는 ViT 기반 조작 영역 탐지
+   - 픽셀 수준 조작 마스크 생성
 
 2. **"ManTra-Net: Manipulation Tracing Network" (2019)**
    - 다양한 조작 유형 탐지
    - 복사-붙여넣기, 스플라이싱, 리터칭
 
-3. **"TruFor: Leveraging all-round clues for trustworthy image forgery detection" (2024)**
-   - 노이즈 + RGB + 주파수 통합
+3. **"TruFor: Leveraging all-round clues for trustworthy image forgery detection and localization" (CVPR 2023)**
+   - RGB + Noiseprint++ 기반 멀티모달 분석
    - 조작 영역 픽셀 수준 탐지
 
 ---
@@ -267,7 +267,7 @@ GAN 전체 생성 이미지는 '불일치'가 없으므로 공간 분석이 탐�
 
 1. Dosovitskiy et al., "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale", ICLR 2021
 2. Wu et al., "ManTra-Net: Manipulation Tracing Network for Detection and Localization of Image Forgeries", CVPR 2019
-3. Guillaro et al., "TruFor: Leveraging all-round clues for trustworthy image forgery detection", CVPR 2024
+3. Guillaro et al., "TruFor: Leveraging all-round clues for trustworthy image forgery detection and localization", CVPR 2023
 
 ---
 

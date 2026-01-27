@@ -355,7 +355,7 @@ print(result.to_json())
 1. COBRA (2024) - 합의 알고리즘
 2. AIFo (2024) - 에이전트 기반 포렌식
 3. MAD-Sherlock (2024) - 다중 에이전트 토론
-4. OmniGuard (2024) - 워터마크 탐지
+4. OmniGuard - 조작 위치 탐지 (ViT 기반)
 5. HiNet (2021) - 스테가노그래피
 
 ### 데이터셋 논문

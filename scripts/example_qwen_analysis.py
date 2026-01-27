@@ -2,8 +2,19 @@
 """
 MAIFS + Qwen vLLM 분석 예시
 
-4개 전문가 에이전트가 Qwen을 사용하여 이미지를 분석하고
+5개 전문가 에이전트가 Qwen을 사용하여 이미지를 분석하고
 필요시 토론을 통해 합의에 도달합니다.
+
+분석 도구:
+- Frequency: FFT 주파수 분석 (JPEG vs GAN 구분)
+- Noise: PRNU 노이즈 패턴 분석 (자연 다양성 vs 조작 구분)
+- Watermark: HiNet 워터마크 탐지
+- Spatial: ViT 공간 패턴 분석
+- EXIF: 카메라 메타데이터 분석 (신규)
+
+GPU 할당:
+- GPU 1,2: Qwen LLM (vLLM Tensor Parallel 2)
+- GPU 2,3: Vision Tools (Frequency/Noise/Watermark/Spatial/EXIF)
 
 사전 요구사항:
 1. vLLM 서버 실행: ./scripts/start_vllm_server.sh
@@ -13,11 +24,16 @@ Usage:
     python scripts/example_qwen_analysis.py --image path/to/image.jpg
     python scripts/example_qwen_analysis.py --demo  # 데모 모드 (랜덤 이미지)
 """
+import os
+import json
 import asyncio
 import argparse
 import sys
 import time
 from pathlib import Path
+
+# GPU 할당: Vision Tools는 GPU 2,3 사용
+os.environ.setdefault("CUDA_VISIBLE_DEVICES", "2,3")
 
 # 프로젝트 루트를 경로에 추가
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -30,7 +46,10 @@ async def analyze_image_with_qwen(
     image_path: str = None,
     demo_mode: bool = False,
     vllm_url: str = "http://localhost:8000",
-    enable_debate: bool = True
+    model_name: str = "default",
+    save_json: str = None,
+    enable_debate: bool = True,
+    include_raw_response: bool = False
 ):
     """
     이미지 분석 수행
@@ -45,6 +64,7 @@ async def analyze_image_with_qwen(
     from src.tools.noise_tool import NoiseAnalysisTool
     from src.tools.watermark_tool import WatermarkTool
     from src.tools.spatial_tool import SpatialAnalysisTool
+    from src.tools.exif_tool import ExifAnalysisTool
     from src.llm.qwen_maifs_adapter import QwenMAIFSAdapter
 
     print("=" * 60)
@@ -64,23 +84,44 @@ async def analyze_image_with_qwen(
 
     # 2. Tool 분석 수행
     print("\n" + "-" * 60)
-    print("Phase 1: Tool 분석 (4개 에이전트 병렬 실행)")
+    print("Phase 1: Tool 분석 (5개 에이전트 병렬 실행)")
     print("-" * 60)
 
     tools = {
         "frequency": FrequencyAnalysisTool(),
         "noise": NoiseAnalysisTool(),
         "watermark": WatermarkTool(),
-        "spatial": SpatialAnalysisTool()
+        "spatial": SpatialAnalysisTool(),
+        "exif": ExifAnalysisTool()
     }
 
     tool_results = {}
+    tool_outputs = {}
     start_time = time.time()
 
     for name, tool in tools.items():
         print(f"  [{name}] 분석 중...")
-        result = tool.analyze(image)
-        tool_results[name] = result.evidence
+
+        # EXIF tool은 image_path 필요
+        if name == "exif":
+            result = tool.analyze(image, image_path=image_path)
+        else:
+            result = tool.analyze(image)
+
+        # LLM에게 Tool의 판정과 설명도 함께 전달
+        tool_results[name] = {
+            "tool_verdict": result.verdict.value,
+            "tool_confidence": result.confidence,
+            "tool_explanation": result.explanation,
+            "evidence": result.evidence
+        }
+
+        tool_outputs[name] = {
+            "verdict": result.verdict.value.upper(),  # 대문자 통일
+            "confidence": result.confidence,
+            "explanation": result.explanation,
+            "evidence": result.evidence
+        }
         print(f"  [{name}] 완료 - {result.verdict.value} ({result.confidence:.1%})")
 
     tool_time = time.time() - start_time
@@ -93,6 +134,7 @@ async def analyze_image_with_qwen(
 
     adapter = QwenMAIFSAdapter(
         base_url=vllm_url,
+        model_name=model_name,
         enable_debate=enable_debate,
         max_debate_rounds=3
     )
@@ -129,6 +171,8 @@ async def analyze_image_with_qwen(
             print(f"  지연시간: {result.raw_result.latency_ms:.0f}ms")
 
     # 4. 토론 (불일치 시)
+    debate_time = 0.0
+    debate_result = None
     if enable_debate:
         print("\n" + "-" * 60)
         print("Phase 3: 토론 (불일치 시)")
@@ -171,9 +215,65 @@ async def analyze_image_with_qwen(
     print(f"\n최종 판정: {final_verdict}")
     print(f"평균 신뢰도: {avg_confidence:.1%}")
     print(f"판정 분포: {dict(verdict_counts)}")
-    print(f"\n총 소요 시간: {time.time() - start_time:.2f}초")
+    total_time = time.time() - start_time
+    print(f"\n총 소요 시간: {total_time:.2f}초")
     print(f"  - Tool 분석: {tool_time:.2f}초")
     print(f"  - LLM 해석: {llm_time:.2f}초")
+
+    # JSON 저장
+    if save_json:
+        def _analysis_to_dict(result):
+            data = result.to_dict()
+            # raw_response는 옵션으로만 포함 (파일 크기 절감)
+            if include_raw_response and result.raw_result and result.raw_result.raw_response:
+                data["raw_response"] = result.raw_result.raw_response
+            if result.raw_result and result.raw_result.latency_ms:
+                data["latency_ms"] = result.raw_result.latency_ms
+            return data
+
+        debate_payload = None
+        if debate_result:
+            debate_payload = dict(debate_result)
+            updated = debate_payload.get("updated_results")
+            if isinstance(updated, dict):
+                debate_payload["updated_results"] = {
+                    k: _analysis_to_dict(v) for k, v in updated.items()
+                }
+
+        payload = {
+            "image": {
+                "path": image_path,
+                "shape": list(image.shape),
+                "dtype": str(image.dtype)
+            },
+            "vllm": {
+                "url": vllm_url,
+                "model": model_name
+            },
+            "tools": tool_outputs,
+            "agents": {
+                name: _analysis_to_dict(result)
+                for name, result in analysis_results.items()
+            },
+            "debate": debate_payload,
+            "summary": {
+                "final_verdict": final_verdict,
+                "average_confidence": avg_confidence,
+                "verdict_distribution": dict(verdict_counts)
+            },
+            "timing": {
+                "tool_seconds": tool_time,
+                "llm_seconds": llm_time,
+                "debate_seconds": debate_time,
+                "total_seconds": total_time
+            }
+        }
+
+        save_path = Path(save_json)
+        save_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(save_path, "w", encoding="utf-8") as f:
+            json.dump(payload, f, indent=2, ensure_ascii=False)
+        print(f"\nJSON 저장 완료: {save_path}")
 
     await adapter.close()
 
@@ -184,7 +284,29 @@ def main():
     parser.add_argument("--demo", action="store_true", help="데모 모드 (랜덤 이미지)")
     parser.add_argument("--url", type=str, default="http://localhost:8000",
                        help="vLLM 서버 URL")
+    parser.add_argument(
+        "--model",
+        type=str,
+        default=(
+            os.environ.get("QWEN_VLLM_MODEL")
+            or os.environ.get("VLLM_MODEL")
+            or os.environ.get("MODEL_NAME")
+            or "default"
+        ),
+        help="vLLM 모델 이름"
+    )
+    parser.add_argument(
+        "--save-json",
+        type=str,
+        default=None,
+        help="결과 JSON 저장 경로"
+    )
     parser.add_argument("--no-debate", action="store_true", help="토론 비활성화")
+    parser.add_argument(
+        "--include-raw-response",
+        action="store_true",
+        help="JSON 출력에 raw LLM 응답 포함 (파일 크기 증가)"
+    )
 
     args = parser.parse_args()
 
@@ -195,7 +317,10 @@ def main():
         image_path=args.image,
         demo_mode=args.demo,
         vllm_url=args.url,
-        enable_debate=not args.no_debate
+        model_name=args.model,
+        save_json=args.save_json,
+        enable_debate=not args.no_debate,
+        include_raw_response=args.include_raw_response
     ))
 
 

@@ -53,7 +53,7 @@ class WatermarkTool(BaseTool):
 
         # 체크포인트 경로 설정 (우선순위: 인자 > OmniGuard > 로컬 HiNet)
         if checkpoint_path:
-            self.checkpoint_path = checkpoint_path
+            self.checkpoint_path = Path(checkpoint_path)
         else:
             try:
                 self.checkpoint_path = config.model.omniguard_checkpoint_dir
@@ -74,12 +74,43 @@ class WatermarkTool(BaseTool):
             self._model = Hinet()
             self._model = self._model.to(self.device)
 
-            # 체크포인트 로드 (있는 경우)
-            checkpoint_file = self.checkpoint_path / "hinet.pth"
-            if checkpoint_file.exists():
-                state_dict = torch.load(checkpoint_file, map_location=self.device)
-                self._model.load_state_dict(state_dict)
+            # 체크포인트 경로 결정 (파일 > 설정 > 디렉토리 내 우선순위)
+            checkpoint_file = None
+            if isinstance(self.checkpoint_path, Path) and self.checkpoint_path.is_file():
+                checkpoint_file = self.checkpoint_path
+            else:
+                try:
+                    checkpoint_file = config.model.get_best_hinet_checkpoint()
+                except Exception:
+                    checkpoint_file = None
+
+                if not checkpoint_file and isinstance(self.checkpoint_path, Path):
+                    candidate_names = [
+                        "checkpoint-175.pth",
+                        "hinet.pth",
+                        "model_checkpoint_01500.pt",
+                        "model_checkpoint_00540.pt",
+                    ]
+                    for name in candidate_names:
+                        candidate = self.checkpoint_path / name
+                        if candidate.exists():
+                            checkpoint_file = candidate
+                            break
+
+            if checkpoint_file and checkpoint_file.exists():
+                state_dict = torch.load(checkpoint_file, map_location=self.device, weights_only=False)
+                if isinstance(state_dict, dict):
+                    for key in ("state_dict", "model", "net", "hinet"):
+                        if key in state_dict and isinstance(state_dict[key], dict):
+                            state_dict = state_dict[key]
+                            break
+                self._model.load_state_dict(state_dict, strict=False)
                 print(f"[WatermarkTool] 체크포인트 로드: {checkpoint_file}")
+            else:
+                print("[WatermarkTool] 체크포인트를 찾지 못했습니다. Fallback 모드로 전환합니다.")
+                self._model = None
+                self._is_loaded = True
+                return
 
             self._model.eval()
             self._is_loaded = True
@@ -144,6 +175,9 @@ class WatermarkTool(BaseTool):
             ToolResult: 워터마크 분석 결과
         """
         start_time = time.time()
+
+        if not self._is_loaded:
+            self.load_model()
 
         if self._model is None:
             # Fallback: 기본 분석 (모델 없이)

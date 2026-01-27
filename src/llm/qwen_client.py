@@ -137,20 +137,56 @@ class QwenClient:
 FFT 기반 주파수 스펙트럼 분석을 통해 AI 생성 이미지의 특징을 탐지합니다.
 
 ## 핵심 지식
-- GAN 이미지: 8x8, 16x16 격자 패턴의 주파수 피크 (업샘플링 아티팩트)
-- Diffusion 이미지: 고주파 대역 에너지 감쇠, 스펙트럼 롤오프
-- 실제 카메라: 연속적이고 자연스러운 주파수 분포
 
-## 판정 기준
-- **AUTHENTIC**: 자연스러운 주파수 스펙트럼, 격자 패턴 없음
-- **AI_GENERATED**: 격자 아티팩트 또는 비정상적 고주파 특성
-- **MANIPULATED**: 부분적 주파수 불일치
-- **UNCERTAIN**: 판단하기 어려운 경계 사례
+### 1. JPEG 압축 (정상)
+- **8×8 DCT 블록**: JPEG는 이미지를 8×8 픽셀 블록으로 나누어 압축
+- **주파수 특성**: 8×8 블록 경계에서 규칙적인 주파수 피크 발생
+- **is_likely_jpeg: true**: Tool이 8×8 패턴을 감지함 → 이는 **카메라/편집기의 정상적인 압축**
+- **중요**: JPEG 압축이 감지되면 abnormality_score는 압축의 부작용이므로 **AI 생성 증거가 아님**
 
-## 중요
-- Tool 결과의 수치를 도메인 지식에 따라 해석하세요
-- 불확실한 부분은 명시적으로 표시하세요
-- 반드시 JSON 형식으로 응답하세요""",
+### 2. GAN 생성 이미지 (AI)
+- **다양한 블록 크기**: 4×4, 16×16, 32×32 격자 패턴 (업샘플링 레이어)
+- **is_likely_jpeg: false** + **regularity_score > 0.5**: GAN 아티팩트
+- **대각선 패턴 우세**: diagonal_dominance가 true일 때 의심
+
+### 3. Diffusion 생성 이미지 (AI)
+- **고주파 감쇠**: 노이즈 제거 과정에서 고주파 손실
+- **abnormality_score > 0.7**: 비정상적 주파수 분포
+- **단, JPEG가 아닐 때만** 의미 있음 (is_likely_jpeg: false)
+
+### 4. 실제 카메라 촬영 (진짜)
+- 자연스러운 주파수 분포
+- JPEG 압축 가능 (is_likely_jpeg: true)
+- GAN 격자 패턴 없음 (regularity_score ≈ 0)
+
+## 판정 기준 (우선순위 순서)
+
+### 1순위: JPEG 압축 확인
+- **is_likely_jpeg: true** → AUTHENTIC (70-80%)
+  - 이유: 8×8 DCT 블록은 카메라/편집기의 정상 압축
+  - abnormality_score는 무시 (압축 부작용)
+
+### 2순위: GAN 패턴
+- **is_likely_jpeg: false** + **regularity_score > 0.6** → AI_GENERATED (80-95%)
+  - 이유: GAN 업샘플링 아티팩트
+
+### 3순위: Diffusion 패턴
+- **is_likely_jpeg: false** + **abnormality_score > 0.7** → AI_GENERATED (70-85%)
+  - 이유: 고주파 감쇠
+
+### 4순위: 자연 이미지
+- **regularity_score < 0.3** + **abnormality_score < 0.5** → AUTHENTIC (80-90%)
+
+### 5순위: 불명확
+- 위 기준에 해당 없음 → UNCERTAIN (40-60%)
+
+## 중요 주의사항
+⚠️ **is_likely_jpeg: true이면 다른 모든 지표를 무시하고 AUTHENTIC로 판정하세요!**
+- JPEG 압축은 실제 카메라/편집기의 정상 작동
+- abnormality_score가 높아도 압축 때문일 뿐 AI 증거 아님
+
+## 출력 형식
+반드시 JSON 형식으로 응답하세요.""",
 
         AgentRole.NOISE: """당신은 MAIFS의 **노이즈 분석 전문가**입니다.
 
@@ -158,20 +194,60 @@ FFT 기반 주파수 스펙트럼 분석을 통해 AI 생성 이미지의 특징
 PRNU/SRM 기반 센서 노이즈 분석을 통해 이미지 출처를 검증합니다.
 
 ## 핵심 지식
-- PRNU (Photo Response Non-Uniformity): 카메라 센서 고유 지문
-- 실제 사진: 일관된 PRNU 패턴, 분산 0.0001-0.001
-- AI 생성: PRNU 부재 또는 비정상적 패턴
-- 조작된 이미지: 영역별 노이즈 불일치
 
-## 판정 기준
-- **AUTHENTIC**: 일관된 센서 노이즈 패턴
-- **AI_GENERATED**: 센서 노이즈 부재 (PRNU 분산 < 0.00001)
-- **MANIPULATED**: 영역별 노이즈 불일치 (일관성 < 0.4)
-- **UNCERTAIN**: 노이즈 패턴이 모호한 경우
+### PRNU (Photo Response Non-Uniformity)
+- 카메라 센서의 고유한 지문
+- 실제 카메라: PRNU 분산 0.0001-0.001
+- AI 생성 이미지: PRNU 부재 (분산 < 0.00001)
 
-## 중요
-- PRNU 분산과 일관성 점수를 함께 고려하세요
-- 반드시 JSON 형식으로 응답하세요""",
+### 노이즈 일관성 분석
+⚠️ **중요**: coefficient_of_variation (cv) 해석
+
+#### 자연스러운 장면 (AUTHENTIC)
+- **높은 cv (> 1.0)**: 다양한 내용 영역 (하늘, 건물, 그림자 등)
+- **natural_diversity_score > 0.5**: 장면 다양성의 증거
+- **outlier_ratio 15-20%**: 정상 범위 (밝은/어두운 영역 차이)
+- **manipulation_score < 0.3**: 조작 증거 없음
+
+#### AI 생성 이미지
+- **낮은 cv (< 0.5)**: 균일한 노이즈 분포
+- **natural_diversity_score < 0.3**: 다양성 부족
+- **ai_generation_score > 0.6**: 센서 노이즈 부재
+
+#### 조작된 이미지 (MANIPULATED)
+- **높은 outlier_ratio (> 30%)**: 비정상적 이상치 블록
+- **manipulation_score > 0.6**: 국소적 노이즈 불일치
+- **spatial clustering**: 이상치가 특정 영역에 집중
+
+## 판정 기준 (우선순위 순서)
+
+### 1순위: 자연 장면 다양성
+- **natural_diversity_score > 0.5** + **ai_generation_score < 0.4** → AUTHENTIC (80-90%)
+  - 이유: 높은 cv는 자연스러운 장면 변화 (하늘, 건물, 그림자)
+  - manipulation_score가 낮으면 조작 아님
+
+### 2순위: 조작 탐지
+- **manipulation_score > 0.6** (outlier_ratio > 30%) → MANIPULATED (70-90%)
+  - 이유: 비정상적으로 많은 이상치 블록
+
+### 3순위: AI 생성 탐지
+- **ai_generation_score > 0.6** + **natural_diversity_score < 0.3** → AI_GENERATED (70-85%)
+  - 이유: 센서 노이즈 부재 + 균일한 분포
+
+### 4순위: 센서 노이즈 존재
+- **ai_generation_score < 0.3** → AUTHENTIC (70-80%)
+  - 이유: PRNU 패턴 확인
+
+### 5순위: 불명확
+- 위 기준에 해당 없음 → UNCERTAIN (40-60%)
+
+## 중요 주의사항
+⚠️ **높은 cv는 조작의 증거가 아니라 자연스러운 다양성입니다!**
+- cv > 2.0: 실제 사진의 정상적 특성 (다양한 밝기/질감 영역)
+- 조작 판정은 outlier_ratio와 manipulation_score로만 결정
+
+## 출력 형식
+반드시 JSON 형식으로 응답하세요.""",
 
         AgentRole.WATERMARK: """당신은 MAIFS의 **워터마크 분석 전문가**입니다.
 
@@ -240,6 +316,7 @@ ViT 기반 픽셀 수준 조작 영역 탐지
     def __init__(
         self,
         base_url: str = "http://localhost:8000",
+        model_name: Optional[str] = None,
         timeout: float = 60.0,
         max_retries: int = 3
     ):
@@ -248,10 +325,18 @@ ViT 기반 픽셀 수준 조작 영역 탐지
 
         Args:
             base_url: vLLM 서버 URL
+            model_name: vLLM에 노출된 모델 이름
             timeout: 요청 타임아웃 (초)
             max_retries: 최대 재시도 횟수
         """
         self.base_url = base_url.rstrip("/")
+        self.model_name = (
+            model_name
+            or os.environ.get("QWEN_VLLM_MODEL")
+            or os.environ.get("VLLM_MODEL")
+            or os.environ.get("MODEL_NAME")
+            or "default"
+        )
         self.timeout = timeout
         self.max_retries = max_retries
         self._session: Optional[aiohttp.ClientSession] = None
@@ -334,7 +419,7 @@ ViT 기반 픽셀 수준 조작 영역 탐지
 
         # 요청 본문 구성
         request_body = {
-            "model": "default",  # vLLM 서버의 기본 모델
+            "model": self.model_name,
             "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
@@ -480,10 +565,29 @@ ViT 기반 픽셀 수준 조작 영역 탐지
 2. 내 입장을 수정해야 하는가?
 3. 판정 유지 또는 변경 이유는?
 
-JSON 형식으로 응답하세요."""
+## 응답 형식 (JSON)
+반드시 다음 JSON 형식으로만 응답하세요:
+
+```json
+{{
+  "response_type": "defense | concession | counter | clarification",
+  "content": "반론에 대한 상세한 응답 내용",
+  "verdict_changed": false,
+  "new_verdict": null,
+  "new_confidence": {my_confidence},
+  "reasoning": "판정 유지/변경 이유"
+}}
+```
+
+**중요**:
+- response_type: defense(방어), concession(수용), counter(반박), clarification(명확화) 중 하나
+- content: 빈 문자열 금지, 반드시 상세한 응답 작성
+- verdict_changed: 판정 변경 시 true, 유지 시 false
+- new_verdict: 변경 시에만 새 판정, 유지 시 null
+- new_confidence: 변경 시 새 신뢰도, 유지 시 현재 값"""
 
         request_body = {
-            "model": "default",
+            "model": self.model_name,
             "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
@@ -558,9 +662,41 @@ JSON 형식으로 응답하세요."""
             ])
 
         parts.extend([
+            "## Tool 분석 결과 해석",
+            "각 Tool은 이미 1차 분석을 완료했습니다:",
+            "- **tool_verdict**: Tool의 최종 판정",
+            "- **tool_confidence**: Tool의 신뢰도",
+            "- **tool_explanation**: Tool의 판정 근거",
+            "- **evidence**: 상세한 증거 데이터",
+            "",
             "## 요청",
-            "위 Tool 결과를 분석하여 이미지의 진위 여부를 판정하세요.",
-            "반드시 JSON 형식으로 응답하세요."
+            "Tool의 판정과 증거를 종합하여 **당신의 전문 분야 관점**에서 재해석하세요.",
+            "",
+            "⚠️ **중요한 판단 기준**:",
+            "1. **Tool 판정 존중**: Tool이 명확한 패턴(예: JPEG 압축, 카메라 메타데이터)을 감지했다면 그 판정을 존중하세요",
+            "2. **도메인 지식 적용**: 당신의 전문 분야 지식으로 Tool 결과의 의미를 해석하세요",
+            "3. **증거 우선순위**: 명확한 증거(예: is_likely_jpeg=true)가 통계적 지표(예: abnormality_score)보다 우선합니다",
+            "4. **컨텍스트 고려**: 하나의 지표가 아닌 전체 맥락을 고려하세요",
+            "",
+            "## 응답 형식 (JSON)",
+            "반드시 다음 JSON 형식으로만 응답하세요:",
+            "",
+            "```json",
+            "{",
+            "  \"verdict\": \"AUTHENTIC | MANIPULATED | AI_GENERATED | UNCERTAIN\",",
+            "  \"confidence\": 0.85,",
+            "  \"reasoning\": \"판정에 대한 논리적 근거를 명확하게 설명\",",
+            "  \"key_evidence\": [\"핵심 증거 1\", \"핵심 증거 2\"],",
+            "  \"uncertainties\": [\"불확실한 점 1\", \"불확실한 점 2\"]",
+            "}",
+            "```",
+            "",
+            "**출력 요구사항**: ",
+            "- verdict는 4가지 중 하나만 사용",
+            "- confidence는 0.0~1.0 사이의 숫자",
+            "- reasoning은 간결한 한 문단 텍스트",
+            "- key_evidence는 문자열 배열",
+            "- uncertainties는 문자열 배열 (없으면 빈 배열)"
         ])
 
         return "\n".join(parts)
@@ -627,6 +763,7 @@ class QwenClientSync:
 # 편의 함수
 def create_qwen_client(
     base_url: str = "http://localhost:8000",
+    model_name: Optional[str] = None,
     sync: bool = False
 ) -> Union[QwenClient, QwenClientSync]:
     """
@@ -634,11 +771,12 @@ def create_qwen_client(
 
     Args:
         base_url: vLLM 서버 URL
+        model_name: vLLM에 노출된 모델 이름
         sync: 동기 클라이언트 반환 여부
 
     Returns:
         QwenClient 또는 QwenClientSync
     """
     if sync:
-        return QwenClientSync(base_url=base_url)
-    return QwenClient(base_url=base_url)
+        return QwenClientSync(base_url=base_url, model_name=model_name)
+    return QwenClient(base_url=base_url, model_name=model_name)

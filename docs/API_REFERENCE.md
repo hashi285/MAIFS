@@ -946,6 +946,81 @@ image = np.random.randint(0, 255, (512, 512, 3), dtype=np.uint8)
 asyncio.run(analyze_image(image))
 ```
 
+### Technical Notes
+
+#### vLLM Continuous Batching
+
+**중요**: vLLM의 continuous batching은 **KV-cache를 공유하지 않습니다**.
+
+**실제 동작**:
+```python
+# batch_infer() 호출 시
+Agent 1: 독립적인 KV-cache[0] (시스템 프롬프트 + 입력)
+Agent 2: 독립적인 KV-cache[1] (시스템 프롬프트 + 입력)
+Agent 3: 독립적인 KV-cache[2] (시스템 프롬프트 + 입력)
+Agent 4: 독립적인 KV-cache[3] (시스템 프롬프트 + 입력)
+```
+
+**Continuous Batching의 장점**:
+- ✅ 여러 요청을 동시에 스케줄링
+- ✅ GPU 활용도 향상 (idle time 최소화)
+- ✅ Throughput 증가
+- ❌ KV-cache 공유 (각 요청은 독립적)
+
+**KV-cache 공유를 원한다면**:
+```bash
+# vLLM Prefix Caching 활성화 필요
+--enable-prefix-caching
+```
+
+Prefix caching을 사용하면 공통 시스템 프롬프트 부분이 캐싱되어 재사용됩니다:
+```
+공통 prefix: "당신은 MAIFS의..." → 1번만 연산
+개별 suffix: 각 에이전트의 tool_results → 4번 연산
+```
+
+#### GPU Allocation Strategy
+
+MAIFS는 3+1 GPU 분할을 사용합니다:
+
+```
+GPU 0,1,2: Qwen LLM (Tensor Parallel 3)
+GPU 3:     Vision Tools (전용)
+```
+
+**이유**:
+- ✅ LLM과 Vision Tools의 자원 충돌 방지
+- ✅ 병렬 실행 가능 → 전체 파이프라인 ~30% 빠름
+- ⚠️ LLM 속도 ~15% 감소 (TP4 → TP3)
+
+자세한 내용은 [docs/GPU_ALLOCATION.md](GPU_ALLOCATION.md)를 참조하세요.
+
+#### Guided Decoding Guarantees
+
+Guided JSON decoding (Outlines backend)이 보장하는 것:
+- ✅ JSON 파싱 성공률 ~100%
+- ✅ 스키마 준수 (enum, type, required)
+- ✅ 일관된 출력 형식
+
+보장하지 **않는** 것:
+- ❌ 내용의 타당성 (논리적 오류 방지 불가)
+- ❌ 추론의 정확성 (사실 검증 불가)
+- ❌ 증거의 신뢰성 (품질 보장 불가)
+
+추가 검증 로직이 필요한 경우:
+```python
+def validate_result(result: QwenAnalysisResult) -> bool:
+    # 논리 검증
+    if len(result.reasoning) < 50:
+        return False
+
+    # 증거 검증
+    if result.confidence > 0.8 and len(result.key_evidence) < 2:
+        return False
+
+    return True
+```
+
 ---
 
 ## Error Handling

@@ -78,5 +78,5 @@ docs/
 ### 도메인 지식 (LLM용)
 - [../src/knowledge/frequency_domain_knowledge.md](../src/knowledge/frequency_domain_knowledge.md)
 - [../src/knowledge/noise_domain_knowledge.md](../src/knowledge/noise_domain_knowledge.md)
-- [../src/knowledge/watermark_domain_knowledge.md](../src/knowledge/watermark_domain_knowledge.md)
+- [../src/knowledge/fatformer_domain_knowledge.md](../src/knowledge/fatformer_domain_knowledge.md)
 - [../src/knowledge/spatial_domain_knowledge.md](../src/knowledge/spatial_domain_knowledge.md)

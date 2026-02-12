@@ -1,22 +1,22 @@
 #!/bin/bash
 #
 # MAIFS - vLLM Server Startup Script
-# Qwen 32B with 2 GPU Tensor Parallel
+# Qwen 30B-A3B-Thinking with configurable tensor parallel
 # Default GPU allocation avoids GPU 0 (primary GPU)
 #
-# Note: Qwen2.5-32B has 40 attention heads, which requires TP size to be divisor of 40
-# Valid TP sizes: 1, 2, 4, 5, 8, 10, 20, 40 (using 2 for 2+2 GPU split)
+# Note: TP size must be compatible with the selected model architecture.
+# Set TENSOR_PARALLEL_SIZE explicitly for your GPU layout.
 
 # Configuration
-MODEL_NAME="${MODEL_NAME:-Qwen/Qwen2.5-32B-Instruct}"
+MODEL_NAME="${MODEL_NAME:-$HOME/models/qwen3-30b-a3b-thinking-2507}"
 PORT="${PORT:-8000}"
 HOST="${HOST:-0.0.0.0}"
-TENSOR_PARALLEL_SIZE="${TENSOR_PARALLEL_SIZE:-2}"
+TENSOR_PARALLEL_SIZE="${TENSOR_PARALLEL_SIZE:-1}"
 MAX_MODEL_LEN="${MAX_MODEL_LEN:-8192}"
 GPU_MEMORY_UTILIZATION="${GPU_MEMORY_UTILIZATION:-0.9}"
 
-# GPU allocation: default to 1,2 for LLM to avoid primary GPU reset issues
-export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-1,2}"
+# GPU allocation: default to GPU 0 for single-GPU setups
+export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 
 # V100 (compute capability 7.0) cannot use FlashAttention v2.
 # Force a compatible attention backend unless the user overrides it.

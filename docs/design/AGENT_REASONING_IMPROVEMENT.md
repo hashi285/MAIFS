@@ -187,7 +187,7 @@ class ManagerAgent(BaseAgent):
         각 에이전트가 자신의 분야 전문성을 바탕으로 논쟁할 때:
 
         - Frequency vs Noise: 어느 증거가 더 강한가?
-        - Watermark vs Spatial: 모순되는 부분은?
+        - FatFormer vs Spatial: 모순되는 부분은?
 
         각 입장의 최종 주장을 정리해주세요.
         """
@@ -308,7 +308,7 @@ def _conduct_debate(self, responses: Dict[str, AgentResponse]) -> List[Dict]:
 Sub-agents (Tool + LLM)
   ├─ FrequencyAgent (LLM)
   ├─ NoiseAgent (LLM)
-  ├─ WatermarkAgent (LLM)
+  ├─ FatFormerAgent (LLM)
   └─ SpatialAgent (LLM)
   ↓
 각 agent가 "의견" 생성 + "근거" 제시

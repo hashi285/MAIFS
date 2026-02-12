@@ -14,13 +14,13 @@ cd /home/dsu/Desktop/MAIFS
 기본 동작:
 - `.venv-qwen` 가상환경 생성
 - `envs/requirements-qwen-vllm.txt` 설치
-- `Qwen/Qwen2.5-32B-Instruct` 다운로드 (`~/models/qwen2.5-32b-instruct`)
+- `Qwen/Qwen3-30B-A3B-Thinking-2507` 다운로드 (`~/models/qwen3-30b-a3b-thinking-2507`)
 
 환경변수로 동작 제어:
 
 ```bash
 # 모델만 바꿔서 설치/다운로드
-MODEL_ID="Qwen/Qwen2.5-14B-Instruct" ./scripts/setup_qwen_inference.sh
+MODEL_ID="Qwen/Qwen3-30B-A3B-Instruct-2507" ./scripts/setup_qwen_inference.sh
 
 # 다운로드는 건너뛰고 의존성만 설치
 DOWNLOAD_MODEL=0 ./scripts/setup_qwen_inference.sh
@@ -35,8 +35,8 @@ INSTALL_DEPS=0 ./scripts/setup_qwen_inference.sh
 cd /home/dsu/Desktop/MAIFS
 source .venv-qwen/bin/activate
 python scripts/download_qwen_model.py \
-  --model-id Qwen/Qwen2.5-32B-Instruct \
-  --local-dir ~/models/qwen2.5-32b-instruct
+  --model-id Qwen/Qwen3-30B-A3B-Thinking-2507 \
+  --local-dir ~/models/qwen3-30b-a3b-thinking-2507
 ```
 
 ## 3) vLLM 서버 실행
@@ -44,13 +44,13 @@ python scripts/download_qwen_model.py \
 ```bash
 cd /home/dsu/Desktop/MAIFS
 source .venv-qwen/bin/activate
-MODEL_NAME="$HOME/models/qwen2.5-32b-instruct" ./scripts/start_vllm_server.sh
+MODEL_NAME="$HOME/models/qwen3-30b-a3b-thinking-2507" ./scripts/start_vllm_server.sh
 ```
 
 필요 시 GPU 지정:
 
 ```bash
-CUDA_VISIBLE_DEVICES=0,1 MODEL_NAME="$HOME/models/qwen2.5-32b-instruct" ./scripts/start_vllm_server.sh
+CUDA_VISIBLE_DEVICES=0,1 MODEL_NAME="$HOME/models/qwen3-30b-a3b-thinking-2507" ./scripts/start_vllm_server.sh
 ```
 
 ## 4) Inference 스모크 테스트
@@ -69,7 +69,7 @@ source .venv-qwen/bin/activate
 python scripts/example_qwen_analysis.py \
   --demo \
   --url http://localhost:8000 \
-  --model "$HOME/models/qwen2.5-32b-instruct"
+  --model "$HOME/models/qwen3-30b-a3b-thinking-2507"
 ```
 
 ## 6) 추가 참고

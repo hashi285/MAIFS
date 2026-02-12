@@ -54,10 +54,10 @@ class TestClaudeClient:
                 "confidence": 0.75,
                 "reasoning": "PRNU 패턴 불일치"
             },
-            "watermark": {
+            "fatformer": {
                 "verdict": "AUTHENTIC",
                 "confidence": 0.60,
-                "reasoning": "워터마크 미발견"
+                "reasoning": "AI 생성 특징 미감지"
             },
             "spatial": {
                 "verdict": "AI_GENERATED",

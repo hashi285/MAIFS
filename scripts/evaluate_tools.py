@@ -26,7 +26,7 @@ from PIL import Image
 from src.tools.base_tool import Verdict
 from src.tools.frequency_tool import FrequencyAnalysisTool
 from src.tools.spatial_tool import SpatialAnalysisTool
-from src.tools.watermark_tool import WatermarkTool
+from src.tools.fatformer_tool import FatFormerTool
 
 try:
     import torch
@@ -377,22 +377,22 @@ def main() -> None:
 
     clear_cuda_cache()
 
-    # Watermark tool -> HiNet outputs (steg vs cover)
-    wm_tool = WatermarkTool()
+    # FatFormer tool
+    fat_tool = FatFormerTool()
     steg_paths = iter_images(paths["hinet"] / "steg", args.max_samples)
     cover_paths = iter_images(paths["hinet"] / "cover", args.max_samples)
 
-    def wm_pred(result):
-        has_wm = bool(result.evidence.get("has_watermark", False))
-        return int(has_wm), result.verdict == Verdict.UNCERTAIN
+    def fat_pred(result):
+        fake_prob = float(result.evidence.get("fake_probability", 0.0))
+        return int(fake_prob > 0.5), result.verdict == Verdict.UNCERTAIN
 
-    results["tools"]["watermark"] = {
+    results["tools"]["fatformer"] = {
         "dataset": "HiNet-main/image (steg vs cover)",
         "counts": {
             "steg": len(steg_paths),
             "cover": len(cover_paths),
         },
-        "metrics": evaluate_binary_tool(wm_tool, steg_paths, cover_paths, wm_pred, args.max_samples),
+        "metrics": evaluate_binary_tool(fat_tool, steg_paths, cover_paths, fat_pred, args.max_samples),
     }
 
     clear_cuda_cache()

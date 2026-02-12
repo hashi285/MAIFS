@@ -5,8 +5,8 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PYTHON_BIN="${PYTHON_BIN:-python3}"
 VENV_DIR="${VENV_DIR:-$ROOT_DIR/.venv-qwen}"
 
-MODEL_ID="${MODEL_ID:-Qwen/Qwen2.5-32B-Instruct}"
-QWEN_LOCAL_DIR="${QWEN_LOCAL_DIR:-$HOME/models/qwen2.5-32b-instruct}"
+MODEL_ID="${MODEL_ID:-Qwen/Qwen3-30B-A3B-Thinking-2507}"
+QWEN_LOCAL_DIR="${QWEN_LOCAL_DIR:-$HOME/models/qwen3-30b-a3b-thinking-2507}"
 DOWNLOAD_MODEL="${DOWNLOAD_MODEL:-1}"
 INSTALL_DEPS="${INSTALL_DEPS:-1}"
 
@@ -18,8 +18,8 @@ Usage:
 Environment variables:
   PYTHON_BIN        Python executable (default: python3)
   VENV_DIR          Virtual env path (default: ./MAIFS/.venv-qwen)
-  MODEL_ID          HF model id (default: Qwen/Qwen2.5-32B-Instruct)
-  QWEN_LOCAL_DIR    Local model dir (default: ~/models/qwen2.5-32b-instruct)
+  MODEL_ID          HF model id (default: Qwen/Qwen3-30B-A3B-Thinking-2507)
+  QWEN_LOCAL_DIR    Local model dir (default: ~/models/qwen3-30b-a3b-thinking-2507)
   INSTALL_DEPS      1/0 install dependencies (default: 1)
   DOWNLOAD_MODEL    1/0 download model (default: 1)
 EOF

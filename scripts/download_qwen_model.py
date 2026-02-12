@@ -4,8 +4,8 @@ Download Qwen model weights from Hugging Face.
 
 Example:
     python scripts/download_qwen_model.py \
-      --model-id Qwen/Qwen2.5-32B-Instruct \
-      --local-dir ~/models/qwen2.5-32b-instruct
+      --model-id Qwen/Qwen3-30B-A3B-Thinking-2507 \
+      --local-dir ~/models/qwen3-30b-a3b-thinking-2507
 """
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Download Qwen model snapshot")
     parser.add_argument(
         "--model-id",
-        default="Qwen/Qwen2.5-32B-Instruct",
+        default="Qwen/Qwen3-30B-A3B-Thinking-2507",
         help="Hugging Face model id",
     )
     parser.add_argument(

@@ -37,7 +37,7 @@ NoiseAgent: "하지만 PRNU 있음 → 실제 사진에 AI 객체 추가한 것"
 {
     "frequency": AgentResponse(verdict=AI_GENERATED, confidence=0.85),
     "noise": AgentResponse(verdict=AUTHENTIC, confidence=0.70),
-    "watermark": AgentResponse(verdict=UNCERTAIN, confidence=0.50),
+    "fatformer": AgentResponse(verdict=UNCERTAIN, confidence=0.50),
     "spatial": AgentResponse(verdict=AI_GENERATED, confidence=0.78)
 }
 ```
@@ -517,7 +517,7 @@ class ManagerAgent(BaseAgent):
    └─ respond_to_challenge()
 
 3. 각 Specialist Agent에 LLM 통합
-   └─ FrequencyAgent, NoiseAgent, WatermarkAgent, SpatialAgent
+   └─ FrequencyAgent, NoiseAgent, FatFormerAgent, SpatialAgent
    └─ Knowledge Base 로드
 
 4. ManagerAgent에 토론 시스템 통합

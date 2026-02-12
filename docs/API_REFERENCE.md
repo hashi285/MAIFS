@@ -287,24 +287,24 @@ class NoiseAnalysisTool(BaseTool):
         """
 ```
 
-#### WatermarkTool
+#### FatFormerTool
 
 ```python
-class WatermarkTool(BaseTool):
-    """HiNet 기반 워터마크 분석 도구"""
+class FatFormerTool(BaseTool):
+    """FatFormer (CLIP+DWT) 기반 AI 생성 탐지 도구"""
 
     def analyze(self, image: np.ndarray) -> ToolResult:
         """
-        워터마크 탐지 및 추출
+        AI 생성 이미지 탐지
 
         탐지 항목:
-        - 비가시성 워터마크 존재
-        - 워터마크 무결성
-        - 비트 오류율
+        - CLIP ViT-L/14 특징 추출
+        - DWT 주파수 분석
+        - Forgery-Aware Adapter 판정
 
         Evidence 키:
-        - has_watermark: bool
-        - bit_error_rate: float
+        - is_ai_generated: bool
+        - fatformer_score: float
         - signal_detected: bool
         """
 ```
@@ -431,7 +431,7 @@ class AgentRole(Enum):
     MANAGER = "manager"
     FREQUENCY = "frequency"
     NOISE = "noise"
-    WATERMARK = "watermark"
+    FATFORMER = "fatformer"
     SPATIAL = "spatial"
     SEMANTIC = "semantic"
 ```
@@ -905,7 +905,7 @@ from src.llm import QwenMAIFSAdapter
 from src.tools import (
     FrequencyAnalysisTool,
     NoiseAnalysisTool,
-    WatermarkTool,
+    FatFormerTool,
     SpatialAnalysisTool
 )
 
@@ -914,7 +914,7 @@ async def analyze_image(image):
     tools = {
         "frequency": FrequencyAnalysisTool(),
         "noise": NoiseAnalysisTool(),
-        "watermark": WatermarkTool(),
+        "fatformer": FatFormerTool(),
         "spatial": SpatialAnalysisTool()
     }
 

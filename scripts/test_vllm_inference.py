@@ -4,7 +4,7 @@ Simple vLLM OpenAI-compatible inference smoke test.
 
 Usage:
     python scripts/test_vllm_inference.py --base-url http://localhost:8000
-    python scripts/test_vllm_inference.py --base-url http://localhost:8000 --model Qwen/Qwen2.5-32B-Instruct
+    python scripts/test_vllm_inference.py --base-url http://localhost:8000 --model /home/dsu/models/qwen3-30b-a3b-thinking-2507
 """
 from __future__ import annotations
 

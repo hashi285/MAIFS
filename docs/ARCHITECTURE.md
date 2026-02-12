@@ -34,7 +34,7 @@ MAIFS는 다층 구조의 다중 에이전트 시스템으로, 각 계층이 명
                                 │
 ┌───────────────────────────────▼─────────────────────────────────┐
 │                         Tool Layer                               │
-│        (FrequencyTool, NoiseTool, WatermarkTool, SpatialTool)   │
+│        (FrequencyTool, NoiseTool, FatFormerTool, SpatialTool)   │
 │                    - 실제 분석 로직 수행                          │
 └───────────────────────────────┬─────────────────────────────────┘
                                 │
@@ -61,7 +61,7 @@ BaseTool (Abstract)
 구현체:
 ├── FrequencyAnalysisTool  # FFT 기반 분석
 ├── NoiseAnalysisTool      # SRM/PRNU 분석
-├── WatermarkTool          # HiNet 워터마크
+├── FatFormerTool           # FatFormer (CLIP+DWT) 기반 AI 생성 탐지
 └── SpatialAnalysisTool    # ViT 공간 분석
 ```
 
@@ -93,7 +93,7 @@ BaseAgent (Abstract)
 구현체:
 ├── FrequencyAgent
 ├── NoiseAgent
-├── WatermarkAgent
+├── FatFormerAgent
 ├── SpatialAgent
 └── ManagerAgent (특수)
 ```
@@ -187,7 +187,7 @@ image: np.ndarray  # (H, W, 3) RGB
 responses: Dict[str, AgentResponse] = {
     "frequency": FrequencyAgent.analyze(image),
     "noise": NoiseAgent.analyze(image),
-    "watermark": WatermarkAgent.analyze(image),
+    "fatformer": FatFormerAgent.analyze(image),
     "spatial": SpatialAgent.analyze(image),
 }
 

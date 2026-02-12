@@ -26,7 +26,7 @@ class KnowledgeBase:
         도메인 지식 로드
 
         Args:
-            domain: "frequency", "noise", "watermark", "spatial"
+            domain: "frequency", "noise", "fatformer", "spatial"
 
         Returns:
             str: 도메인 지식 전체 내용

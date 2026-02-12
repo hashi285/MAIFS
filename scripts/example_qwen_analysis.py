@@ -62,7 +62,7 @@ async def analyze_image_with_qwen(
     """
     from src.tools.frequency_tool import FrequencyAnalysisTool
     from src.tools.noise_tool import NoiseAnalysisTool
-    from src.tools.watermark_tool import WatermarkTool
+    from src.tools.fatformer_tool import FatFormerTool
     from src.tools.spatial_tool import SpatialAnalysisTool
     from src.tools.exif_tool import ExifAnalysisTool
     from src.llm.qwen_maifs_adapter import QwenMAIFSAdapter
@@ -90,7 +90,7 @@ async def analyze_image_with_qwen(
     tools = {
         "frequency": FrequencyAnalysisTool(),
         "noise": NoiseAnalysisTool(),
-        "watermark": WatermarkTool(),
+        "fatformer": FatFormerTool(),
         "spatial": SpatialAnalysisTool(),
         "exif": ExifAnalysisTool()
     }

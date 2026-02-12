@@ -153,10 +153,10 @@ def demo_claude_client():
             "confidence": 0.75,
             "reasoning": "PRNU 분석 결과 카메라 센서 노이즈 패턴 부재. 자연 이미지와 다른 노이즈 분포."
         },
-        "watermark": {
+        "fatformer": {
             "verdict": "UNCERTAIN",
             "confidence": 0.50,
-            "reasoning": "워터마크 미검출. 추가 분석 필요."
+            "reasoning": "FatFormer 모델 미로드. 추가 분석 필요."
         },
         "spatial": {
             "verdict": "AI_GENERATED",

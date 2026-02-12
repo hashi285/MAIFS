@@ -42,7 +42,7 @@ MAIFS/
 │   │   ├── base_tool.py       # 도구 기본 클래스
 │   │   ├── frequency_tool.py  # FFT 분석
 │   │   ├── noise_tool.py      # 노이즈 분석
-│   │   ├── watermark_tool.py  # 워터마크 분석
+│   │   ├── fatformer_tool.py  # AI 생성 탐지
 │   │   └── spatial_tool.py    # 공간 분석
 │   │
 │   ├── agents/          # 에이전트 (BaseAgent 상속)

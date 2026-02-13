@@ -241,7 +241,42 @@ from configs.settings import config
 - 변경 이력 상단에 날짜 기록
 - 다른 문서와의 링크 명시
 
-### 6.3 변경 사항 기록
+### 6.3 문서 동기화 규칙 (필수)
+
+문서 간 정보가 중복되므로, 특정 변경 시 **연쇄적으로 업데이트해야 할 문서 목록**을 반드시 따를 것.
+
+#### 트리거 → 업데이트 대상 매핑
+
+| 트리거 (변경 사항) | 반드시 업데이트할 문서 |
+|-------------------|---------------------|
+| **Tool 추가/삭제/이름변경** | `CLAUDE.md` (Section 2.1, 3, 10), `docs/ARCHITECTURE.md` (Tool Layer, External Models), `docs/API_REFERENCE.md` (Tools), `docs/guides/CONTRIBUTING.md` (프로젝트 구조), `docs/design/GPU_ALLOCATION.md` (Vision Tools 목록) |
+| **Agent 추가/삭제/이름변경** | `CLAUDE.md` (Section 2.1, 9.5), `docs/ARCHITECTURE.md` (Agent Layer), `docs/API_REFERENCE.md` (Agents, AgentRole), `src/llm/qwen_client.py` (시스템 프롬프트), `src/llm/claude_client.py` (시스템 프롬프트) |
+| **새 모듈 디렉토리 추가** (예: `src/meta/`) | `CLAUDE.md` (Section 3), `docs/ARCHITECTURE.md` (계층 구조), `docs/API_REFERENCE.md` (해당 API), `docs/guides/CONTRIBUTING.md` (프로젝트 구조), `docs/README.md` (문서 인덱스) |
+| **합의 알고리즘 변경** | `CLAUDE.md` (Section 2.2), `docs/ARCHITECTURE.md` (Consensus Layer), `docs/API_REFERENCE.md` (Consensus), `configs/settings.py` |
+| **실험 결과 생성** | `CLAUDE.md` (Section 7), `docs/research/DAAC_RESEARCH_PLAN.md` (결과 섹션) |
+| **테스트 구조 변경** | `CLAUDE.md` (Section 5.6), `docs/guides/CONTRIBUTING.md` (테스트 가이드) |
+| **의존성 추가** (pip/conda) | `CLAUDE.md` (Section 1), 해당 `requirements.txt` 또는 `envs/*.yml` |
+
+#### 문서 내 중복 정보 원천 (Single Source of Truth)
+
+| 정보 | 원천 (SSOT) | 파생 문서 (동기화 대상) |
+|------|------------|----------------------|
+| 프로젝트 구조 | `CLAUDE.md` Section 3 | `docs/guides/CONTRIBUTING.md`, `docs/README.md` |
+| 에이전트 목록 + 역할 | `CLAUDE.md` Section 2.1 | `docs/ARCHITECTURE.md`, `docs/API_REFERENCE.md` |
+| Trust scores | `configs/settings.py` | `CLAUDE.md` Section 2.2, `src/meta/baselines.py` |
+| 테스트 실행법 | `CLAUDE.md` Section 5.6 | `docs/guides/CONTRIBUTING.md` |
+| DAAC 진행 상황 | `CLAUDE.md` Section 7 | `docs/research/DAAC_RESEARCH_PLAN.md` |
+| GPU 할당 전략 | `docs/design/GPU_ALLOCATION.md` | `docs/README.md`, `docs/API_REFERENCE.md` |
+
+#### 변경 작업 체크리스트
+
+코드 변경 후 커밋 전에 반드시 확인:
+1. 위 트리거 표에서 해당 변경과 매칭되는 행을 찾는다
+2. "업데이트 대상" 열의 모든 문서를 확인하고 동기화한다
+3. `CLAUDE.md` Section 8 (변경 이력)에 기록한다
+4. 문서 변경이 3개 이상 파일에 걸치면 별도 `docs:` 커밋으로 분리한다
+
+### 6.4 변경 이력 기록
 중요한 아키텍처 변경은 이 문서의 Section 8 (변경 이력)에 반드시 기록할 것.
 
 ## 7. 현재 진행 상황

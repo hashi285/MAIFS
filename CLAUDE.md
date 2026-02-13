@@ -98,14 +98,8 @@ MAIFS/
 │       └── checkpoint/
 │           └── fatformer.pth    ← FatFormer fine-tuned (사용자가 배치 예정)
 ├── tests/                       ← pytest 테스트
-├── docs/                        ← 문서
-│   ├── ARCHITECTURE.md
-│   ├── API_REFERENCE.md
-│   ├── design/                  ← 설계 문서
-│   ├── guides/                  ← 가이드
-│   ├── research/                ← 연구 문서
-│   │   └── DAAC_RESEARCH_PLAN.md ← DAAC 연구 계획 (진행 중)
-│   └── reports/                 ← 리포트
+├── docs/research/
+│   └── DAAC_RESEARCH_PLAN.md    ← DAAC 연구 계획 + 실험 결과 + 데이터셋
 ├── experiments/                 ← DAAC Phase 1 실험 스크립트 + 결과
 │   ├── configs/phase1.yaml     ← 실험 설정
 │   ├── run_phase1.py           ← Phase 1 전체 파이프라인
@@ -224,60 +218,31 @@ from configs.settings import config
 
 ## 6. 문서화 규칙
 
-### 6.1 문서 위치
-| 유형 | 위치 |
+### 6.1 문서 체계
+
+프로젝트 문서는 2개만 유지:
+
+| 문서 | 역할 |
 |------|------|
-| 프로젝트 가이드 (이 문서) | `CLAUDE.md` |
-| 시스템 아키텍처 | `docs/ARCHITECTURE.md` |
-| API 레퍼런스 | `docs/API_REFERENCE.md` |
-| 설계 결정 | `docs/design/*.md` |
-| 연구/실험 계획 | `docs/research/*.md` |
-| 사용 가이드 | `docs/guides/*.md` |
-| 도메인 지식 | `src/knowledge/*.md` |
+| **`CLAUDE.md`** (이 파일) | 프로젝트 전체 SSOT — 아키텍처, 규칙, 진행 상황 |
+| **`docs/research/DAAC_RESEARCH_PLAN.md`** | DAAC 연구 상세 — 방법론, 실험 결과, 데이터셋 |
 
-### 6.2 문서 작성 시 원칙
+> `src/knowledge/*.md`는 런타임 자산 (LLM 도메인 지식 주입용)이므로 문서가 아님.
+
+### 6.2 문서 작성 원칙
 - 한국어 작성 (기술 용어는 영어 병기)
-- 코드 예시 포함
-- 변경 이력 상단에 날짜 기록
-- 다른 문서와의 링크 명시
+- API/구조 정보는 소스코드가 원천 — 문서에 중복 기술하지 않음
+- 코드 변경 시 `CLAUDE.md` 해당 섹션만 업데이트하면 됨
 
-### 6.3 문서 동기화 규칙 (필수)
+### 6.3 변경 시 업데이트 규칙
 
-문서 간 정보가 중복되므로, 특정 변경 시 **연쇄적으로 업데이트해야 할 문서 목록**을 반드시 따를 것.
-
-#### 트리거 → 업데이트 대상 매핑
-
-| 트리거 (변경 사항) | 반드시 업데이트할 문서 |
-|-------------------|---------------------|
-| **Tool 추가/삭제/이름변경** | `CLAUDE.md` (Section 2.1, 3, 10), `docs/ARCHITECTURE.md` (Tool Layer, External Models), `docs/API_REFERENCE.md` (Tools), `docs/guides/CONTRIBUTING.md` (프로젝트 구조), `docs/design/GPU_ALLOCATION.md` (Vision Tools 목록) |
-| **Agent 추가/삭제/이름변경** | `CLAUDE.md` (Section 2.1, 9.5), `docs/ARCHITECTURE.md` (Agent Layer), `docs/API_REFERENCE.md` (Agents, AgentRole), `src/llm/qwen_client.py` (시스템 프롬프트), `src/llm/claude_client.py` (시스템 프롬프트) |
-| **새 모듈 디렉토리 추가** (예: `src/meta/`) | `CLAUDE.md` (Section 3), `docs/ARCHITECTURE.md` (계층 구조), `docs/API_REFERENCE.md` (해당 API), `docs/guides/CONTRIBUTING.md` (프로젝트 구조), `docs/README.md` (문서 인덱스) |
-| **합의 알고리즘 변경** | `CLAUDE.md` (Section 2.2), `docs/ARCHITECTURE.md` (Consensus Layer), `docs/API_REFERENCE.md` (Consensus), `configs/settings.py` |
-| **실험 결과 생성** | `CLAUDE.md` (Section 7), `docs/research/DAAC_RESEARCH_PLAN.md` (결과 섹션) |
-| **테스트 구조 변경** | `CLAUDE.md` (Section 5.6), `docs/guides/CONTRIBUTING.md` (테스트 가이드) |
-| **의존성 추가** (pip/conda) | `CLAUDE.md` (Section 1), 해당 `requirements.txt` 또는 `envs/*.yml` |
-
-#### 문서 내 중복 정보 원천 (Single Source of Truth)
-
-| 정보 | 원천 (SSOT) | 파생 문서 (동기화 대상) |
-|------|------------|----------------------|
-| 프로젝트 구조 | `CLAUDE.md` Section 3 | `docs/guides/CONTRIBUTING.md`, `docs/README.md` |
-| 에이전트 목록 + 역할 | `CLAUDE.md` Section 2.1 | `docs/ARCHITECTURE.md`, `docs/API_REFERENCE.md` |
-| Trust scores | `configs/settings.py` | `CLAUDE.md` Section 2.2, `src/meta/baselines.py` |
-| 테스트 실행법 | `CLAUDE.md` Section 5.6 | `docs/guides/CONTRIBUTING.md` |
-| DAAC 진행 상황 | `CLAUDE.md` Section 7 | `docs/research/DAAC_RESEARCH_PLAN.md` |
-| GPU 할당 전략 | `docs/design/GPU_ALLOCATION.md` | `docs/README.md`, `docs/API_REFERENCE.md` |
-
-#### 변경 작업 체크리스트
-
-코드 변경 후 커밋 전에 반드시 확인:
-1. 위 트리거 표에서 해당 변경과 매칭되는 행을 찾는다
-2. "업데이트 대상" 열의 모든 문서를 확인하고 동기화한다
-3. `CLAUDE.md` Section 8 (변경 이력)에 기록한다
-4. 문서 변경이 3개 이상 파일에 걸치면 별도 `docs:` 커밋으로 분리한다
-
-### 6.4 변경 이력 기록
-중요한 아키텍처 변경은 이 문서의 Section 8 (변경 이력)에 반드시 기록할 것.
+| 변경 사항 | 업데이트 대상 |
+|----------|-------------|
+| Tool/Agent 추가·삭제·이름변경 | `CLAUDE.md` Section 2.1, 3, 9.5, 10 |
+| 합의 알고리즘 변경 | `CLAUDE.md` Section 2.2 + `configs/settings.py` |
+| 새 모듈 디렉토리 추가 | `CLAUDE.md` Section 3 |
+| 실험 결과 생성 | `CLAUDE.md` Section 7 + `docs/research/DAAC_RESEARCH_PLAN.md` |
+| 중요 아키텍처 변경 | `CLAUDE.md` Section 8 (변경 이력) |
 
 ## 7. 현재 진행 상황
 
@@ -349,6 +314,7 @@ Go/No-Go: **3개 조건 모두 PASS → Phase 2 착수 가능**
 
 | 날짜 | 변경 내용 | 영향 범위 |
 |------|----------|----------|
+| 2026-02-13 | docs/ 정리: 16개 문서 삭제, CLAUDE.md + DAAC_RESEARCH_PLAN.md 2개만 유지 | docs/, CLAUDE.md |
 | 2026-02-12 | DAAC Phase 1 구현 + 실험 완료 (Path B) | src/meta/, experiments/, CLAUDE.md |
 | 2026-02-12 | 코드베이스 클린업 (watermark 잔여 참조 제거, exif_tool 삭제) | scripts/, examples/, tests/, docs/ |
 | 2026-02-12 | WatermarkTool → FatFormerTool 전면 교체 | tools, agents, llm, knowledge, configs, tests, app.py |
@@ -393,7 +359,7 @@ Edit 도구 사용 전에 반드시 Read로 파일을 읽어야 합니다.
 | 합의 알고리즘 | `src/consensus/cobra.py` |
 | 설정 | `configs/settings.py` |
 | FatFormer Tool | `src/tools/fatformer_tool.py` |
-| DAAC 연구 계획 | `docs/research/DAAC_RESEARCH_PLAN.md` |
+| DAAC 연구 상세 | `docs/research/DAAC_RESEARCH_PLAN.md` |
 | DAAC 메타 분류기 | `src/meta/` |
 | Phase 1 실험 | `experiments/run_phase1.py` |
 | Phase 1 설정 | `experiments/configs/phase1.yaml` |

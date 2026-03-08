@@ -95,5 +95,4 @@ Impact:
 Immediate controls:
 - 현재 문서를 SSOT로 지정:
   - `docs/research/CURRENT_ARCHITECTURE_SPEC.md`
-  - `docs/research/PATHA_MIN_RUNBOOK.md`
 - README에서 SSOT 링크를 최상단 노출

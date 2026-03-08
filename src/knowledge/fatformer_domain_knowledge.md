@@ -6,7 +6,7 @@
 ## 📚 과학적 근거
 
 ### 핵심 논문
-1. **"FatFormer: A Frequency-Aware Transformer for Detecting AI-Generated Images" (Liu et al., CVPR 2024)**
+1. **"FatFormer: Forgery-Aware Adaptive Transformer for Generalizable Synthetic Image Detection" (Liu et al., CVPR 2024)**
    - CLIP ViT-L/14 백본에 Forgery-Aware Adapter 삽입
    - 공간적 의미론 + DWT 주파수 경로 이중 분석
    - Language-Guided Alignment으로 텍스트-이미지 대조 학습
@@ -149,3 +149,22 @@ DWT 주파수 경로에서 자연 이미지의 1/f 노이즈 법칙과 일치.
 ### 4. 학습 데이터에 없는 새로운 생성 모델
 - CLIP 사전학습의 일반화 능력으로 일정 수준 대응 가능
 - 단, 완전히 새로운 아키텍처의 경우 성능 저하 가능
+
+---
+
+## ⚠️ 구조적 맹점 (Structural Blind Spot)
+
+**FatFormerAgent는 Manipulated 이미지 탐지 능력이 없음 (F1=0.000)**
+
+- AI-generated 전문 탐지기로서, JPEG 스플라이싱/인페인팅 등의 부분 조작은 탐지 대상이 아님
+- 조작 이미지를 AUTHENTIC으로 오판할 가능성이 높음
+- 이 맹점을 보완하는 에이전트: **FrequencyAgent(CAT-Net)**, **NoiseAgent(MVSS-Net)**, **SpatialAgent(Mesorch)**
+
+**DAAC에서의 역할**:
+- FatFormerAgent와 FrequencyAgent(CAT-Net)의 불일치(`disagree_frequency_fatformer`)가 DAAC GBM 최상위 특징(중요도 56.5%)
+- FatFormer가 AI-generated 판정 + Frequency가 AUTHENTIC 판정 → 99% AI-generated
+- Frequency가 MANIPULATED 판정 + FatFormer가 AUTHENTIC 판정 → JPEG 조작 신호
+
+---
+
+**최종 업데이트**: 2026-03-07 (논문 제목 수정: Forgery-Aware, 맹점/DAAC 관계 추가)

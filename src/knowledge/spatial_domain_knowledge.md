@@ -3,20 +3,22 @@
 
 ---
 
+> ⚠️ **현재 백엔드**: Mesorch (기본). OmniGuard는 fallback. CASIA2 기준 Mesorch F1 ≈ 0.84, OmniGuard F1 ≈ 0.55.
+
 ## 📚 과학적 근거
 
 ### 핵심 논문
-1. **"OmniGuard: Hybrid Manipulation Localization via Augmented Versatile Deep Image Watermarking"**
-   - OmniGuard 프로젝트에서 제공되는 ViT 기반 조작 영역 탐지
-   - 픽셀 수준 조작 마스크 생성
+1. **Mesorch (ViT 기반 이미지 조작 탐지, 기본 백엔드)**
+   - ViT 아키텍처로 이미지 패치 간 불일치 학습
+   - CASIA2 기준 F1 ≈ 0.84 (OmniGuard 대비 큰 개선)
+   - 체크포인트: `Mesorch-main/mesorch/mesorch-98.pth`
 
-2. **"ManTra-Net: Manipulation Tracing Network" (2019)**
-   - 다양한 조작 유형 탐지
-   - 복사-붙여넣기, 스플라이싱, 리터칭
+2. **"OmniGuard: Hybrid Manipulation Localization via Augmented Versatile Deep Image Watermarking" (fallback)**
+   - OmniGuard 프로젝트에서 제공되는 ViT 기반 조작 영역 탐지
+   - Mesorch 미사용 시 fallback 경로로 사용
 
 3. **"TruFor: Leveraging all-round clues for trustworthy image forgery detection and localization" (CVPR 2023)**
-   - RGB + Noiseprint++ 기반 멀티모달 분석
-   - 조작 영역 픽셀 수준 탐지
+   - RGB + Noiseprint++ 기반 멀티모달 분석 (참조)
 
 ---
 
@@ -120,45 +122,46 @@
 
 ## 🤝 다른 분석과의 관계
 
-### vs Frequency Analysis
+### vs Frequency Analysis (CAT-Net)
 **보완 관계**:
 ```
-Frequency: 전역 분석 (이미지 전체의 주파수 패턴)
-Spatial: 지역 분석 (특정 영역의 불일치)
+Frequency (CAT-Net): 전역 분석 (이미지 전체의 JPEG 압축 이력 불일치)
+Spatial (Mesorch): 지역 분석 (특정 영역의 픽셀 불일치)
 ```
 
 **함께 사용**:
 ```
-Frequency: AI_GENERATED (격자 패턴)
+Frequency: MANIPULATED (JPEG 이중 압축 흔적)
 Spatial: manipulation_regions = [(x, y, w, h)]
 
-→ 해석: 실제 사진에 AI로 생성한 객체를 추가함
-→ Spatial이 추가된 객체의 위치 특정
+→ 해석: 두 에이전트 모두 Manipulated 탐지 전담 — 일치 시 높은 신뢰도
+→ Spatial이 조작된 영역의 위치를 픽셀 수준으로 특정
 ```
 
-### vs Noise Analysis (PRNU)
+### vs Noise Analysis (MVSS-Net)
 **보완 관계**:
 ```
-Noise: 전역 PRNU 일관성 측정
-Spatial: 지역별 PRNU 비교
+Noise (MVSS-Net): 전역 조작 마스크 예측 (픽셀 수준 조작 비율)
+Spatial (Mesorch): 지역별 불일치 탐지 (패치 간 불연속)
 ```
 
 **조작 탐지 시**:
 ```
-1. Noise: "이미지에 불일치 있음" (전체 평가)
-2. Spatial: "이 영역이 다른 출처" (위치 특정)
+1. Noise(MVSS): "전체 조작 마스크 — 조작 픽셀 비율" (전체 평가)
+2. Spatial(Mesorch): "이 패치가 다른 출처" (위치 특정)
 ```
 
-### vs Watermark Detection
-**독립적**:
-- Watermark: AI 모델 식별
-- Spatial: 조작 위치 찾기
+### vs FatFormer (CLIP+DWT)
+**역할 분담**:
+- SpatialAgent(Mesorch): 부분 조작(MANIPULATED) 위치 특정, AI-generated 맹점
+- FatFormerAgent: 전체 AI 생성 탐지, Manipulated 맹점
 
 **혼합 이미지 분석**:
 ```
-실제 사진 + AI 생성 객체:
-- Watermark: 부분 탐지 (신뢰도 낮음)
-- Spatial: 객체 영역 특정
+실제 사진 + AI 생성 객체 삽입:
+- Spatial: 삽입된 객체 영역 특정 → MANIPULATED
+- FatFormer: 전체 생성 패턴 없으면 AUTHENTIC → 낮은 신뢰도
+→ DAAC가 두 판정 종합해 최적 결론 도출
 ```
 
 ---
@@ -209,7 +212,7 @@ texture_inconsistency: LOW
 이는 단일 출처(한 번의 촬영)로 생성된 이미지의 전형적인 특징입니다.
 조작되지 않은 원본 이미지일 가능성이 매우 높습니다."
 
-### Case 4: 전역 AI 생성 (판단 어려움)
+### Case 4: 전역 AI 생성 (탐지 불가)
 ```
 spatial_consistency: 0.88
 manipulation_regions: []
@@ -218,13 +221,9 @@ texture_inconsistency: LOW
 
 **해석**:
 "공간적으로 일관성이 높으며(0.88) 조작 영역이 탐지되지 않았습니다.
-이는 다음 중 하나를 의미합니다:
-1. 자연 이미지 (조작 없음)
-2. GAN/Diffusion으로 전체 생성된 이미지 (모든 영역이 동일 출처)
-
-공간 분석만으로는 판단이 어렵습니다.
-GAN 전체 생성 이미지는 '불일치'가 없으므로 공간 분석이 탐지하지 못합니다.
-주파수 분석(격자 패턴), 노이즈 분석(PRNU), 워터마크 결과를 참고하세요."
+⚠️ SpatialAgent는 AI-generated F1=0.000 맹점이 있습니다.
+GAN/Diffusion 전체 생성 이미지는 '불일치'가 없으므로 이 분석으로 탐지 불가.
+**FatFormerAgent 결과를 우선 참고하세요.**"
 
 ---
 
@@ -273,3 +272,5 @@ GAN 전체 생성 이미지는 '불일치'가 없으므로 공간 분석이 탐�
 
 **핵심 원리**:
 "자연 이미지는 하나의 이야기. 조작 이미지는 여러 이야기의 패치워크."
+
+**최종 업데이트**: 2026-03-08 (Frequency 비교 CAT-Net JPEG 압축 반영, Noise 비교 MVSS-Net 반영)

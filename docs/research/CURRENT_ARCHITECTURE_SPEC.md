@@ -26,7 +26,7 @@ Final verdict contract (immutable):
 
 1. Tool layer
 - Frequency slot: `CATNetAnalysisTool` with `FrequencyAnalysisTool` fallback.
-- Noise slot: `NoiseAnalysisTool` (`mvss` or `prnu` backend).
+- Noise slot: `NoiseAnalysisTool` (default `mvss` backend; auto-fallback to `prnu` if checkpoint absent).
 - FatFormer slot: `FatFormerTool`.
 - Spatial slot: `SpatialAnalysisTool` (default `mesorch`, optional `trufor`) with safe fallback.
 
@@ -116,4 +116,3 @@ Historical/proposal documents may still include watermark-era terms and must be 
   - 4 dataset compositions, each 300/class, split-seed 10 repeats.
   - Consolidated output:
     - `experiments/results/phase2_patha_case3_multidata/multi_dataset_case3_comparison_20260303.json`
-    - `docs/research/PAPER_TABLE_20260303.md`

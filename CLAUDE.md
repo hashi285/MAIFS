@@ -29,12 +29,14 @@
 
 ### 2.1 4개 전문가 에이전트
 
-| Agent | Tool | 분석 방식 | 역할 |
-|-------|------|----------|------|
-| FrequencyAgent | FrequencyAnalysisTool | FFT 스펙트럼 분석 | GAN 업샘플링 아티팩트 탐지 |
-| NoiseAgent | NoiseAnalysisTool | PRNU/SRM 센서 노이즈 | 카메라 진위 검증 |
-| **FatFormerAgent** | **FatFormerTool** | CLIP ViT-L/14 + DWT | AI 생성 이미지 탐지 |
-| SpatialAgent | SpatialAnalysisTool | ViT 기반 조작 탐지 | 부분 조작 영역 검출 |
+| Agent | Tool | 분석 방식 | 역할 / 맹점 |
+|-------|------|----------|------------|
+| FrequencyAgent | FrequencyAnalysisTool (**CAT-Net 백엔드**, FFT fallback) | JPEG 이중 압축 흔적 탐지 | Manipulated 탐지 전문 — **AI-generated F1=0.000** 맹점 |
+| NoiseAgent | NoiseAnalysisTool (**MVSS-Net 백엔드**, PRNU/SRM fallback) | 픽셀 수준 조작 마스크 예측 | 조작 영역 탐지 — **AI-generated F1=0.000** 맹점 |
+| **FatFormerAgent** | **FatFormerTool** | CLIP ViT-L/14 + Forgery-Aware Adapter + DWT | AI 생성 이미지 탐지 전문 — **Manipulated F1=0.000** 맹점 |
+| SpatialAgent | SpatialAnalysisTool (**Mesorch 백엔드**, OmniGuard fallback) | ViT 기반 부분 조작 영역 탐지 | 조작 영역 검출 — **AI-generated F1=0.000** 맹점 |
+
+> **에이전트 맹점 요약**: Frequency/Noise/Spatial은 AI-generated를 탐지 못하고, FatFormer는 Manipulated를 탐지 못한다. DAAC는 이 구조적 충돌 패턴(특히 `disagree_frequency_fatformer`, 특징 중요도 56.5%)을 학습 신호로 활용한다.
 
 > **중요**: WatermarkTool/WatermarkAgent는 FatFormerTool/FatFormerAgent로 완전히 교체되었음 (2026-02-12). 코드에 watermark 참조가 남아있으면 안 됨.
 
@@ -65,7 +67,7 @@ MAIFS/
 │   ├── tools/
 │   │   ├── base_tool.py         ← BaseTool, Verdict, ToolResult 정의
 │   │   ├── frequency_tool.py    ← FFT 분석
-│   │   ├── noise_tool.py        ← PRNU/SRM 분석
+│   │   ├── noise_tool.py        ← MVSS-Net 분석 (PRNU/SRM fallback)
 │   │   ├── fatformer_tool.py    ← FatFormer CLIP+DWT 분석
 │   │   └── spatial_tool.py      ← ViT 조작 탐지
 │   ├── agents/
@@ -255,7 +257,7 @@ from configs.settings import config
   - FatFormer (CVPR 2024): CLIP ViT-L/14 + Forgery-Aware Adapter
   - 모델 코드: `Integrated Submodules/FatFormer/`
   - Pretrained weights: `pretrained/ViT-L-14.pt` (890MB, 배치 완료)
-  - Fine-tuned checkpoint: `checkpoint/fatformer.pth` (사용자 배치 예정)
+  - Fine-tuned checkpoint: `checkpoint/fatformer.pth` (배치 완료)
 
 ### 7.2 완료: DAAC Phase 1 — Disagreement Pattern Analysis (Path B)
 **Disagreement-Aware Adaptive Consensus** — 메타 분류기 기반 합의 개선
@@ -296,21 +298,26 @@ Go/No-Go: **3개 조건 모두 PASS → Phase 2 착수 가능**
 - C2: 교차 데이터셋 F1 drop 0.51%p < 5%p ✓
 - C3: A3(disagreement only) F1=0.641 > random+0.05=0.383 ✓
 
-주요 발견:
+주요 발견 (시뮬레이션 Path B):
 - A4 (verdict+confidence, 20-dim) ≈ A5 (full, 43-dim) → 시뮬레이션 한계 가능성
 - 특징 중요도 Top: `fatformer_verdict_ai_generated`, `spatial_verdict_manipulated`
-- 실데이터(Path A)에서 disagreement 특징 기여도 재검증 필요
+
+> ⚠️ **실데이터(Path A) 결과와 다름**: 실데이터에서는 `disagree_frequency_fatformer` (56.5%)가 최상위 특징. 시뮬레이션은 불일치 패턴의 강도를 과소평가했음이 확인됨. → Section 7.10 참조
 
 실행: `.venv-qwen/bin/python experiments/run_phase1.py`
 
-### 7.3 진행 예정: DAAC Phase 2 — Adaptive Routing
-- Meta-Router Network: 이미지 특성 → 에이전트 가중치 동적 생성
-- Phase 1 Go 판정 완료 → 착수 가능
+### 7.3 완료: DAAC Phase 2 — Path A 실데이터 실험
+- 1,500장 실데이터(CASIA2 Au/Tp + GenImage BigGAN), 10-seed 반복 실험 완료
+- COBRA 대비 macro-F1 0.861 vs 0.266 (p=0.00195)
+- 6개 데이터 조합 60회 반복(Protocol-M) sign 60/0 (p=1.63e-11)
+- 결과 위치: `experiments/results/paper_final/`
+- **Phase 2 Adaptive Routing (Meta-Router Network)는 미착수** → 향후 과제
 
-### 7.4 미래 계획
-- Phase 2: Adaptive Routing (Meta-Router Network)
-- Phase 1-A: 실데이터 검증 (FatFormer/Spatial 체크포인트 확보 시)
-- Phase 3: 벤치마크 + 논문 작성
+### 7.4 완료: DAAC 논문 작성 (KIPS 2026)
+- 논문 초안: `docs/research/MAIFS_PAPER_DRAFT2_20260306.md`
+- 생성된 docx: `docs/research/DAAC_KIPS_Paper.docx`
+- 추론 속도 실측 완료: 이미지 1장 ~313ms, DAAC 합의 계층 0.069ms (전체의 0.02% 미만)
+- 향후: 논문 제출 및 발표
 
 ### 7.5 2026-02-13 실데이터 튜닝 상태 (Path A 준비)
 - 체크포인트 확보 완료:
@@ -432,6 +439,9 @@ Go/No-Go: **3개 조건 모두 PASS → Phase 2 착수 가능**
 
 | 날짜 | 변경 내용 | 영향 범위 |
 |------|----------|----------|
+| 2026-03-07 | CLAUDE.md 전면 정합성 수정: 에이전트 백엔드/맹점 명시, 경로 수정, Phase 상태 업데이트 | CLAUDE.md |
+| 2026-03-06 | DAAC 논문 초안 완성(MAIFS_PAPER_DRAFT2_20260306.md) + 추론 속도 실측 benchmark | docs/research/, experiments/ |
+| 2026-03-04 | DAAC 최종 실험(Protocol-P/M) 완료, paper_final 결과 생성 | experiments/results/paper_final/ |
 | 2026-02-14 | README 전면 최신화 + 기술 이론 백서(`MAIFS_TECHNICAL_THEORY.md`) 추가 | README.md, docs/research/, CLAUDE.md |
 | 2026-02-13 | 메타 분류기 GPU 경로 도입(torch/xgboost) + profile 보정 재학습(Go) | src/meta/trainer.py, experiments/run_phase1.py, experiments/configs/, experiments/results/, CLAUDE.md |
 | 2026-02-13 | Spatial Mesorch 백엔드 통합 + evaluate_tools Spatial A/B + 20/100샘플 재평가 | src/tools/spatial_tool.py, scripts/evaluate_tools.py, configs/settings.py, outputs/, CLAUDE.md |
@@ -457,7 +467,7 @@ Edit 도구 사용 전에 반드시 Read로 파일을 읽어야 합니다.
 
 ### 9.3 pytest 실행 방법
 ```bash
-/home/dsu/Desktop/MAIFS/.venv-qwen/bin/python -m pytest tests/ -v --tb=short
+/data/jj812_files/MAIFS/.venv-qwen/bin/python -m pytest tests/ -v --tb=short
 ```
 - `python` 또는 `python3` 직접 호출 불가 (시스템 python에 pytest 없음)
 - 반드시 `.venv-qwen/bin/python` 사용
@@ -478,12 +488,27 @@ Edit 도구 사용 전에 반드시 Read로 파일을 읽어야 합니다.
 - CASIA 기반 실험에서는 PRNU 폴백 시 탐지 성능이 크게 저하될 수 있음
 - 실험 전 체크:
 ```bash
-ls -lh /home/dsu/Desktop/MAIFS/MVSS-Net-master/ckpt/mvssnet_casia.pt
+ls -lh /data/jj812_files/MAIFS/MVSS-Net-master/ckpt/mvssnet_casia.pt
 ```
 
-### 9.7 Frequency 결과 해석 주의
-- 현재 `FrequencyAnalysisTool`은 GenImage BigGAN 기준으로 분리력이 낮아 성능 상한이 존재
-- 단독 판정 도구보다 보조 evidence로 사용 권장
+### 9.7 Frequency 에이전트 백엔드 구분
+- **실험/운영**: `catnet_tool.py`의 CAT-Net이 기본 백엔드 (JPEG 압축 흔적 탐지)
+- **fallback**: `frequency_tool.py`의 FFT 분석 (CAT-Net 미설치 시 자동 전환)
+- CAT-Net은 AI-generated 탐지 능력이 없음(F1=0.000) → 단독 판정 도구가 아닌 보조 evidence로 사용
+
+### 7.10 2026-03-04~07 DAAC 최종 실험 결과 요약 (Path A 실데이터)
+- 실험 스크립트: `experiments/run_phase2_patha_repeated.py`
+- 결과 위치: `experiments/results/paper_final/`
+- **Protocol-P** (1,500장, 10 seeds):
+  - DAAC-GBM macro-F1: **0.8613±0.0156** vs COBRA 0.266 (Wilcoxon p=0.00195)
+  - 최상위 특징: `disagree_frequency_fatformer` **56.5%** (GBM feature importance)
+  - Cohen's κ: DAAC-GBM 0.796 vs COBRA 0.068
+- **Protocol-M** (6개 데이터 조합, 60 runs):
+  - sign 60/0, Wilcoxon p=1.63e-11, mean delta +0.493
+- **추론 속도 실측** (CASIA2 5장 × 3회):
+  - 에이전트 inference 합계: 312.5ms
+  - DAAC-GBM 합의 계층: 0.069ms (전체의 0.02% 미만)
+  - COBRA: 0.047ms (비교 기준)
 
 ### 9.8 메타 분류기 GPU 학습
 - `src/meta/trainer.py`는 GPU 가능 시 다음 경로를 자동 사용

@@ -151,22 +151,25 @@ JPEG의 8x8 블록 주기와 GAN 업샘플링 주기 신호를 분리하려고, 
 
 ---
 
-## 3.3 Noise Pillar: PRNU/SRM + MVSS
+## 3.3 Noise Pillar: MVSS-Net (기본) + PRNU/SRM (fallback)
 
 구현: `src/tools/noise_tool.py`
 
-### 3.3.1 PRNU 물리 모델
+### 3.3.1 MVSS-Net 경로 (기본)
 
-고전 모델:
+실험/운영 환경에서 MVSS-Net이 기본 백엔드로 사용된다. MVSS-Net은 SRM 노이즈 뷰와 세그멘테이션 뷰를 결합하여 픽셀 수준 조작 마스크를 예측한다.
 
-\[
-I = I_0(1+K) + \Theta
-\]
+- \(s_{mvss}\ge t_{high}\): manipulated
+- \(s_{mvss}\le t_{low}\): authentic
+- 사이 구간: uncertain
 
-- \(K\): 센서 고유 PRNU 패턴
-- AI 생성 이미지는 일반적으로 카메라 센서 \(K\)가 없다.
+CASIA2 기준 F1 ≈ 0.76. 체크포인트 경로: `MVSS-Net-master/ckpt/mvssnet_casia.pt`
 
-### 3.3.2 PRNU/SRM 경로
+**구조적 한계**: AI 생성 이미지(전체 생성)는 픽셀 수준 조작이 없으므로 탐지 불가 — **AI-generated F1=0.000 맹점**.
+
+### 3.3.2 PRNU/SRM 경로 (fallback)
+
+MVSS-Net 체크포인트 부재 또는 `MAIFS_NOISE_BACKEND=prnu` 설정 시 자동 전환된다.
 
 코드에서 다음을 조합한다.
 
@@ -184,18 +187,21 @@ I = I_0(1+K) + \Theta
 
 를 계산하고 규칙 기반 판정을 수행한다.
 
-### 3.3.3 MVSS 경로(권장)
+### 3.3.3 PRNU 물리 모델 (참고)
 
-`MAIFS_NOISE_BACKEND=mvss`일 때 MVSS-Net 세그멘테이션 마스크와 최대 점수로 판정한다.
+고전 모델:
 
-- \(s_{mvss}\ge t_{high}\): manipulated
-- \(s_{mvss}\le t_{low}\): authentic
-- 사이 구간: uncertain
+\[
+I = I_0(1+K) + \Theta
+\]
+
+- \(K\): 센서 고유 PRNU 패턴
+- AI 생성 이미지는 일반적으로 카메라 센서 \(K\)가 없다.
 
 ### 3.3.4 왜 두 경로를 함께 두는가
 
-1. MVSS는 학습 기반으로 성능이 높다.
-2. PRNU/SRM은 물리적 해석가능성이 높다.
+1. MVSS는 학습 기반으로 성능이 높다 (CASIA2 F1 ≈ 0.76).
+2. PRNU/SRM은 물리적 해석가능성이 높고 체크포인트 없이도 동작한다.
 3. 체크포인트/환경 실패 시 graceful degradation을 제공한다.
 
 ---
@@ -549,11 +555,10 @@ MAIFS는 캘리브레이션 결과를 JSON으로 외부화해 코드 변경 없�
 
 ## 13. 한계와 향후 연구
 
-1. Path B(시뮬레이션)와 Path A(실데이터) 간 도메인 갭
-2. 일부 지식 문서의 레거시 용어(예: watermark 언급) 정리 필요
-3. adversarial/post-processing 강건성 체계적 벤치마크 필요
-4. Phase 2 Path A는 평균 개선 관점에서 유의 상승이 여전히 미확보다. 2026-02-17 보완 실험에서 `oracle target=loss_averse` + guard 사전 조건(`min_phase2_val_gain`)을 도입해 10-run에서는 downside를 강하게 억제(`tunec`: `ΔF1 mean +0.0041`, `negative_rate 0.0`)했지만, 30-run 확장에서는 `ΔF1 mean -0.00003`, sign `1/2/27`, `sign-test p=1.0`으로 평균 개선/유의성 기준은 통과하지 못했다.
-5. 운영 관점에서는 손실 회피 프로파일 `loss_averse_sparse_v2`(30-run, `max_negative_rate=0.10`, `max_cvar_downside=0.02`, `max_worst_case_loss=0.03`)를 적용하면 동일 30-run 결과가 pass한다. 따라서 현재 프로젝트의 실질 기여 포인트는 “더 똑똑한 평균 개선”보다 “하방 리스크 제어 가능한 선택 정책”이며, 다음 연구 과제는 외부 시간축 홀드아웃/도메인 전이에서 이 리스크 제어가 유지되는지 검증하는 것이다.
+1. Path B(시뮬레이션)와 Path A(실데이터) 간 도메인 갭: 시뮬레이션의 최상위 특징 `fatformer_verdict_ai_generated`(0.185) vs 실데이터 `disagree_frequency_fatformer`(56.5%) — 불일치 패턴 강도 과소평가
+2. adversarial/post-processing 강건성 체계적 벤치마크 필요
+3. Phase 2 Adaptive Routing(Meta-Router Network)은 유의한 평균 개선 확보에 실패해 KIPS 2026 논문 범위 외로 제외됨. 탐색 결과(8.8~8.22)에서 `loss_averse_sparse_v2` 손실 회피 정책이 30-run pass하여 하방 리스크 제어 가능성은 확인됐으나, 운영 게이트를 안정적으로 통과하는 모델 설계가 미해결 과제로 남음.
+4. KIPS 2026 논문 기여: DAAC 메타학습(Phase 1-A)이 COBRA 대비 macro-F1 0.861 vs 0.266(Protocol-P, p=0.00195) / 60/0 sign(Protocol-M, p=1.63e-11) 달성. Phase 2 Adaptive Routing은 향후 과제.
 
 ---
 

@@ -281,8 +281,9 @@ class NoiseAgent(BaseAgent):
     """
     노이즈 분석 전문가 에이전트
 
-    SRM 필터와 PRNU 분석을 통해
-    카메라 센서 노이즈와 AI 생성 노이즈를 구분합니다.
+    MVSS-Net 딥러닝 모델을 기본 백엔드로 사용하여
+    픽셀 수준 조작 마스크 예측을 수행합니다.
+    체크포인트 부재 시 PRNU/SRM 경로로 자동 전환됩니다.
 
     LLM 통합: 도메인 지식 기반 추론 및 토론 기능 지원
     """
@@ -291,8 +292,8 @@ class NoiseAgent(BaseAgent):
         super().__init__(
             name="노이즈 분석 전문가 (Noise Expert)",
             role=AgentRole.NOISE,
-            description="SRM/PRNU 기반 노이즈 패턴 분석 전문가. "
-                       "카메라 센서 고유 노이즈와 AI 생성 노이즈를 구분합니다.",
+            description="MVSS-Net 기반 픽셀 수준 조작 마스크 예측 전문가. "
+                       "체크포인트 부재 시 PRNU/SRM 경로로 자동 전환됩니다.",
             llm_model=llm_model
         )
         self._tool = NoiseAnalysisTool()
@@ -386,29 +387,42 @@ class NoiseAgent(BaseAgent):
             "근거:"
         ]
 
-        # PRNU 분석
-        if "prnu_stats" in evidence:
-            prnu = evidence["prnu_stats"]
-            reasoning_parts.append(
-                f"- PRNU 분산: {prnu.get('variance', 0):.6f}"
-            )
-            reasoning_parts.append(
-                f"- PRNU 첨도: {prnu.get('kurtosis', 0):.3f}"
-            )
+        backend = evidence.get("backend", "prnu")
 
-        # 일관성 분석
-        if "consistency_analysis" in evidence:
-            consistency = evidence["consistency_analysis"]
+        if backend == "mvss":
+            # MVSS-Net 백엔드: 픽셀 수준 조작 마스크 기반
             reasoning_parts.append(
-                f"- 노이즈 일관성 점수: {consistency.get('consistency_score', 0):.2%}"
+                f"- MVSS 조작 점수: {evidence.get('mvss_score', 0):.4f}"
             )
+            reasoning_parts.append(
+                f"- 조작 픽셀 비율: {evidence.get('manipulation_ratio', 0):.2%}"
+            )
+            if "mask_mean" in evidence:
+                reasoning_parts.append(
+                    f"- 마스크 평균: {evidence.get('mask_mean', 0):.4f}"
+                )
+        else:
+            # PRNU/SRM 폴백 백엔드
+            if "prnu_stats" in evidence:
+                prnu = evidence["prnu_stats"]
+                reasoning_parts.append(
+                    f"- PRNU 분산: {prnu.get('variance', 0):.6f}"
+                )
+                reasoning_parts.append(
+                    f"- PRNU 첨도: {prnu.get('kurtosis', 0):.3f}"
+                )
 
-        # AI 탐지
-        if "ai_detection" in evidence:
-            ai = evidence["ai_detection"]
-            reasoning_parts.append(
-                f"- AI 생성 점수: {ai.get('ai_generation_score', 0):.2%}"
-            )
+            if "consistency_analysis" in evidence:
+                consistency = evidence["consistency_analysis"]
+                reasoning_parts.append(
+                    f"- 노이즈 일관성 점수: {consistency.get('consistency_score', 0):.2%}"
+                )
+
+            if "ai_detection" in evidence:
+                ai = evidence["ai_detection"]
+                reasoning_parts.append(
+                    f"- AI 생성 점수: {ai.get('ai_generation_score', 0):.2%}"
+                )
 
         return "\n".join(reasoning_parts)
 
@@ -416,24 +430,39 @@ class NoiseAgent(BaseAgent):
         """토론용 논거 추출"""
         arguments = []
         evidence = tool_result.evidence
+        backend = evidence.get("backend", "prnu")
 
-        ai_score = evidence.get("ai_detection", {}).get("ai_generation_score", 0)
-        if ai_score > 0.6:
-            arguments.append(
-                "센서 노이즈(PRNU)가 거의 탐지되지 않아 AI 생성 이미지로 판단됩니다."
-            )
+        if backend == "mvss":
+            # MVSS-Net 백엔드: 조작 마스크 기반 논거
+            manipulation_ratio = evidence.get("manipulation_ratio", 0)
+            if manipulation_ratio > 0.05:
+                arguments.append(
+                    f"MVSS-Net 조작 마스크에서 {manipulation_ratio:.1%}의 픽셀이 조작된 것으로 탐지되었습니다."
+                )
+            mvss_score = evidence.get("mvss_score", 0)
+            if mvss_score > 0.5:
+                arguments.append(
+                    f"MVSS 조작 점수({mvss_score:.3f})가 임계값을 초과하여 이미지 조작이 의심됩니다."
+                )
+        else:
+            # PRNU/SRM 폴백 백엔드 논거
+            ai_score = evidence.get("ai_detection", {}).get("ai_generation_score", 0)
+            if ai_score > 0.6:
+                arguments.append(
+                    "센서 노이즈(PRNU)가 거의 탐지되지 않아 AI 생성 또는 비카메라 이미지로 판단됩니다."
+                )
 
-        consistency = evidence.get("consistency_analysis", {}).get("consistency_score", 1)
-        if consistency < 0.4:
-            arguments.append(
-                "이미지 영역별 노이즈 패턴이 불일치하여 부분 조작이 의심됩니다."
-            )
+            consistency = evidence.get("consistency_analysis", {}).get("consistency_score", 1)
+            if consistency < 0.4:
+                arguments.append(
+                    "이미지 영역별 노이즈 패턴이 불일치하여 부분 조작이 의심됩니다."
+                )
 
-        prnu_var = evidence.get("prnu_stats", {}).get("variance", 0)
-        if prnu_var < 0.0001:
-            arguments.append(
-                "PRNU 분산이 매우 낮아 실제 카메라 촬영 이미지가 아닐 가능성이 높습니다."
-            )
+            prnu_var = evidence.get("prnu_stats", {}).get("variance", 0)
+            if prnu_var < 0.0001:
+                arguments.append(
+                    "PRNU 분산이 매우 낮아 실제 카메라 촬영 이미지가 아닐 가능성이 높습니다."
+                )
 
         return arguments
 

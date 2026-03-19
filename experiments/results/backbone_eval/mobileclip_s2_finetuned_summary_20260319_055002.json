@@ -1,0 +1,82 @@
+{
+  "base": {
+    "desc": "CASIA2 + BigGAN (1500)",
+    "n": 1500,
+    "accuracy": 0.924,
+    "macro_recall": 0.924,
+    "per_class": {
+      "authentic": {
+        "recall": 0.906,
+        "n": 500
+      },
+      "manipulated": {
+        "recall": 0.872,
+        "n": 500
+      },
+      "ai_generated": {
+        "recall": 0.994,
+        "n": 500
+      }
+    }
+  },
+  "dsC": {
+    "desc": "CASIA2 + IMD2020 + BigGAN (900)",
+    "n": 900,
+    "accuracy": 0.9644444444444444,
+    "macro_recall": 0.9644444444444443,
+    "per_class": {
+      "authentic": {
+        "recall": 0.9133333333333333,
+        "n": 300
+      },
+      "manipulated": {
+        "recall": 0.9866666666666667,
+        "n": 300
+      },
+      "ai_generated": {
+        "recall": 0.9933333333333333,
+        "n": 300
+      }
+    }
+  },
+  "opensdi": {
+    "desc": "OpenSDID (900)",
+    "n": 900,
+    "accuracy": 0.9233333333333333,
+    "macro_recall": 0.9233333333333333,
+    "per_class": {
+      "authentic": {
+        "recall": 0.8366666666666667,
+        "n": 300
+      },
+      "manipulated": {
+        "recall": 0.9633333333333334,
+        "n": 300
+      },
+      "ai_generated": {
+        "recall": 0.97,
+        "n": 300
+      }
+    }
+  },
+  "aigenproxy": {
+    "desc": "AI-GenBench proxy (900)",
+    "n": 900,
+    "accuracy": 0.9177777777777778,
+    "macro_recall": 0.9177777777777778,
+    "per_class": {
+      "authentic": {
+        "recall": 0.8866666666666667,
+        "n": 300
+      },
+      "manipulated": {
+        "recall": 0.9766666666666667,
+        "n": 300
+      },
+      "ai_generated": {
+        "recall": 0.89,
+        "n": 300
+      }
+    }
+  }
+}

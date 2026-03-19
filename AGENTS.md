@@ -1,275 +1,399 @@
-# MAIFS Governance Guide
+# MAIFS Governance & Status Document
 
-## Project Context & Operations
+> **이 파일은 프로젝트의 단일 상태 문서(SSOT)입니다.**
+> AI agent는 세션 시작 시 이 파일을 먼저 읽고, 세션 종료 시 변경사항을 반영해야 합니다.
 
-MAIFS is a multi-agent image forensic system. The runtime goal is to classify each input image as `authentic`, `manipulated`, `ai_generated`, or `uncertain` by combining four specialist agents with consensus and debate.
+---
 
-Primary stack:
-- Python 3.10+
-- PyTorch (model inference)
-- NumPy/SciPy/scikit-learn (analysis and meta learning)
-- Gradio (UI)
-- pytest (tests)
+## 1. Project Identity
 
-Operational commands (repo root):
-- Create/activate env:
-  - `python3 -m venv .venv`
-  - `source .venv/bin/activate`
-  - `python -m pip install --upgrade pip setuptools wheel`
-  - `pip install -r requirements.txt`
-- Verify install:
-  - `python main.py version`
-- CLI analysis:
-  - `python main.py analyze /path/to/image.jpg --algorithm drwa --device cuda`
-- Web UI:
-  - `python main.py server --host 0.0.0.0 --port 7860`
-- Tool-level evaluation:
-  - `python scripts/evaluate_tools.py --max-samples 20 --out outputs/tool_reeval_smoke_20.json`
-- Phase 1 meta experiment:
-  - `python experiments/run_phase1.py experiments/configs/phase1_mesorch_retrain.yaml`
-- Phase 2 meta experiment:
-  - `python experiments/run_phase2.py experiments/configs/phase2.yaml`
-- Tests:
-  - `.venv-qwen/bin/python -m pytest tests/ -v --tb=short`
+**MAIFS** (Multi-Agent Image Forensic System) — 4개 전문가 AI 에이전트가 협력하여 이미지 진위를 판별하는 시스템.
 
-## Current Status (Single-File Tracker)
+- **1차 논문 (완료)**: DAAC — Disagreement-Aware Adaptive Consensus (KIPS 2026)
+- **2차 논문 (진행중)**: SHIELD — Shapley-based Hardware-aware Interaction-preserving Ensemble Lightweighting for on-Device forensics
+- **목표**: On-Device Image Forensics Architecture (RPi5 배포)
 
-This section is the project-status source of truth for day-to-day work.  
-When a change is made, update this section first in the same commit cycle.
+Primary stack: Python 3.10+ · PyTorch · NumPy/SciPy/scikit-learn · Gradio · pytest
+가상환경: `.venv-qwen/bin/python`
 
-Snapshot date:
-- `2026-03-03`
+---
 
-Current branch policy:
-- Primary integration branch: `feat/catnet-integration`
-- Keep `main` stable; merge only after verification.
+## 2. Governance Rules
 
-Completed milestones:
-- Phase 1~4 runtime core completed (tools, agents, consensus, debate).
-- Phase 5 Qwen vLLM integration completed.
-- Watermark legacy removed and replaced with FatFormer naming/flow.
-- DAAC Phase 1 (Path B) implemented and validated (43-dim meta features).
-- CAT-Net integrated into frequency/compression slot.
-- Spatial Mesorch backend integrated and validated via A/B evaluation.
-- Meta trainer supports optional GPU paths (torch/xgboost) with CPU fallback.
-- Specialist confidence/trust flow corrected: trust is now applied only at consensus stage.
-- ManagerAgent consensus/debate path aligned with MAIFS runtime engines (COBRA + DebateChamber).
-- Runtime/operations/pathA docs consolidated as code-first SSOT docs under `docs/research/`.
+### 2.1 문서화 규칙
 
-In progress:
-- DAAC Phase 2 adaptive routing stabilization (Path B synthetic reproducibility verified; Path A collector pipeline integrated).
-- Cross-checking experiment outputs and syncing operational documentation.
-- Path A router-oracle redesign(oracle entropy/confidence + enhanced36 + router regressor 비교) 후속 안정화.
-- Path A `enhanced36+ridge` seed10 검증 결과를 기반으로 유의성 부족 원인 진단 및 다음 실험 설계.
-- Path A 게이트 기준을 seed-level McNemar count 단일 기준에서 sign-test/pooled McNemar 보완 기준으로 확장.
-- Path A 게이트 운영 정책을 `active_gate_profile` 기반으로 고정 적용하고 후속 검증/문서 동기화.
+이 프로젝트는 **코드-문서 동기화 원칙**을 따릅니다.
 
-Latest implemented items (code-level):
-- `experiments/run_phase2.py` added.
-- `experiments/configs/phase2.yaml` added.
-- `src/meta/router.py` added.
-- `src/meta/trainer.py` hardened for environments without torch (import-time safety/fallback).
-- `src/meta/router.py` extended with entropy/confidence-aware oracle weighting and router regressor options (`mlp`/`ridge`/`gbrt`).
-- `src/meta/collector.py` extended with `enhanced36` proxy feature profile.
-- `experiments/run_phase2_patha.py` extended with subgroup metrics, protocol snapshot, and result path export.
-- `experiments/run_phase2_patha_multiseed.py` extended to persist per-run `result_path`.
-- `experiments/evaluate_phase2_gate.py` and `experiments/summarize_patha_subgroups.py` added for gate/subgroup post-analysis.
-- `experiments/configs/phase2_patha_scale120_*` redesign configs added (oracle entropy v1, enhanced36+MLP/Ridge/GBRT).
-- `src/meta/evaluate.py` now records McNemar discordant counts (`b`,`c`) in comparison outputs.
-- `experiments/run_phase2_patha.py` now stores per-run McNemar components (`mcnemar_statistic`,`mcnemar_b`,`mcnemar_c`).
-- `experiments/run_phase2_patha_multiseed.py` now aggregates sign-test and pooled-McNemar diagnostics.
-- `experiments/evaluate_phase2_gate.py` now supports sign-test/pooled-McNemar based gate checks.
-- `experiments/evaluate_phase2_gate_profiles.py` added to compare strict/sign-driven gate policies in one run.
-- `tests/test_phase2_gate_stats.py` added for sign/pooled-McNemar gate regression coverage.
-- `experiments/evaluate_phase2_gate_profiles.py` extended to read protocol gate profiles from config yaml.
-- `experiments/configs/phase2_patha_scale120_feat_enhanced36_ridge.yaml` now includes `protocol.gate_profiles` presets.
-- `experiments/evaluate_phase2_gate_profiles.py` now supports `--profiles auto` with `protocol.active_gate_profile` resolution.
-- `experiments/run_phase2_patha_multiseed.py` now auto-evaluates configured `protocol.active_gate_profile` after summary write.
-- `experiments/configs/phase2_patha_scale120_feat_enhanced36_ridge.yaml` now sets `protocol.active_gate_profile: scale120_conservative`.
-- `experiments/analyze_patha_seed_drift.py` added to compare two seed-block summaries (aggregate/sign/model-pair/subgroup sign-flip).
-- `src/meta/collector.py` now supports JSONL roundtrip load (`load_jsonl`) for fixed-dataset reruns.
-- `experiments/run_phase2_patha.py` now supports `collector.precollected_jsonl` and decoupled `split.seed`.
-- `experiments/run_phase2_patha_repeated.py` added for fixed-dataset repeated-split protocol with active-gate output.
-- `src/meta/collector.py` now supports `stratified_kfold_split` for fixed-fold train/val/test protocol.
-- `experiments/run_phase2_patha_repeated.py` now supports `--split-strategy kfold` (fold sweep on fixed dataset).
-- `experiments/run_phase2_patha_repeated.py` now supports `--kfold-split-seeds` for multi-seed kfold coverage in one run.
-- `experiments/select_patha_split_protocol.py` added to rank split protocol candidates and recommend a default.
-- `experiments/configs/phase2_patha_scale120_feat_enhanced36_ridge.yaml` now includes `repeated_split_defaults` (kfold25 standard).
-- `experiments/tune_phase2_gate_profile.py` added for scale-aware gate threshold search using labeled pass/fail targets.
-- `experiments/configs/phase2_patha_scale120_feat_enhanced36_ridge.yaml` now includes `gate_profiles.scale120_tuned`.
-- `experiments/configs/phase2_patha_scale120_feat_enhanced36_ridge.yaml` now includes `gate_profiles.scale120_conservative` (expanded independent-block 기준).
-- `experiments/analyze_patha_kfold_variance.py` added for split_seed/test_fold variance decomposition across multiple fixed-kfold summaries.
-- `experiments/run_phase2_patha.py` now emits 3-case study metrics (`cobra_only`, `daac_only`, `cobra_plus_daac`) and pairwise McNemar comparisons in result JSON.
-- `experiments/run_phase2_patha_multiseed.py` now aggregates 3-case metrics across seeds under `aggregate_case3`.
-- `src/consensus/cobra.py` DRWA variance 추정을 다중 신호(evidence 정합성/majority 불일치/confidence 이탈/fallback 신호)로 보강하고 `algorithm="auto"`를 명시 지원.
-- `src/meta/baselines.py` COBRABaseline이 고정 `trust*confidence` 집계 대신 런타임 `COBRAConsensus`(rot/drwa/avga/auto)를 직접 사용.
-- `configs/trust.py`에 metric 기반 trust 파생(`derive_trust_from_metrics`)과 `resolve_trust(..., metrics_override=...)` 경로 추가.
-- `src/maifs.py`, `src/agents/manager_agent.py`에 metric 기반 trust 주입 인자와 `consensus_algorithm="auto"` 전달 경로 추가.
-- 테스트 추가/갱신: `tests/test_meta_baselines.py`, `tests/test_trust_and_manager_alignment.py`.
+| 규칙 | 설명 |
+|------|------|
+| **AGENTS.md = 1차 상태 문서** | 진행상황, 로드맵, 리스크, 우선순위가 바뀌면 이 파일을 먼저 갱신 |
+| **Progress Ledger 최신 우선** | 진행 기록은 Ledger 맨 위에 최신 항목 추가 (§8) |
+| **상세 분리 원칙** | AGENTS.md에는 한 줄 요약만, 깊은 내용은 별도 문서로 분리 |
+| **코드-문서 동시 이동** | 기능/동작에 영향 있는 코드 변경 시 문서도 같은 작업 사이클에서 갱신 |
+| **구현-규칙 일관성** | AGENTS 규칙과 코드가 어긋나면, 같은 변경셋에서 함께 수정 |
 
-Known blockers and risks:
-- GitHub push may fail without local credential/SSH setup.
-- Some tests are environment-dependent (checkpoint availability).
-- Domain mismatch risk remains for specific datasets (notably spatial on IMD-like distributions).
-- Optional dependencies (`yacs`, `pytorch_wavelets`, `timm`) are not guaranteed in clean environments, which can force fallback backends and reduce tool-level quality.
-- Dependency drift (`opencv-python` vs `opencv-python-headless`, `numpy` ABI) can silently reintroduce CAT-Net runtime failures if optional requirements are not pinned.
+### 2.2 세션 종료 체크리스트
 
-Immediate next actions:
-- Keep optional tool dependencies pinned via `requirements-optional-tools.txt` and verify clean-environment install.
-- Preserve Path A `scale120` baseline seed10 summary as reference and keep future runs comparable.
-- Keep `enhanced36+ridge` as current best candidate and investigate why McNemar significance remains 0/10 despite positive mean gain.
-- Design next Path A protocol iteration for significance power (sample-size/fold design, test strategy, and threshold sanity check).
-- Keep `scale120_conservative` as active production gate profile and treat `scale120_tuned` as analysis-only profile.
-- Investigate seed-block drift (42~51 vs 52~61) before finalizing merge/rollout confidence.
-- Expand fixed-kfold coverage (multiple shuffle seeds / repeated fold cycles) to stabilize fold-wise variance estimates.
-- Keep `kfold25` as split-protocol default for variance diagnostics and monitor drift against live random reruns.
-- Keep active gate threshold strictness (`min_f1_diff_mean=0.01`, `max_sign_test_pvalue=0.2`, `max_pooled_mcnemar_pvalue=0.1`) and investigate metric-target mismatch under current data scale.
-- Analyze why kfold25 independent blocks(305~309, 310~314) are consistently negative while the initial kfold25 block(300~304) was positive.
-- Preserve kfold75(300~314) summary as current variance baseline and avoid overfitting policy to single 25-run block.
-- Shift next tuning axis from gate-threshold to model-side changes (router feature/oracle/regressor) because kfold75 mean is near zero.
-- Sync docs for latest scale-up results and reproducibility scripts.
-- Keep docs and thresholds aligned with runtime behavior before merge to `main`.
+세션 종료 시 반드시 수행:
+1. Progress Ledger에 최신 항목 추가 (§8)
+2. Working Backlog 상태 갱신 (§5)
+3. 리스크/블로커 변경 시 §6 갱신
+4. 실험 결과 생성 시 §7 Research Tracker 갱신
 
-## Roadmap (Rolling Plan)
+### 2.3 변경 시 동기화 대상
 
-Now:
-- Stabilize Phase 2 pipeline behavior and reproducibility.
-- Keep CAT-Net + Mesorch default paths production-safe with fallback intact.
-- Remove avoidable fallback activation in validation environments by aligning optional backend dependencies.
-- Validate Path A collector results across multiple runs before merge readiness decision.
+| 변경 사항 | 갱신 대상 |
+|----------|----------|
+| 에이전트/Tool 추가·삭제·이름변경 | `AGENTS.md` §3, `CLAUDE.md` §2.1 |
+| 실험 결과 생성 | `AGENTS.md` §7, §8 + 해당 연구 문서 |
+| 경량화 모델 교체/성능 변경 | `AGENTS.md` §4.3 + `docs/research/SHIELD_RESEARCH_PLAN.md` |
+| 아키텍처 변경 | `AGENTS.md` §3 + `CLAUDE.md` |
+| 연구 방향/전략 변경 | `AGENTS.md` §4, §5 + 해당 연구 문서 |
 
-Next:
-- Real-data validation track (Path A) with the same feature/consensus assumptions.
-- DAAC comparison report: baseline COBRA vs Phase 1 vs Phase 2.
+### 2.4 문서 체계
 
-Later:
-- Benchmark packaging for publication-style reporting.
-- Robustness track (post-processing/adversarial stress tests).
-- Merge strategy to `main` after checklist and reproducibility gates pass.
+| 문서 | 역할 | 상세도 |
+|------|------|--------|
+| `AGENTS.md` (이 파일) | 상태·로드맵·거버넌스 SSOT | 한 줄 요약 수준 |
+| `CLAUDE.md` | 프로젝트 아키텍처·코딩 규칙·API 가이드 | 구현 수준 |
+| `docs/research/SHIELD_RESEARCH_PLAN.md` | SHIELD 후속 연구 상세 계획 | 연구 수준 |
+| `docs/research/DAAC_RESEARCH_PLAN.md` | DAAC 1차 연구 계획 (완료) | 연구 수준 |
+| `docs/research/MAIFS_TECHNICAL_THEORY.md` | 이론 백서 | 수식 수준 |
 
-## Status Update Protocol
+---
 
-Required when any meaningful change is made:
-- Update `Current Status` and `Roadmap` in this file.
-- Add or adjust only facts that are verified by code/results.
-- Keep updates concise and timestamped when relevant.
+## 3. System Architecture Snapshot
 
-Minimum checklist for each update:
-- What changed (module/script/config).
-- Why it changed (bugfix, feature, calibration, refactor).
-- What was validated (tests/experiment command).
-- What remains (open risk, blocker, next action).
+```
+[Gradio UI] → [Orchestrator] → [COBRA/Debate/DAAC] → [4 Specialist Agents] → [Tool Layer]
+```
 
-Entry format guideline:
-- `YYYY-MM-DD | scope | change | validation | next`
-- Example:
-  - `2026-02-16 | src/meta | add phase2 router path | run_phase2 config smoke | compare with phase1 baseline`
+### 3.1 현재 에이전트 구성 (v1.0 — 서버 기준)
 
-## Status Log (Recent Verified Changes)
+| Agent | Backend Model | 크기 | 추론시간 | 역할 | 맹점 |
+|-------|--------------|------|---------|------|------|
+| FrequencyAgent | CAT-Net (HRNet-W48) | ~150MB | ~80ms | JPEG 이중압축 탐지 | AI-generated F1=0 |
+| NoiseAgent | MVSS-Net | ~120MB | ~61ms | 픽셀 조작 마스크 | AI-generated F1=0 |
+| FatFormerAgent | CLIP ViT-L/14 + FAA | ~890MB | ~57ms | AI 생성 탐지 | Manipulated F1=0 |
+| SpatialAgent | Mesorch (ViT) | ~100MB | ~97ms | 부분 조작 영역 | AI-generated F1=0 |
+| **합계** | | **~1.26GB** | **~313ms** | | |
 
-- `2026-02-12 | runtime/core | Watermark flow removed, FatFormer flow standardized | test and integration updates landed | keep enum naming consistent`
-- `2026-02-12 | daac/phase1 | 43-dim meta pipeline implemented | phase1 runner + ablation/evaluation outputs | prepare adaptive routing`
-- `2026-02-13 | tools/frequency | CAT-Net integrated into frequency/compression slot | tool re-evaluation outputs generated | continue threshold hardening`
-- `2026-02-13 | tools/spatial | Mesorch backend integrated and A/B evaluated | 20/100 sample reports generated | maintain fallback and dataset checks`
-- `2026-02-13 | meta/training | GPU-capable meta trainer path finalized | retrain config run completed | stabilize reproducibility`
-- `2026-02-15 | daac/phase2 | adaptive routing runner/config/router module added | phase2 run output generated | compare phase2 vs phase1 baselines`
-- `2026-02-16 | governance | AGENTS promoted to single-file status+roadmap tracker | section-level manual verification | keep this log updated per change`
-- `2026-02-16 | daac/phase2 | phase2 rerun consistency verified (schema/type stable across runs) | run_phase2 twice with phase2.yaml | extend check to Path A real-data track`
-- `2026-02-16 | tests/regression | full pytest regression rerun passed after environment dependency sync | .venv-qwen/bin/python -m pytest tests/ -v --tb=short (161 passed, 10 skipped) | monitor cobra zero-weight warning`
-- `2026-02-16 | tools/eval | tool smoke output regenerated; fallback observed for CAT-Net/FatFormer/Mesorch without optional deps | scripts/evaluate_tools.py --max-samples 20 --out outputs/tool_reeval_smoke_20.json | install/lock yacs+pytorch_wavelets+timm and rerun`
-- `2026-02-16 | tools/deps | optional backend deps installed and backend loading restored (CAT-Net/FatFormer/Mesorch) | scripts/evaluate_tools.py --max-samples 20 --out outputs/tool_reeval_smoke_20_after_all_optional_deps.json | calibrate CAT-Net thresholds due high uncertain rate`
-- `2026-02-16 | daac/pathA-proxy | real-data proxy Phase1/Phase2 comparison executed (CASIA Au/Tp + BigGAN ai, n=180) | experiments/results/phase2_pathA/phase2_patha_proxy_results_20260216_095925.json | implement reusable collector pipeline for full Path A`
-- `2026-02-16 | tools/env-fix | CAT-Net runtime dependency chain fixed (`jpegio`, `torch-dct`, headless OpenCV, numpy ABI) and frequency-slot uncertainty issue resolved | outputs/tool_reeval_smoke_20_after_catnet_env_fix.json (frequency f1=0.6667, uncertain=0) | keep optional deps pinned`
-- `2026-02-16 | daac/pathA | collector module and dedicated Path A phase2 runner/config added | python experiments/run_phase2_patha.py experiments/configs/phase2_patha.yaml | scale sample plan and compare multi-seed stability`
-- `2026-02-16 | tests/meta | collector utility unit tests added/passed | .venv-qwen/bin/python -m pytest tests/test_meta_collector.py -v --tb=short | include in regular regression scope`
-- `2026-02-16 | tests/regression | full-suite regression rerun passed after collector/env updates | .venv-qwen/bin/python -m pytest tests/ -v --tb=short (164 passed, 10 skipped) | monitor warning debt in external backends`
-- `2026-02-16 | daac/pathA-multiseed | pathA collector pipeline multi-seed pilot completed (5 runs) | experiments/results/phase2_patha/phase2_patha_multiseed_summary_20260216_101723.json | expand sample scale and rerun significance checks`
-- `2026-02-16 | docs/sync | README + research docs synchronized to collector/pathA runtime and multi-seed findings | README.md + docs/research updates | keep docs aligned with subsequent phase2 reruns`
-- `2026-02-16 | daac/pathA-scale120 | pathA scale-up multi-seed completed (120/class, 5 runs) and multiseed runner direct-exec import path fixed | .venv-qwen/bin/python experiments/run_phase2_patha_multiseed.py experiments/configs/phase2_patha_scale120.yaml --seeds 42,43,44,45,46 | extend seeds and tune router for significance`
-- `2026-02-16 | daac/pathA-scale120-seed10 | pathA baseline seed expansion completed (120/class, 10 runs) | .venv-qwen/bin/python experiments/run_phase2_patha_multiseed.py experiments/configs/phase2_patha_scale120.yaml --seeds 42,43,44,45,46,47,48,49,50,51 | keep baseline and continue routing design`
-- `2026-02-16 | daac/pathA-router-tuned | router regularization/size tuned pilot added and evaluated (5 runs) | .venv-qwen/bin/python experiments/run_phase2_patha_multiseed.py experiments/configs/phase2_patha_scale120_router_tuned.yaml --seeds 42,43,44,45,46 | tuned config underperformed; pivot tuning strategy`
-- `2026-02-16 | daac/pathA-oracle-grid | oracle power/label_smoothing grid support added and pathA 5-seed grid executed | run_phase2_patha_multiseed with phase2_patha_scale120_oracle_p{15,20,25}_ls005.yaml | p15 looked best on 5 seeds but no significance`
-- `2026-02-16 | daac/pathA-oracle-seed10 | best oracle candidate(`power=1.5`,`ls=0.05`) validated on seed10 and compared to baseline seed10 | experiments/results/phase2_patha_scale120_oracle_p15_ls005/summary_10seeds_42_51.json | candidate tied baseline; shift to oracle/feature redesign`
-- `2026-02-16 | daac/pathA-router-redesign | router/oracle redesign code path implemented (entropy-aware oracle, enhanced36 features, router regressor variants, gate/subgroup scripts) | python -m compileall src/meta/router.py src/meta/collector.py experiments/run_phase2_patha.py experiments/run_phase2_patha_multiseed.py experiments/evaluate_phase2_gate.py experiments/summarize_patha_subgroups.py | execute sequential multiseed comparison`
-- `2026-02-16 | daac/pathA-router-seq | sequential comparison completed (oracle_entropy_v1, enhanced36+MLP/Ridge/GBRT; 5 seeds each) and Ridge selected | experiments/results/phase2_patha_scale120_*/*summary_5seeds_42_46.json | validate selected candidate on seed10 protocol gate`
-- `2026-02-16 | daac/pathA-ridge-seed10 | enhanced36+ridge seed10 completed with improved mean ΔF1 but significance gate fail(0/10) | summary_10seeds_42_51.json + gate_report_10seeds_20260216.json + subgroup_summary_10seeds_20260216.json | redesign significance-power plan before merge decision`
-- `2026-02-16 | daac/pathA-stats-gate-v2 | multiseed 통계 판단 로직 강화(sign-test + pooled McNemar 지원, run-level b/c 저장) | compileall + gate_report_10seeds_sign_driven_20260216.json | re-run with new schema and compare gate policy`
-- `2026-02-16 | tests/meta-gate | phase2 gate 통계 보강 로직 회귀 테스트 추가(7 passed) | .venv-qwen/bin/python -m pytest tests/test_phase2_gate_stats.py -v --tb=short | keep policy-change test coverage`
-- `2026-02-16 | daac/pathA-gate-profiles | strict/sign-driven 게이트 프로파일 일괄 비교 스크립트 추가 및 실행 | gate_profiles_10seeds_20260216.json 생성 | integrate profile choice into protocol docs`
-- `2026-02-16 | daac/pathA-gate-profiles-v2 | gate profile evaluator를 config 연동으로 확장하고 pooled_relaxed 프로파일 추가 | gate_profiles_10seeds_from_config_20260216.json + tests/test_phase2_gate_stats.py(9 passed) | apply same policy config to future candidates`
-- `2026-02-16 | daac/pathA-ridge-seed10-statsv2 | enhanced36+ridge seed10 재실행으로 sign/pooled 통계 포함 summary 재생성 | summary_10seeds_42_51_statsv2_20260216.json + gate_profiles_10seeds_statsv2_all_20260216.json | strict/sign-driven fail, pooled_relaxed pass 상태에서 정책 확정 필요`
-- `2026-02-16 | daac/pathA-active-gate | active gate profile 자동 적용 경로를 multiseed/evaluator에 반영하고 운영 프로파일을 pooled_relaxed로 고정 | .venv-qwen/bin/python -m pytest tests/test_phase2_gate_stats.py -q (12 passed) + evaluate_phase2_gate_profiles auto smoke | use active gate report output in next seed reruns`
-- `2026-02-16 | daac/pathA-ridge-seed10-block2 | 신규 seed block(52~61) multiseed 실행 및 active gate 재검증 완료 | summary_10seeds_52_61_statsv2_20260216.json + summary_10seeds_52_61_statsv2_20260216_gate_pooled_relaxed.json + gate_profiles_10seeds_52_61_statsv2_all_20260216.json | pooled_relaxed 포함 모든 gate fail로 seed-block drift 원인 분석 필요`
-- `2026-02-16 | daac/pathA-seed-drift-analysis | seed-block drift 분석 스크립트/테스트 추가 및 42~51 vs 52~61 비교 리포트 생성 | .venv-qwen/bin/python -m pytest tests/test_patha_seed_drift.py tests/test_phase2_gate_stats.py -q (15 passed) + seed_drift_42_51_vs_52_61_20260216.json | design split-variance control protocol (repeated split / fixed-fold)`
-- `2026-02-16 | daac/pathA-repeated-split | fixed dataset(`precollected_jsonl`) 기반 repeated split 프로토콜 추가 및 10-run 실행(split_seed=300~309) | tests/test_meta_collector.py + tests/test_patha_repeated_split.py + tests/test_patha_seed_drift.py + tests/test_phase2_gate_stats.py (25 passed) + repeated_split_summary_10runs_300_309_20260216.json | active gate fail 유지, fixed-fold 변형으로 추가 분산 분해 필요`
-- `2026-02-16 | daac/pathA-fixed-kfold | fixed dataset 기반 k-fold(5) 프로토콜 추가/실행 및 random-repeated 대비 비교 리포트 생성 | tests 25 passed + fixed_kfold_summary_5fold_20260216.json + seed_drift_repeated_random_vs_fixed_kfold_20260216.json | gate fail 유지, kfold 확장(coverage/repeats) 후 기준값 재설정 필요`
-- `2026-02-16 | daac/pathA-fixed-kfold-coverage | kfold 다중 split seed(300,301) 확장으로 10-run coverage 실행 및 gate/profile 재검증 | tests 27 passed + fixed_kfold_summary_10runs_2seeds_20260216.json + fixed_kfold_gate_profiles_10runs_2seeds_20260216.json | n_runs 조건은 충족했지만 mean/pooled 조건 미달로 gate fail 유지`
-- `2026-02-16 | daac/pathA-protocol-default | random25 vs kfold25 비교/선정 자동화 스크립트 추가 후 기본 split protocol을 kfold25로 결정 | tests 29 passed + split_protocol_selection_20260216.json(kfold25 우선) + fixed_kfold_summary_25runs_5seeds_20260216.json + repeated_random_summary_25runs_300_324_20260216.json | gate fail 유지(임계치 미달), threshold/데이터 규모 재설계 필요`
-- `2026-02-16 | daac/pathA-gate-tuning-scale120 | pass/fail 타깃 기반 게이트 임계치 튜닝 수행 후 scale-aware 프로파일(scale120_tuned) 추가 | tests 32 passed + gate_profile_tuning_20260216.json + gate_scale120_tuned_{seed42_51,seed52_61,random25,kfold25}_20260216.json | tuned profile 분리력 확인, active 전환 전 독립 블록 재검증 필요`
-- `2026-02-16 | daac/pathA-kfold25-block2 | 독립 fixed-kfold 블록(305~309) 25-run 추가 검증 및 gate/profile 재평가 | fixed_kfold_summary_25runs_5seeds_305_309_20260216.json + fixed_kfold_gate_profiles_25runs_5seeds_305_309_20260216.json + fixed_kfold_subgroup_summary_25runs_5seeds_305_309_20260216.json | 모든 gate fail로 독립 블록 재현성 추가 확인 필요`
-- `2026-02-16 | daac/pathA-kfold25-block3 | 독립 fixed-kfold 블록(310~314) 25-run 추가 검증 및 seed-drift 비교 | fixed_kfold_summary_25runs_5seeds_310_314_20260216.json + fixed_kfold_gate_profiles_25runs_5seeds_310_314_20260216.json + seed_drift_fixed_kfold25_300_304_vs_310_314_20260216.json | 초기 양성 블록 대비 방향성 역전 원인 진단 필요`
-- `2026-02-16 | daac/pathA-gate-policy-refresh | 확장 블록(최소 3개 kfold25 포함) 기준 게이트 재튜닝 후 보수형 프로파일(scale120_conservative) 추가 및 active 전환 | gate_profile_tuning_with_kfold_block3_20260216.json + gate_profile_tuning_conservative_seed42_only_20260216.json + config update | 운영 게이트는 보수형 유지, 후보 모델 개선 후 재튜닝`
-- `2026-02-16 | daac/pathA-kfold75-scaleup | fixed-kfold split-seed 300~314(15 seeds x 5 folds = 75 runs) 확장 검증 실행 및 gate/profile 재평가 | fixed_kfold_summary_75runs_15seeds_300_314_20260216.json + fixed_kfold_gate_profiles_75runs_15seeds_300_314_20260216.json + fixed_kfold_subgroup_summary_75runs_15seeds_300_314_20260216.json + gate_profile_tuning_conservative_with_kfold75_20260216.json | ΔF1 mean=-0.0010, sign 34/34/7로 near-zero; 보수형 gate 재확인`
-- `2026-02-16 | daac/pathA-kfold-variance-diagnostics | kfold 블록 변동성 진단 스크립트/테스트 추가 및 25x3+75 통합 리포트 생성 | tests/test_patha_kfold_variance.py + experiments/analyze_patha_kfold_variance.py + kfold_variance_diagnostics_25x3_plus_75_20260216.json | split_seed/test_fold 혼합 변동 유지로 모델-side 개선 우선`
-- `2026-03-03 | runtime/docs | specialist confidence의 trust 이중반영 제거 + ManagerAgent 합의/토론 경로 정렬 + SSOT 문서(현재 아키텍처/운영 리스크/PathA 최소 runbook) 추가 | python -m py_compile src/agents/manager_agent.py src/agents/specialist_agents.py src/maifs.py | trust/gate/fallback 리스크 회귀 테스트와 Path A 운영 기준 검증 지속`
-- `2026-03-03 | daac/pathA-case3 | Path A 결과에 3-case(cobra_only/daac_only/cobra_plus_daac) 평가 및 멀티시드 집계 추가 | py_compile + tests/test_phase2_router_guard.py tests/test_phase2_gate_stats.py + precollected smoke(run_phase2_patha, run_phase2_patha_multiseed) | gate 정책은 기존 active profile 기준을 유지하며 case3 지표로 추가 해석`
-- `2026-03-03 | runtime/debate-trust | DebateChamber에서 challenger trust 기반 confidence delta 제거(토론 단계 trust-neutral) | .venv-qwen/bin/python -m pytest tests/test_debate.py tests/test_trust_and_manager_alignment.py -q (26 passed) | trust는 COBRA 합의 단계 단일 반영으로 유지`
-- `2026-03-03 | daac/pathA-multidata | 4개 데이터 조합(DS-A/B/C/D) x split-seed10 확장 평가 완료 및 통합 비교 json 생성 | experiments/results/phase2_patha_case3_multidata/multi_dataset_case3_comparison_20260303.json | 고정 0.5 fusion 열세 원인 분석(가중치 튜닝/구조 개선) 진행`
-- `2026-03-03 | docs/research | 논문용 표 문서(PAPER_TABLE_20260303) 추가 및 SSOT/runbook/README 링크 동기화 | 문서 경로/수치 수동 검증 | 신규 실험 시 표 재생성 자동화 스크립트 추가 검토`
-- `2026-03-03 | runtime/cobra-fidelity | DRWA variance 다중신호 보강 + COBRABaseline을 runtime COBRAConsensus로 정렬 + trust metric 파생 경로/auto 알고리즘 지원 추가 | .venv-qwen/bin/python -m pytest tests/test_cobra.py tests/test_trust_and_manager_alignment.py tests/test_meta_baselines.py -q (28 passed) + python -m py_compile configs/trust.py src/consensus/cobra.py src/meta/baselines.py src/maifs.py src/agents/manager_agent.py | Path A 재평가 시 baseline 수치 변화를 문서/표와 동기화`
+### 3.2 DAAC 합의 계층 (변경 없음)
 
-## Golden Rules
+- 43-dim 메타 특징 추출 + GBM 분류기
+- 추론: 0.069ms (전체의 0.02% 미만)
+- Macro-F1: 0.8613 (COBRA 0.266 대비 +0.595)
+- 최상위 특징: `disagree_frequency_fatformer` 56.5%
 
-Immutable:
-- Preserve verdict contract: `authentic`, `manipulated`, `ai_generated`, `uncertain`.
-- Keep Watermark legacy removed. Use `FATFORMER` naming consistently. Do not reintroduce `WATERMARK` enums/roles.
-- Keep graceful degradation. Missing model/checkpoint/API must not crash the whole pipeline.
-- Do not hardcode API keys, secrets, or user-specific absolute paths.
+---
 
-Do:
-- Update rules and docs when behavior changes.
-- Keep model path and thresholds configurable via `configs/settings.py` and `configs/tool_thresholds.json`.
-- Use relative imports inside `src/` modules as documented in `CLAUDE.md`.
-- Keep confidence values normalized to `[0.0, 1.0]`.
-- Add or update tests for behavior changes.
+## 4. SHIELD 후속 연구 개요
 
-Don't:
-- Do not directly edit vendored external model repositories unless explicitly required (`CAT-Net-main`, `MVSS-Net-master`, `TruFor-main`, `OmniGuard-main`, `Mesorch-main`, `Integrated Submodules/FatFormer`).
-- Do not commit raw datasets or new large binary checkpoints to this repo.
-- Do not bypass fallback behavior with hard failures.
+> 상세: [docs/research/SHIELD_RESEARCH_PLAN.md](docs/research/SHIELD_RESEARCH_PLAN.md)
 
-## Standards & References
+### 4.1 연구 목표
 
-Coding conventions:
-- Follow existing Python style and type hints.
-- Keep docstrings/comments in Korean for project-facing logic, as used in current codebase.
-- Reuse existing dataclasses and enums (`ToolResult`, `AgentResponse`, `Verdict`, `AgentRole`).
+DAAC의 성능을 유지하면서 **RPi5에 배포 가능한 경량 포렌식 아키텍처** 설계.
 
-Git strategy:
-- Branch from feature branch for scoped work.
-- Preferred commit format: Conventional Commits style.
-  - `feat(scope): ...`
-  - `fix(scope): ...`
-  - `docs(scope): ...`
-  - `refactor(scope): ...`
-- Run relevant tests or smoke checks before push.
+- 전체 모델 크기: 1.26GB → **<500MB** (목표 ~180MB)
+- 타겟 디바이스: Raspberry Pi 5 (8GB RAM, Cortex-A76, 선택적 Hailo-8L NPU)
+- DAAC 43-dim 메타 특징 구조 유지 (리소스 무시 가능)
 
-Maintenance policy:
-- Use this `AGENTS.md` as the active status and roadmap tracker.
-- If runtime behavior, thresholds, architecture, or experiment pipeline changes, update this file first, then synchronize:
-  - `README.md`
-  - `docs/research/MAIFS_TECHNICAL_THEORY.md`
-  - `docs/research/DAAC_RESEARCH_PLAN.md`
-- If rule/doc and code diverge, code has priority for immediate correctness, then this file and related docs must be updated in the same work cycle.
+### 4.2 5대 기여 (Contributions)
 
-## Context Map (Action-Based Routing)
+| # | 기여 | 핵심 방법론 | 상태 |
+|---|------|-----------|------|
+| C1 | 에이전트 가치·상호작용 정량화 | Model Shapley (exact, N=4) + STII (k=2) | `NOT_STARTED` |
+| C2 | 고유/중복/시너지 정보 분해 | PID (Partial Information Decomposition) | `NOT_STARTED` |
+| C3 | 포렌식 특화 경량화 | QAT + mixed-precision (FP16 입력단, INT8 시맨틱) | `NOT_STARTED` |
+| C4 | 백본 교체 + 어댑터 전이 | FatFormer FAA → MobileCLIP-S2 (~890→50MB) | `NOT_STARTED` |
+| C5 | Confidence-gated cascade | Tier 1→2→3 조건부 추론, 평균 비용 3-5x 절감 | `NOT_STARTED` |
 
-- **[Runtime orchestration and cross-module flow](./src/AGENTS.md)** — `src/maifs.py`, package-level architecture, integration changes.
-- **[Forensic tools and model inference](./src/tools/AGENTS.md)** — CAT-Net, Noise, FatFormer, Spatial tool logic and thresholds.
-- **[Agent behavior and role logic](./src/agents/AGENTS.md)** — specialist/manager response rules, trust handling, debate interfaces.
-- **[Meta learning and DAAC internals](./src/meta/AGENTS.md)** — 43/47-dim features, trainer/evaluator/router behavior.
-- **[Experiment runners and result generation](./experiments/AGENTS.md)** — phase configs, run scripts, output folder conventions.
-- **[Global config and threshold policy](./configs/AGENTS.md)** — settings paths, backend toggles, trust and threshold sources.
-- **[Utility and evaluation scripts](./scripts/AGENTS.md)** — CLI utilities, calibration/evaluation tooling.
-- **[Test changes and environment-dependent cases](./tests/AGENTS.md)** — pytest scope, skip policy, regression coverage.
-- **[Research and technical documentation updates](./docs/research/AGENTS.md)** — plan/theory docs synchronization policy.
+### 4.3 에이전트별 경량화 목표
+
+| Agent | 현재 | 경량화 방안 | 목표 크기 | 핵심 제약 |
+|-------|------|-----------|----------|----------|
+| FatFormer | ~890MB | MobileCLIP-S2 + FAA 재학습 | ~50MB | FAA adapter만 재학습, 백본 freeze |
+| CAT-Net | ~150MB | Structured pruning (DCT+RGB stream 유지) | ~55MB | DCT stream 절대 제거 불가 |
+| MVSS-Net | ~120MB | MobileNetV3-Small + feature-level KD | ~25MB | edge supervision 유지 |
+| Mesorch | ~100MB | Mesorch-P + Fast-SCNN 백본 | ~50MB | SRM 필터 CPU fallback 필요 |
+| **합계** | **~1.26GB** | | **~180MB** | |
+
+### 4.4 핵심 연구 발견 (딥리서치 종합)
+
+> 6개 딥리서치 PDF 분석 결과 요약. 상세: [SHIELD_RESEARCH_PLAN.md](docs/research/SHIELD_RESEARCH_PLAN.md) §2
+
+1. **포렌식 양자화 민감도**: PRNU/DCT 신호가 low-magnitude → PTQ 불충분, QAT 필수, mixed-precision 필수
+2. **FatFormer FAA 백본 독립성 확인**: ViT-B/16, Swin-B, Swin-L ablation에서 FAA 동작 → MobileCLIP 교체 가능
+3. **Freq↔FatFormer 시너지가 submodularity 위반**: greedy 선택 부적합 → interaction-preserving 제약 필요
+4. **Cascade 선행연구**: CoE 7x 비용 절감, NoScope/BranchyNet early-exit 적용 가능
+5. **RPi5 벤치마크**: 경량 CNN ~100 FPS, 하이브리드 ViT ~10 FPS (CPU 기준)
+6. **Token pruning 위험**: 조작 영역 토큰 제거 가능성 → 포렌식에서는 사용 불가
+
+---
+
+## 5. Working Backlog
+
+### Phase 1: Agent Valuation (이론적 근거 확립) ✅ 완료
+
+| # | 작업 | 우선순위 | 상태 | 비고 |
+|---|------|---------|------|------|
+| 1.1 | Model Shapley 계산 (2⁴=16 부분집합) | P0 | `DONE` | freq=0.2690, fat=0.1216, noise=0.0886, spatial=0.0547 |
+| 1.2 | STII (k=2) pairwise interaction 산출 | P0 | `DONE` | freq↔fatformer=-0.1823 (모든 쌍 음수, 대체재 관계) |
+| 1.3 | CKA 분석 (feature map 유사도) | P1 | `DONE` | 최대 CKA=0.0985 (freq↔fatformer), 모두 독립적 |
+| 1.4 | PID 정보 분해 | P1 | `DONE` | Unique: freq=0.2029 > fat=0.0382 > noise=0.0311 > spatial=0.0000. 최고시너지: noise↔fatformer(+0.1093) |
+| 1.5 | 에이전트 조합 최적 부분집합 결정 | P1 | `DONE` | freq+noise+fatformer(3개) 1차 권고. 단, cross-dataset 검증으로 수정 필요 |
+| 1.6 | Cross-Dataset 검증 (4개 데이터셋) | P0 | `DONE` | **Spatial Unique=0 전 데이터셋 확정. 나머지 순위는 데이터셋 의존적** → 3-Track 실험으로 전환 |
+
+> **Phase 1 핵심 발견**: Spatial 제거는 4/4 데이터셋에서 확정. 그러나 freq vs noise 1위, fatformer 가치는 데이터셋 편향. **무거운 모델 기준 Shapley는 경량 모델 배포 시 보장 안 됨** → 경량 백본 교체 후 재평가 필수.
+
+---
+
+### Phase 2: Backbone 수급 및 단독 평가 (Step 1) ← **현재 단계**
+
+> **목적**: 3-Track 비교를 위한 경량 백본 추론 JSONL 생성. 4개 데이터셋 × 백본별 평가.
+
+| # | 작업 | 우선순위 | 상태 | 비고 |
+|---|------|---------|------|------|
+| 2.1 | ForMa 수급 (VMamba 기반, freq+noise 통합 가능) | P0 | `DONE` | 코드+가중치 연동 완료(37.3M). 4개 데이터셋 단독 평가 완료, 평균 acc=0.3347 |
+| 2.2 | MobileCLIP-S2 수급 (FatFormer 대체) | P0 | `DONE` | open_clip datacompdr 다운로드 완료. **Linear probe 파인튜닝 완료**: val macro_recall=0.790, 4개 데이터셋 평균 acc=0.932 |
+| 2.3 | Tiny-LaDeDa 수급 (Cascade Tier-1 스크리너) | P1 | `DONE` | WildRF 가중치 repo 포함. ai_gen recall 73-86%, manip=0%(binary) |
+| 2.4 | MobileNetV2 dual-stream 구현 (noise 대체) | P1 | `DONE` | 15ep 재학습 완료(5.77M). best val macro=0.806, 4개 데이터셋 avg acc=0.958 |
+| 2.5 | 백본별 단독 평가 JSONL 생성 (4개 데이터셋) | P0 | `DONE` | ForMa + MobileCLIP-S2 + Tiny-LaDeDa 전체 JSONL/summary 생성 완료 |
+| 2.6 | ForMa 가중치 수동 다운로드 | P0 | `DONE` | 사용자 제공 `ForMa_weights.pth` 확보. repo-root fallback 경로로 평가 스크립트 연동 완료 |
+| 2.7 | 백본별 추론 시간 + 모델 크기 실측 | P1 | `DONE` | ForMa/MobileCLIP-ft4/Tiny-LaDeDa/MobileNetV2-dualstream GPU+CPU 실측 완료 |
+
+---
+
+### Phase 3: 3-Track 비교 실험
+
+> **3개 아키텍처 전략**을 동일 4개 데이터셋에서 비교. 경량 백본 기반 Shapley/PID 재실행.
+
+| Track | 구성 | 에이전트 수 | 예상 크기 |
+|-------|------|-----------|---------|
+| **Track 1** | ForMa + MobileNetV2-noise + MobileCLIP-S2 | 3개 분리 | ~150MB |
+| **Track 2** | ForMa(freq+noise 통합) + MobileCLIP-S2 | 2개 통합 | ~100MB |
+| **Track 3** | Tiny-LaDeDa(Tier1) → ForMa+MobileCLIP(Tier2) → DAAC(Tier3) | 적응형 cascade | ~100MB |
+
+| # | 작업 | 우선순위 | 상태 | 비고 |
+|---|------|---------|------|------|
+| 3.1 | Track별 JSONL 구성 (Phase 2 출력 조합) | P0 | `DONE` | Track1/2/3 JSONL 12개 생성 + Track1 재평가 완료(combined 10-seed best=0.9564) |
+| 3.2 | Track별 Shapley + PID 재실행 (경량 모델 기준) | P0 | `DONE` | MNV2 φ=+0.304 ≈ CLIP φ=+0.300 >> ForMa=Tiny≈0.008. CLIP↔MNV2 CKA=0.92(고중복). ForMa/Tiny Unique≈0 → 2모델 조합으로 충분 |
+| 3.3 | 다기준 비교 (F1 × 크기 × 속도 × cross-DS 일관성) | P0 | `DONE` | **RPi5 권고: MNV2-only**(22.5MiB/35.9ms/score=0.730). **GPU 권고: CLIP+MNV2**(402.8MiB/34.4ms GPU/OOD=0.731). ForMa 전면 제거 확정(CPU=1613ms 병목, Shapley≈0) |
+| 3.4 | DAAC 메타 분류기 재학습 (선정된 Track 기준) | P0 | `DONE` | 경량 25-dim(MNV2+CLIP only, label leakage 방지로 specialist 제외). GBM base=99.01%(원본 86.13% 대비 +12.88%p), avg 4-DS=96.25%. Top-feature: mnv2_aigen(29.8%) |
+
+---
+
+### Phase 3.5: Binary Specialist + ICWMV Ensemble ← **현재 단계**
+
+> **목적**: MNV2+CLIP의 에러 독립성을 활용하여 Binary Specialist 전문가 추가 → ICWMV 4-model 합의로 OOD 강건성 개선.
+>
+> **핵심 발견 (딥리서치 종합)**: Meyen et al.(2021) 이론 — Binary specialist가 generalist 수학적으로 능가. ICWMV = 개별 confidence 가중 다수결. DREP = 에러 집합 기반 직접 학습.
+
+**4-Model 아키텍처:**
+
+| 모델 | 역할 | 크기 | 학습 데이터 | 특수 신호 |
+|------|------|------|-----------|---------|
+| MobileNetV2 dual-stream | 3-class generalist | 5.77M / 22.5MiB | CASIA2+BigGAN | SRM 노이즈 |
+| MobileCLIP-ft4 | 3-class generalist | 99.4M / 380.3MiB | 동일 | CLIP 시맨틱 |
+| Specialist-M | binary: auth vs manip | 7.66M / 29.3MiB | CASIA2 Au+Tp | SRM+DCT 3-stream |
+| Specialist-G | binary: auth vs aigen | 35.91M (0.10M trainable) | CASIA2+BigGAN+AIGenBench | MobileCLIP frozen + PiD |
+
+| # | 작업 | 우선순위 | 상태 | 비고 |
+|---|------|---------|------|------|
+| 3.5.0 | 에러 Overlap 분석 (MNV2 vs CLIP) | P0 | `DONE` | avg Jaccard=0.3361 → 에러 독립적, ASSIST 아이디어 유효. "둘 다 틀림" 지배 패턴: manipulated→authentic |
+| 3.5.1 | Specialist-M 학습 (v1, CASIA2 only) | P0 | `DONE` | best manip_f1=0.764(Ep.5), 4-DS eval: base manip_recall=0.962/f1=0.861, dsC=0.797. **OOD 한계**: opensdi auth_recall=0.07 (CASIA2 과적합) |
+| 3.5.2 | Specialist-G 학습 | P0 | `DONE` | best aigen_f1=0.981(Ep.19), 4-DS eval: base=0.987, dsC=0.988, opensdi=0.799, aigenproxy=0.730 |
+| 3.5.3 | ICWMV 4-model 합의 평가 | P0 | `DONE` | w=1.0: avg macro_F1=96.40% vs MNV2 95.81%(+0.59%p). base+1.0, dsC+0.9, opensdi+0.9%p. **aigenproxy −0.4%p** (SpecM OOD 약점) |
+| 3.5.4 | Specialist-M v2 학습 (OOD 강건화) | P0 | `DONE` | +IMD2020 1710장 + JPEG/Noise aug + WeightedSampler. best manip_f1=0.827(v1 0.764 대비 +6.3%p). opensdi auth_recall 7%→11%, aigenproxy 17%→25% |
+| 3.5.5 | ICWMV 4-model 재평가 (SpecM-v2 기준) | P1 | `DONE` | SpecM-v2 기준 w=1.0: avg macro_F1=**96.48%**(v1 96.40% 대비 +0.08%p). base=95.73/dsC=99.11/opensdi=95.31/aigenproxy=95.77%. aigenproxy 약점 개선 확인 |
+| 3.5.6 | CKA 다양성 재분석 (4-model) | P1 | `DONE` | 4-model avg CKA=0.0855 vs 2-model 0.9241(ΔCKA=-0.8385). 4-model avg Jaccard=0.1233 vs 2-model 0.3361. disagreement rate: 4-model 32.8% vs 2-model 4.4% — binary specialist 추가로 다양성 대폭 향상 확인 |
+
+---
+
+### Phase 4: Edge Deployment & Evaluation
+
+| # | 작업 | 우선순위 | 상태 | 비고 |
+|---|------|---------|------|------|
+| 4.1 | ONNX 변환 + CPU 벤치마크 | P1 | `DONE` | MNV2=22.5MB/14ms, SpecM=30MB/20.6ms, SpecG=141.5MB/200ms, CLIP=141.3MB/197.7ms (1-thread). RPi5 예산(200ms): MNV2+SpecM만 OK |
+| 4.2 | PTQ INT8 양자화 | P1 | `DONE` | Dynamic(Gemm/MatMul): 속도 개선 <1.05× (Conv 미포함으로 효과 미미). Static(QDQ): SpecM +1.25×/cos=1.00 유효. **SpecG/CLIP 정확도 붕괴(cos<0.2)** — FastViT attention 양자화 불가. 결론: SpecG는 서버 전용 확정 |
+| 4.3 | Hailo-8L HEF 변환 (선택) | P2 | `NOT_STARTED` | NPU 경로 |
+| 4.4 | RPi5 end-to-end 벤치마크 | P0 | `NOT_STARTED` | latency/memory/accuracy 실측 |
+| 4.5 | ForensicHub/WildRF 벤치마크 | P1 | `NOT_STARTED` | 논문 비교 실험 |
+
+---
+
+## 6. Risks & Blockers
+
+| ID | 리스크 | 심각도 | 완화 전략 | 상태 |
+|----|--------|--------|----------|------|
+| R1 | FatFormer→MobileCLIP 교체 시 FAA 재학습 실패 | HIGH | FAA가 backbone-agnostic임을 논문 ablation으로 확인. 실패 시 TinyCLIP 대안 | `OPEN` |
+| R2 | 양자화로 포렌식 신호 손실 (PRNU/DCT) | HIGH | QAT 필수 + 입력단 FP16 유지 + mixed-precision | `OPEN` |
+| R3 | 경량화 후 DAAC 43-dim 특징 분포 변화 | MEDIUM | 경량 모델 기준 재학습으로 대응 | `OPEN` |
+| R4 | RPi5 메모리 부족 (8GB 내 4모델 동시 로드) | MEDIUM | Cascade로 동시 로드 회피 + 모델 swap 전략 | `OPEN` |
+| R5 | SRM/DWT custom ops NPU 미지원 | LOW | CPU fallback 경로 유지 (Mesorch에만 해당) | `OPEN` |
+| R6 | Token pruning이 조작 영역 토큰 제거 | HIGH | Token pruning 사용 금지 (연구에서 확인) | `MITIGATED` |
+| R7 | 무거운 모델 Shapley가 경량 모델과 다름 (데이터셋 편향) | HIGH | Cross-dataset 검증으로 발견. 경량 백본 교체 후 Shapley 재실행으로 대응 | `MITIGATED` |
+| R8 | ForMa/Tiny-LaDeDa 공개 가중치 부재 또는 호환성 문제 | MEDIUM | 사용자 제공 ForMa 가중치 연동 및 Tiny-LaDeDa 호환성 확인 완료. 미확보 시 직접 학습 or 대안 백본(MNVFusion, BNN) 준비 | `MITIGATED` |
+| R9 | fatformer(MobileCLIP)가 다양한 AI 생성기에서 음수 Shapley | MEDIUM | Track 2(통합)에서 ForMa가 흡수 → fatformer 의존도 낮춤 | `OPEN` |
+| R10 | Specialist-M OOD 일반화 실패 (CASIA2 과적합) | HIGH | v2: IMD2020 추가 + JPEG/Noise augmentation으로 완화 시도. v2 완료 후 재평가 | `IN_PROGRESS` |
+| R11 | ICWMV w_spec 과도하면 OOD 성능 역전 | MEDIUM | w_spec=1.0이 균형점. Specialist-M v2로 OOD 개선 후 재튜닝 | `MITIGATED` |
+
+---
+
+## 7. Research Tracker
+
+### 7.1 완료된 연구
+
+| 항목 | 결과 | 문서 |
+|------|------|------|
+| DAAC Phase 1 (Path B 시뮬레이션) | GBM F1=0.9949, Go/No-Go PASS | `experiments/results/phase1/` |
+| DAAC Phase 2 (Path A 실데이터) | GBM F1=0.8613, COBRA 대비 +0.595 | `experiments/results/paper_final/` |
+| DAAC 논문 (KIPS 2026) | 초안 완성 | `docs/research/MAIFS_PAPER_DRAFT2_20260306.md` |
+| 딥리서치 Prompt 1 (On-device SOTA) | 6개 PDF 종합 완료 | `SHIELD_RESEARCH_PLAN.md` §2.1 |
+| 딥리서치 Prompt 2 (Agent selection theory) | 6개 PDF 종합 완료 | `SHIELD_RESEARCH_PLAN.md` §2.2 |
+| 딥리서치 Prompt 3 (Compression for forensics) | 6개 PDF 종합 완료 | `SHIELD_RESEARCH_PLAN.md` §2.3 |
+
+### 7.2 완료된 실험
+
+| 실험 | 결과 | 파일 |
+|------|------|------|
+| Phase 1.1 Model Shapley (N=4) | frequency φ=+0.2690 > fatformer φ=+0.1216 > noise φ=+0.0886 > spatial φ=+0.0547 | `experiments/results/shapley_phase1/shapley_phase1_20260318_161543.json` |
+| Phase 1.2 STII k=2 | freq↔fatformer: -0.1823 (최강, 음수=대체재), 모든 쌍 음수 | 동일 파일 |
+| Phase 1.3 CKA | 모든 쌍 CKA < 0.1 (에이전트 간 특징 독립적) | 동일 파일 |
+| Phase 1.4 PID | Unique: freq=0.2029, fatformer=0.0382, noise=0.0311, **spatial=0.0000** | `experiments/results/shapley_phase1/pid_phase1_20260318_162008.json` |
+| Phase 1.6 Cross-Dataset | **spatial Unique=0: 4/4 확정.** freq 1위: 1/4만(CASIA 편향). fatformer 음수 Shapley(aigenproxy) | `experiments/results/shapley_phase1/cross_dataset_validation_20260319_041001.json` |
+| 백본 후보 리서치 | 에이전트별 Top 후보: ForMa(freq+noise), MobileNetV2(noise), MobileCLIP-S2(fatformer), RelayFormer(spatial) | 6개 딥리서치 PDF 종합 |
+| Phase 2 백본 단독 평가 (ForMa) | acc: base=0.349, dsC=0.332, opensdi=0.334, aigen=0.323. authentic recall 0.837-0.937, manipulated recall 0.067-0.150, **ai_gen recall 0** (3-class 단독 한계) | `experiments/results/backbone_eval/backbone_eval_summary_20260319_055541.json` |
+| Phase 2 백본 단독 평가 (MobileCLIP-S2) | **Zero-shot**: acc 33-35%, authentic recall 7-10%. **Linear probe(ft0)**: val macro=0.790, 전체eval avg=0.932. **Last-4-block FT(ft4)**: val macro=**0.806**, 전체eval base=0.942/dsC=0.974/opensdi=0.953/aigen=0.943(avg=**0.953**). 체크포인트: `weights/mobileclip_forensics/mobileclip_s2_forensics_ft4.pth` | `experiments/results/backbone_eval/` |
+| Phase 2 백본 단독 평가 (Tiny-LaDeDa) | WildRF: acc: base=0.372, dsC=0.367, opensdi=0.379, aigen=0.316. ai_gen recall 73-86%, **manip recall 0%** (binary 한계 → Cascade Tier-1 전용) | `experiments/results/backbone_eval/` |
+| Phase 2 백본 단독 평가 (MobileNetV2 dual-stream) | RGB + SRM residual dual-stream 구현 후 15epoch 재학습. best val macro=**0.806**, 전체eval base=0.944/dsC=0.979/opensdi=0.949/aigen=0.961(avg=**0.958**). Track 1용 noise 축이 단독 strong baseline으로 상승 | `experiments/results/backbone_eval/mobilenetv2_dualstream_summary_20260319_070725.json` |
+| Phase 2.7 백본 latency/size benchmark | H200/EPYC 실측. ForMa: 37.3M, GPU 16.8ms / CPU 1613ms. MobileCLIP-ft4: 99.4M, GPU 15.5ms / CPU 123.8ms. Tiny-LaDeDa: 0.0013M, GPU 5.8ms / CPU 2.5ms. **MobileNetV2 dual-stream**: 5.77M, GPU 18.9ms / CPU 35.9ms | `experiments/results/backbone_benchmark/backbone_benchmark_20260319_065356.json`, `.md` |
+| ForMa 코드 수급 (arXiv 2502.09941) | 37.3M params, repo-root 가중치 fallback + CUDA mamba 배치 평가 경로 연결. 사용자 제공 가중치로 로드/재평가 완료 | `ForMa-main/`, `experiments/run_backbone_eval.py` |
+| Phase 3.1 Track 1/2/3 앙상블 평가 (combined) | combined 10-seed: Track1-LR=0.9512★, MobileCLIP=0.9500, Track3-LR=0.9496. in-dist에서 Track1이 소폭 우세 | `experiments/results/phase3_tracks/` |
+| Phase 3.1 Fair LOO 재파인튜닝 평가 | **핵심 결과**: clip_loo avg=0.6386 vs Track1-GBM avg=**0.7309** (Δ+0.092). OOD 분포 이동 시 Track1 앙상블이 MobileCLIP 단독 대비 유의미하게 우수. opensdi: clip=0.497→T1=0.697(+0.20), aigenproxy: clip=0.554→T1=0.680(+0.13). Track2/3는 Track1 대비 약함(MobileNetV2 noise 신호가 핵심 기여) | `experiments/results/fair_cross/fair_cross_20260319_070940.json` |
+| Phase 3.2 경량 모델 Shapley+STII+CKA+PID | **Shapley**: MNV2 φ=+0.304 ≈ CLIP φ=+0.300 >> ForMa=Tiny=+0.008. **CKA**: CLIP↔MNV2=0.922(고중복), 나머지 모두 <0.02(독립). **STII**: CLIP↔MNV2=-0.584(최대 중복). **PID**: CLIP↔MNV2 Redundancy=0.599. **최적 2-조합**: CLIP+MNV2(F1=0.953). ForMa/Tiny는 in-dist 기여 거의 없으나 OOD 강건성(Fair LOO)에서 MNV2 단독이 결정적. 결론: CLIP+MNV2 2-모델이 in-dist 최적, OOD에는 MNV2 필수 | `experiments/results/shapley_phase3/shapley_phase3_20260319_074635.json` |
+| Phase 3.5.0 에러 Overlap 분석 | avg Jaccard=0.3361 (에러 독립적). "둘 다 틀림" 패턴: manipulated→authentic 지배(56/102건). Binary specialist 설계 근거 확립 | `experiments/results/error_overlap_analysis.json`, `run_error_overlap_analysis.py` |
+| Phase 3.5.1 Specialist-M v1 학습 | CASIA2(7491 auth + 5123 manip), 3-stream(RGB+SRM+DCT), 7.66M. best manip_f1=0.764(Ep.5). 4-DS: base f1=0.861/dsC=0.797/opensdi=0.584/aigenproxy=0.631. **OOD 한계**: opensdi auth_recall=0.07 | `weights/specialist_m/specialist_m_best.pth`, `experiments/results/specialist_eval/` |
+| Phase 3.5.2 Specialist-G 학습 | MobileCLIP frozen(35.81M) + PiD branch(0.10M trainable). best aigen_f1=0.981(Ep.19). 4-DS: base=0.987/dsC=0.988/opensdi=0.799/aigenproxy=0.730 | `weights/specialist_g/specialist_g_best.pth`, `experiments/results/specialist_eval/` |
+| Phase 3.5.3 ICWMV 4-model 합의 (w=1.0) | MNV2+CLIP+SpecM+SpecG. avg macro_F1=**96.40%** vs MNV2 95.81%(+0.59%p) vs 2-model 96.23%(+0.17%p). base+1.0, dsC+0.9, opensdi+0.9%p. aigenproxy −0.4%p(SpecM OOD 약점). "둘 다 틀림" fix rate: base 2.1%, dsC 12.5% | `experiments/results/icwmv/`, `run_icwmv_consensus.py` |
+| Phase 3.5.4 Specialist-M v2 (OOD 강건화) | +IMD2020 1710장(non-eval) + JPEG압축(p=0.5, q=40~95) + GaussianNoise(p=0.4) + WeightedRandomSampler. best manip_f1=0.827(v1 0.764 대비 +6.3%p). opensdi auth_recall 7%→11%, aigenproxy 17%→25% 개선 | `weights/specialist_m_v2/specialist_m_v2_best.pth`, `experiments/results/specialist_eval/specialist_m_v2_*` |
+| Phase 3.5.5 ICWMV SpecM-v2 재평가 | w=1.0: avg macro_F1=**96.48%**(v1 96.40% 대비 +0.08%p). base=95.73/dsC=99.11/opensdi=95.31/aigenproxy=**95.77%**(v1 aigenproxy 약점 개선). GBM DAAC 96.25% avg와 동등 수준 | `experiments/results/icwmv/icwmv_4model_wspec1.0_20260319_123542.json` |
+| Phase 3.5.6 CKA 다양성 재분석 (4-model) | 4-model avg CKA=**0.0855** vs 2-model(MNV2+CLIP) 0.9241(ΔCKA=-0.8385). Jaccard: 4-model 0.1233 vs 2-model 0.3361. disagreement rate: 4-model 32.8% vs 2-model 4.4%. Binary specialist 추가로 출력 공간 다양성 대폭 향상 — 앙상블 설계 이론적 정당화 | `experiments/results/cka_diversity/cka_diversity_4model_20260319_124909.json` |
+| Phase 3.4 경량 DAAC 메타 분류기 재학습 | 25-dim 메타 특징(MNV2+CLIP 기반, specialist 제외-label leakage 방지). GBM: base=**99.01%**(원본 무거운 DAAC 86.13% 대비 +12.88%p), avg 4-DS=96.25% ≈ ICWMV 96.48%(Δ-0.23%p). Top-feature: mnv2_aigen(29.8%), mnv2_auth(20.9%) | `experiments/results/daac_retrain/daac_retrain_lightweight_20260319_125524.json` |
+
+---
+
+## 8. Progress Ledger
+> 형식: `YYYY-MM-DD | Scope | Change | Key Files | Verification | Next`
+> 최신 항목이 맨 위.
+
+- `2026-03-19 | shield/phase4.2 | PTQ INT8 양자화 완료(4모델). Dynamic(Gemm): 속도개선 <1.05×(Conv 미포함). Static(QDQ): SpecM+1.25×/cos=1.000(유효), MNV2+1.05×/cos=0.69(정확도 저하), SpecG/CLIP 정확도 붕괴(cos<0.2, FastViT attention 양자화 불안정). 최종 RPi5 배포 결정: MNV2-FP32(57ms)+SpecM-INT8(67ms)=124ms. AI-gen 탐지(SpecG)는 서버 전용 확정. 논문 기여: "FastViT 백본은 표준 PTQ로 edge 배포 불가 → 경량 binary AI-gen detector 별도 설계 필요"로 프레이밍 | weights/onnx_quant/, experiments/results/onnx_benchmark/quantization_*.json, experiments/run_quantization.py | 양자화+벤치마크 완료 | Phase 4.4 RPi5 실측 또는 논문 실험 섹션 작성`
+- `2026-03-19 | shield/phase4.1 | ONNX 변환 + CPU 벤치마크 완료(4모델). MNV2(22.5MB, 14.0ms/56ms RPi5 ✓), SpecM(30MB, 20.6ms/82ms ✓), SpecG(141.5MB, 200ms/800ms ✗ OVER), CLIP(141.3MB, 198ms/791ms ✗ OVER). RPi5 예산(200ms) 내 배포 가능: MNV2+SpecM(138ms, 3-class+manip) 조합만 가능. AI-gen 탐지(SpecG)는 서버 전용. 다음: QAT/INT8 양자화로 SpecG RPi5 지연 개선 시도 | weights/onnx/, experiments/results/onnx_benchmark/, experiments/run_onnx_export.py | 4모델 ONNX+벤치마크 완료 | Phase 4.2 QAT 양자화`
+- `2026-03-19 | shield/phase3.4+3.5 | Phase 3.5 전체 완료(3.5.4~3.5.6) + Phase 3.4 DAAC 재학습 완료. SpecM-v2 best manip_f1=0.827. ICWMV SpecM-v2 avg 96.48%(v1 96.40% 대비 +0.08%p). CKA 4-model avg=0.0855 vs 2-model 0.9241(ΔCKA=-0.8385 — specialist로 다양성 대폭 향상). DAAC-GBM 경량화(25-dim): base=99.01%(원본 86.13% 대비 +12.88%p), avg 4-DS=96.25% ≈ ICWMV. Label leakage 문제(specm/specg_avail flag) 발견 및 수정 — specialist 특징 제거 후 generalist 2개 기반으로 공정 비교 | experiments/results/specialist_eval/specialist_m_v2_*, experiments/results/icwmv/icwmv_4model_wspec1.0_20260319_123542.json, experiments/results/cka_diversity/cka_diversity_4model_20260319_124909.json, experiments/results/daac_retrain/daac_retrain_lightweight_20260319_125524.json | 4-DS 모두 재평가 완료 | Phase 3.5 AGENTS.md 업데이트 완료. 다음: 논문 실험 섹션 작성`
+- `2026-03-19 | shield/phase3.5 | Specialist-M v2 학습 시작(OOD 강건화). +IMD2020 1710장(non-eval) + JPEG압축/GaussianNoise augmentation + WeightedRandomSampler. Ep.10 기준 manip_f1=0.825(v1 0.764 대비 +6.1%p, auth_recall=0.722). 완료 후 ICWMV 4-model 재평가 예정 | experiments/train_specialist_m_v2.py, weights/specialist_m_v2/ | 학습 진행중(PID:2253321) | SpecM-v2 완료 후 run_icwmv_consensus.py 재실행`
+- `2026-03-19 | shield/phase3.5 | ICWMV 4-model 합의 평가 완료. w=1.0: avg macro_F1=96.40%(MNV2 95.81% 대비 +0.59%p). base+1.01, dsC+0.89, opensdi+0.87%p. aigenproxy −0.44%p(SpecM OOD 약점). "둘 다 틀림" fix rate 저조(base 2.1%) — manipulated→authentic 패턴은 binary specialist만으로 해결 어려움 확인 | experiments/run_icwmv_consensus.py, experiments/results/icwmv/ | 4-DS 평가 완료 | SpecM-v2 완료 후 재평가`
+- `2026-03-19 | shield/phase3.5 | Specialist-M v1(CASIA2 only) + Specialist-G(MobileCLIP+PiD) 학습 완료. SpecM: 3-stream(RGB+SRM+DCT) 7.66M, best manip_f1=0.764(Ep.5 조기수렴). SpecG: 35.91M(0.10M trainable), best aigen_f1=0.981(Ep.19). 에러 Overlap 분석: avg Jaccard=0.3361, "둘 다 틀림" manipulated→authentic 지배 → Binary Specialist 설계 확정 | experiments/train_specialist_m.py, experiments/train_specialist_g.py, weights/specialist_m/, weights/specialist_g/, experiments/results/specialist_eval/ | v1 학습완료/4-DS eval 완료 | ICWMV 합의 평가`
+- `2026-03-19 | shield/phase3.3 | 다기준 비교 완료. RPi5 권고: MNV2-only(22.5MiB, CPU 35.9ms, InDist=0.956, OOD≈0.669). GPU 권고: CLIP+MNV2(402.8MiB, CPU 159.7ms, InDist=0.953, OOD=0.731). ForMa 전면 제거 확정(CPU 1613ms 병목, Shapley=0.008). Track1/2/3-cascade 모두 RPi5 배포 불가. 핵심 발견: CLIP↔MNV2 중복(CKA=0.92) → 경량화 시 interaction 붕괴, SHIELD C2 기여 논거로 활용 | experiments/results/phase3_comparison/phase3_comparison_20260319_080903.json | 완료 | Phase 3.4 메타 분류기 재학습`
+- `2026-03-19 | shield/phase3.2 | 경량 모델 Shapley+STII+CKA+PID 분석 완료(4157개, 15 subset, 10 seeds). MNV2 φ=+0.304 ≈ CLIP φ=+0.300 >> ForMa=Tiny=+0.008. CLIP↔MNV2 CKA=0.922 — in-dist에서는 두 모델이 거의 동일 특징 공간(Redundancy=0.60). ForMa/Tiny는 Unique≈0. 논문 핵심 발견: Phase1(무거운 freq↔fat 대체재, STII=-0.18)과 달리 경량 모델에서는 CLIP과 MNV2가 강한 중복(STII=-0.584) → 경량화 시 아키텍처 재설계 필요. OOD 강건성(Fair LOO +0.092)을 위해서는 MNV2 유지가 여전히 핵심 | experiments/results/shapley_phase3/shapley_phase3_20260319_074635.json | 완료 | Phase 3.3 다기준 비교`
+- `2026-03-19 | shield/phase2.4+3.1 | MobileNetV2 dual-stream 15epoch 재학습 후 Track1 재평가. best val macro=0.806. 단독 eval은 base=0.944/dsC=0.979/opensdi=0.949/aigen=0.961(avg=0.958)까지 상승. combined 10-seed: T1-GBM=0.9547, T1-LR=0.9564, Triad-rule=0.9563, MobileNetV2 single=0.9557, MobileCLIP=0.9500. 이전과 달리 Track1 feature importance top-3가 모두 MobileNet score로 바뀌어 noise 축이 실제 주도 신호로 전환 | experiments/train_mobilenetv2_dualstream.py, experiments/results/backbone_eval/mobilenetv2_dualstream_summary_20260319_070725.json, experiments/run_phase3_tracks.py, experiments/results/phase3_tracks/phase3_tracks_combined_20260319_070740.json | 15epoch 재학습 + combined 10-seed 재평가 완료 | cross-dataset Track1 검증 또는 Track 3.3 다기준 비교`
+- `2026-03-19 | shield/phase2.4+3.1 | MobileNetV2 dual-stream 구현 및 Track1/2/3 JSONL 12개 생성 완료. dual-stream 단독 eval: base=0.826/dsC=0.891/opensdi=0.789/aigen=0.866(avg=0.843), val macro=0.775. combined 10-seed: T1-GBM=0.9486, T1-LR=0.9512, T2-GBM=0.9448, T3-GBM=0.9469 vs MobileCLIP=0.9500. Track1 importance에서 `mobilenet_manip_s`가 top-5로 들어와 noise 축이 완전히 무의미하진 않지만, 전체 우세 신호는 여전히 CLIP score | experiments/train_mobilenetv2_dualstream.py, experiments/run_phase3_tracks.py, experiments/results/backbone_eval/mobilenetv2_dualstream_summary_20260319_064748.json, experiments/results/phase3_tracks/phase3_tracks_combined_20260319_065436.json | dual-stream 학습/eval + combined 10-seed 완료 | cross-dataset 기준 Track1 재검증 또는 ForMa manip_ratio 연속 특징 추가`
+- `2026-03-19 | shield/phase2.7 | Backbone benchmark를 실제 Track1 모델 기준으로 갱신. H200/EPYC 기준: ForMa 16.8ms/1613ms, MobileCLIP-ft4 15.5ms/123.8ms, Tiny 5.8ms/2.5ms, MobileNetV2 dual-stream 18.9ms/35.9ms. params/ckpt: ForMa 37.3M/422.6MiB, CLIP 99.4M/380.3MiB, Tiny 0.0013M/0.011MiB, MNV2-DS 5.77M/22.5MiB | experiments/run_backbone_latency_benchmark.py, experiments/results/backbone_benchmark/backbone_benchmark_20260319_065356.json, experiments/results/backbone_benchmark/backbone_benchmark_20260319_065356.md | 4개 백본 GPU+CPU 재실측 완료 | Track 선택용 다기준 비교(3.3) 또는 cross-dataset Track1`
+- `2026-03-19 | shield/phase3.1 | Track2(ForMa+CLIP) / Track3(Tiny+ForMa+CLIP) 앙상블 평가. combined 10-seed: T2-GBM=0.9462, T3-GBM=0.9494 vs MobileCLIP=0.9518(best). cross-dataset: 4/4 데이터셋 중 3/4에서 MobileCLIP 단독이 best. GBM feature importance: MobileCLIP scores가 ~95% → ForMa binary verdict 기여 거의 0. 핵심 원인: ForMa manip_ratio 연속값 미저장. 다음: manip_ratio feature 추가 후 재평가 또는 논문 전략 재검토 | experiments/run_phase3_tracks.py, experiments/results/phase3_tracks/ | combined/per_ds/cross-dataset 3개 프로토콜 완료 | ForMa manip_ratio 연속 특징 추가`
+- `2026-03-19 | shield/phase2.1+2.5 | 사용자 제공 ForMa_weights.pth 연동 후 4개 데이터셋 재평가 완료. ForMa acc: base=0.349/dsC=0.332/opensdi=0.334/aigen=0.323, authentic recall 0.84~0.94, manip recall 0.07~0.15, ai_gen recall 0. run_backbone_eval.py에 repo-root weight fallback + CUDA mamba batch inference 추가 | experiments/run_backbone_eval.py, experiments/results/backbone_eval/backbone_eval_summary_20260319_055541.json | 4dataset × 3backbone JSONL/summary 생성 확인 | 2.7 latency/size 실측 및 Phase 3.1 Track JSONL 조합`
+- `2026-03-19 | shield/phase2.2 | MobileCLIP-S2 last-4-block fine-tuning 완료(ft4, 20ep, lr=2e-5, batch=32, 33.28M trainable). val macro=0.806(ft0 0.790 대비 +1.6%p). 전체eval avg=0.953(base=0.942/dsC=0.974/opensdi=0.953/aigen=0.943). authentic recall ~93%, manip ~97%, aigen ~97%. 체크포인트: weights/mobileclip_forensics/mobileclip_s2_forensics_ft4.pth | experiments/finetune_mobileclip.py | 4dataset × finetuned JSONL 생성 확인 | MobileNetV2 dual-stream(2.4)`
+- `2026-03-19 | shield/phase2.2 | MobileCLIP-S2 linear probe 파인튜닝 완료(30ep, lr=1e-3, batch=64). val macro_recall=0.790. 4데이터셋 전체 평균 acc=0.932(base=0.924/dsC=0.964/opensdi=0.923/aigen=0.918). zero-shot 34%→92%+ 대폭 개선. 체크포인트: weights/mobileclip_forensics/ft0.pth | experiments/finetune_mobileclip.py, experiments/results/backbone_eval/mobileclip_s2_finetuned_* | 4dataset × finetuned JSONL 생성 확인 | MobileNetV2 dual-stream(2.4) 또는 ForMa 가중치 확보`
+- `2026-03-19 | shield/phase2.5 | 백본 단독 평가 완료(MobileCLIP-S2 + Tiny-LaDeDa, 4개 데이터셋). MobileCLIP zero-shot acc~34%(파인튜닝 필요). Tiny-LaDeDa ai_gen recall 73-86%, manip 0%(binary한계). ForMa 가중치 Google Drive 수동 다운로드 BLOCKED | experiments/results/backbone_eval/ | 4dataset × 2backbone JSONL | ForMa 가중치 확보 후 재평가`
+- `2026-03-19 | shield/phase2 | AGENTS.md 3-Track 실험 계획 수립. Phase 2 백본 수급(ForMa/MobileCLIP-S2/Tiny-LaDeDa) Step 1 착수. ForMa 코드 패치(config 경로, backend="torch", debug print 제거) | AGENTS.md, ForMa-main/models/ | 수동 검증 | ForMa/MobileCLIP-S2/Tiny-LaDeDa 수급 및 단독 평가`
+- `2026-03-19 | shield/phase1.6 | Cross-Dataset 검증(4개 데이터셋). Spatial Unique=0 4/4확정. freq 1위는 CASIA편향(1/4). fatformer aigenproxy에서 음수Shapley 발견 → 3-Track 전략으로 전환 | cross_dataset_validation_20260319_041001.json | 4/4 일관성 분석 | Phase 2 백본 수급`
+- `2026-03-18 | shield/phase1.5 | 최적 조합 결정: freq+noise+fatformer(3개), F1=0.8478(97.8%), 경량화 후 130MB. Spatial 제거(Unique=0) 이론 정당화 완료 | experiments/results/shapley_phase1/optimal_combination_phase1.json | 수동 검증 | Phase 2.1 FatFormer→MobileCLIP 착수`
+- `2026-03-18 | shield/phase1.4 | PID(Williams & Beer Imin) 완료. Spatial Unique=0, Freq Unique=0.2029(최고). noise↔fatformer 시너지 최강(+0.1093) | experiments/results/shapley_phase1/pid_phase1_20260318_162008.json | 수동 검증 | Phase 1.5 최적 조합 결정`
+- `2026-03-18 | shield/phase1 | Model Shapley(16 subset) + STII(k=2) + CKA 계산 완료. Freq φ=+0.2690 최고, Freq↔FatFormer STII=-0.1823 최강 상호작용 | experiments/results/shapley_phase1/shapley_phase1_20260318_161543.json | 10 seed 반복 평균 | Phase 1.4 PID 분해 또는 Phase 2 경량화 설계`
+- `2026-03-18 | docs/governance | AGENTS.md 후속연구(SHIELD) 기준으로 전면 재구성 + SHIELD_RESEARCH_PLAN.md 생성 | AGENTS.md, docs/research/SHIELD_RESEARCH_PLAN.md | 수동 검증 | Phase 1 Model Shapley 실험 설계`
+- `2026-03-07 | docs | CLAUDE.md 전면 정합성 수정 | CLAUDE.md | 수동 검증 | 후속 연구 방향 설계`
+- `2026-03-06 | paper | DAAC 논문 초안 완성 + 추론 속도 실측 | docs/research/MAIFS_PAPER_DRAFT2_20260306.md | benchmark 결과 확인 | 논문 제출`
+- `2026-03-04 | experiments | DAAC 최종 실험(Protocol-P/M) 완료 | experiments/results/paper_final/ | 통계 검정 PASS | 논문 작성`
+- `2026-03-03 | runtime | trust 이중반영 제거 + COBRA baseline 정렬 + case3 평가 추가 | src/consensus/cobra.py, src/meta/baselines.py | pytest 28 passed | 문서 동기화`
+
+---
+
+## 9. Completed Milestones (Archive)
+
+> DAAC 1차 논문까지의 상세 이력. 일상 작업에서는 참조 불필요.
+
+<details>
+<summary>DAAC Phase 1~2 완료 이력 (2026-01 ~ 2026-03)</summary>
+
+- Phase 1~4 runtime core 완료 (tools, agents, consensus, debate)
+- Phase 5 Qwen vLLM 통합 완료
+- Watermark → FatFormer 전면 교체 (2026-02-12)
+- DAAC Phase 1 (Path B) 구현·검증 (43-dim meta features)
+- CAT-Net frequency slot 통합
+- Mesorch spatial backend 통합·A/B 검증
+- Meta trainer GPU 경로 (torch/xgboost) 추가
+- Specialist trust flow 수정 (합의 단계 단일 반영)
+- ManagerAgent consensus/debate 경로 MAIFS 런타임 정렬
+- DAAC Phase 2 Path A 실데이터 60회 반복 실험 완료
+- 논문 초안 완성 (KIPS 2026)
+- COBRA DRWA 다중신호 보강 + COBRABaseline 런타임 정렬
+
+상세 Status Log는 git history 참조.
+
+</details>
+
+---
+
+## 10. Golden Rules
+
+### Immutable
+- Verdict contract 유지: `authentic`, `manipulated`, `ai_generated`, `uncertain`
+- `FATFORMER` 네이밍 사용 (WATERMARK 절대 재도입 금지)
+- Graceful degradation 필수 (모델/체크포인트/API 부재 시 crash 금지)
+- API 키·시크릿·절대경로 하드코딩 금지
+
+### Do
+- 규칙/동작 변경 시 문서 동시 갱신
+- 모델 경로·임계값은 `configs/` 경유 설정화
+- `src/` 내부는 상대 import
+- confidence 값 `[0.0, 1.0]` 정규화 유지
+- 동작 변경 시 테스트 추가/갱신
+
+### Don't
+- vendored 외부 모델 리포(`CAT-Net-main`, `MVSS-Net-master`, `Mesorch-main` 등) 직접 수정 금지
+- 대용량 바이너리(체크포인트, 데이터셋) 커밋 금지
+- fallback 동작을 hard failure로 대체 금지
+- Token pruning을 포렌식 모델에 적용 금지 (R6)
+
+---
+
+## 11. Context Map
+
+| 영역 | 파일 | 설명 |
+|------|------|------|
+| Runtime orchestration | `src/AGENTS.md` | maifs.py, 패키지 아키텍처 |
+| Forensic tools | `src/tools/AGENTS.md` | CAT-Net, MVSS, FatFormer, Mesorch |
+| Agent behavior | `src/agents/AGENTS.md` | specialist/manager, trust, debate |
+| Meta learning / DAAC | `src/meta/AGENTS.md` | 43-dim features, trainer, router |
+| Experiments | `experiments/AGENTS.md` | phase configs, run scripts, outputs |
+| Config & thresholds | `configs/AGENTS.md` | settings, backend toggles, trust |
+| Scripts & utils | `scripts/AGENTS.md` | CLI, calibration, evaluation |
+| Tests | `tests/AGENTS.md` | pytest scope, skip policy |
+| Research docs | `docs/research/` | SHIELD/DAAC 연구 계획, 이론 백서 |
+
+---
+
+## 12. Key References
+
+| 참조 | 위치 |
+|------|------|
+| DAAC 논문 최종본 | `/data/jj812_files/DAAC_최종.pdf` |
+| 딥리서치 Prompt 1 (Gemini) | `/data/jj812_files/DeepResearch_Prompt1_Gemini.pdf` |
+| 딥리서치 Prompt 1 (GPT) | `/data/jj812_files/DeepResearch_Prompt1_GPT.pdf` |
+| 딥리서치 Prompt 2 (Gemini) | `/data/jj812_files/DeepResearch_Prompt2_Gemini.pdf` |
+| 딥리서치 Prompt 2 (GPT) | `/data/jj812_files/DeepResearch_Prompt2_GPT.pdf` |
+| 딥리서치 Prompt 3 (Gemini) | `/data/jj812_files/DeepResearch_Prompt3_Gemini.pdf` |
+| 딥리서치 Prompt 3 (GPT) | `/data/jj812_files/DeepResearch_Prompt3_GPT.pdf` |
+| Phase 2 최종 결과 | `experiments/results/paper_final/` |
+| 기존 모델 체크포인트 | `CLAUDE.md` §7.5 참조 |
+| 딥리서치 Prompt 4 (이미지 위변조 탐지 전문가 앙상블) | `/data/jj812_files/이미지 위변조 탐지 전문가 앙상블 연구.pdf` |
+| 딥리서치 Prompt 4 (Error-Driven Specialist Ensemble) | `/data/jj812_files/Error-Driven Specialist Ensemble for Image Forensics 최신 연구 동향과 적용 전략.pdf` |

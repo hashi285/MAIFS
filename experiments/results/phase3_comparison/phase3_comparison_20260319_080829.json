@@ -1,0 +1,113 @@
+{
+  "timestamp": "20260319_080829",
+  "weights": {
+    "f1_ood": 0.4,
+    "f1_indist": 0.25,
+    "cpu_speed": 0.2,
+    "size": 0.15
+  },
+  "candidates": {
+    "CLIP-only": {
+      "desc": "MobileCLIP-ft4 단독",
+      "f1_indist": 0.9404038578276049,
+      "f1_ood": 0.6386,
+      "ckpt_mib": 380.314,
+      "gpu_ms": 15.46,
+      "cpu_ms": 123.846,
+      "rpi5_ok": true,
+      "note": "OOD 취약 (Fair LOO avg=0.639)",
+      "composite_score": 0.30652288131491756
+    },
+    "MNV2-only": {
+      "desc": "MobileNetV2-DS 단독",
+      "f1_indist": 0.9453586094965776,
+      "f1_ood": 0.6686,
+      "ckpt_mib": 22.486,
+      "gpu_ms": 18.934,
+      "cpu_ms": 35.852,
+      "rpi5_ok": true,
+      "note": "OOD 추정값(미검증). Shapley φ=0.304(1위)",
+      "composite_score": 0.7279531438137177
+    },
+    "CLIP+MNV2": {
+      "desc": "MobileCLIP-ft4 + MobileNetV2-DS (Shapley 최적 2-모델)",
+      "f1_indist": 0.9532042061592609,
+      "f1_ood": 0.7309,
+      "ckpt_mib": 402.8,
+      "gpu_ms": 34.394000000000005,
+      "cpu_ms": 159.698,
+      "rpi5_ok": true,
+      "note": "in-dist 최고 2-조합. CKA=0.92(중복) 논문 서술 포인트",
+      "composite_score": 0.6961047839143248
+    },
+    "Track1": {
+      "desc": "ForMa + MNV2 + CLIP (3-모델)",
+      "f1_indist": 0.0,
+      "f1_ood": 0.7309,
+      "ckpt_mib": 825.414,
+      "gpu_ms": 51.190000000000005,
+      "cpu_ms": 1772.2800000000002,
+      "rpi5_ok": false,
+      "note": "ForMa CPU=1613ms → RPi5 불가. OOD 최강(0.731)",
+      "composite_score": 0.4
+    },
+    "Track2": {
+      "desc": "ForMa + CLIP (2-모델)",
+      "f1_indist": 0.0,
+      "f1_ood": 0.648175,
+      "ckpt_mib": 802.928,
+      "gpu_ms": 32.256,
+      "cpu_ms": 1736.428,
+      "rpi5_ok": false,
+      "note": "ForMa CPU=1613ms → RPi5 불가. MNV2 없어 OOD 약함",
+      "composite_score": 0.041698026195966346
+    },
+    "Track3-cascade": {
+      "desc": "Tiny→(ForMa+CLIP) cascade (50% pass-through)",
+      "f1_indist": 0.0,
+      "f1_ood": 0.6488499999999999,
+      "ckpt_mib": 802.9390000000001,
+      "gpu_ms": 21.919,
+      "cpu_ms": 870.6830000000001,
+      "rpi5_ok": false,
+      "note": "ForMa CPU=1613ms → RPi5 불가. cascade 비율 50% 가정",
+      "composite_score": 0.0488139640171798
+    }
+  },
+  "ranking": [
+    {
+      "track": "MNV2-only",
+      "score": 0.7279531438137177
+    },
+    {
+      "track": "CLIP+MNV2",
+      "score": 0.6961047839143248
+    },
+    {
+      "track": "Track1",
+      "score": 0.4
+    },
+    {
+      "track": "CLIP-only",
+      "score": 0.30652288131491756
+    },
+    {
+      "track": "Track3-cascade",
+      "score": 0.0488139640171798
+    },
+    {
+      "track": "Track2",
+      "score": 0.041698026195966346
+    }
+  ],
+  "recommendation": {
+    "gpu_server": "MNV2-only",
+    "rpi5_edge": "MNV2-only"
+  },
+  "sources": {
+    "benchmark": "/data/jj812_files/MAIFS/experiments/results/backbone_benchmark/backbone_benchmark_20260319_065356.json",
+    "track_f1": "/data/jj812_files/MAIFS/experiments/results/phase3_tracks/phase3_tracks_combined_20260319_070740.json",
+    "fair_loo": "/data/jj812_files/MAIFS/experiments/results/fair_cross/fair_cross_20260319_070940.json",
+    "shapley": "/data/jj812_files/MAIFS/experiments/results/shapley_phase3/shapley_phase3_20260319_074635.json"
+  }
+}

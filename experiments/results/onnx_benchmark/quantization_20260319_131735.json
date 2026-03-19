@@ -1,0 +1,19 @@
+{
+  "timestamp": "20260319_131735",
+  "rpi5_scale": 4.0,
+  "rpi5_budget": 200.0,
+  "scenario_a_ms": 10054.9,
+  "scenario_b_ms": 20053.9,
+  "results": [
+    {
+      "key": "mnv2",
+      "orig_mb": 22.5,
+      "orig_ms": 13.98,
+      "orig_rpi5": 55.9,
+      "dynamic": {
+        "error": "quantization failed"
+      },
+      "static": {}
+    }
+  ]
+}

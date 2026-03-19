@@ -1,0 +1,41 @@
+{
+  "timestamp": "20260319_130945",
+  "rpi5_scale_factor": 4.0,
+  "rpi5_budget_ms": 200.0,
+  "total_rpi5_4model": 1583.5,
+  "total_rpi5_rpi_only": 793.7,
+  "models": [
+    {
+      "key": "specg",
+      "name": "Specialist-G",
+      "params_m": 35.91,
+      "classes": 2,
+      "input_norm": "CLIP",
+      "onnx_path": "/data/jj812_files/MAIFS/weights/onnx/specg.onnx",
+      "export_ok": true,
+      "onnx_mb": 3.78,
+      "params_m_actual": 35.91,
+      "server_cpu_ms": 198.41,
+      "rpi5_estimated_ms": 793.66,
+      "rpi5_budget_ok": false,
+      "n_runs": 50,
+      "threads": 1
+    },
+    {
+      "key": "clip",
+      "name": "MobileCLIP-ft4",
+      "params_m": 99.4,
+      "classes": 3,
+      "input_norm": "CLIP",
+      "onnx_path": "/data/jj812_files/MAIFS/weights/onnx/clip.onnx",
+      "export_ok": true,
+      "onnx_mb": 3.44,
+      "params_m_actual": 99.38,
+      "server_cpu_ms": 197.47,
+      "rpi5_estimated_ms": 789.88,
+      "rpi5_budget_ok": false,
+      "n_runs": 50,
+      "threads": 1
+    }
+  ]
+}

@@ -1,0 +1,282 @@
+{
+  "meta": {
+    "timestamp": "20260319_063352",
+    "sample_image": "/data/jj812_files/MAIFS/datasets/CASIA2_subset/Au/Au_ani_00040.jpg",
+    "hardware": {
+      "torch_version": "2.10.0+cu128",
+      "cuda_available": true,
+      "cpu_model": "AMD EPYC 9354 32-Core Processor",
+      "cpu_threads_default": 64,
+      "cpu_count": 128,
+      "gpu_model": "NVIDIA H200 NVL",
+      "gpu_memory_total": "143771 MiB",
+      "gpu_driver": "590.48.01"
+    }
+  },
+  "results": {
+    "forma": {
+      "cuda": {
+        "name": "forma",
+        "device": "cuda",
+        "input_shape": [
+          1,
+          3,
+          512,
+          512
+        ],
+        "note": "ForMa 37.3M, VMamba splicing detector, cuda_mamba_backend=15",
+        "model": {
+          "params_total": 37255319,
+          "params_total_m": 37.2553,
+          "params_trainable": 36698070,
+          "params_trainable_m": 36.6981,
+          "state_dict_mib": 142.132,
+          "checkpoint_mib": 422.614,
+          "checkpoint_path": "/data/jj812_files/MAIFS/ForMa_weights.pth"
+        },
+        "latency": {
+          "runs": 40,
+          "warmup_runs": 3,
+          "mean_ms": 16.773,
+          "median_ms": 17.024,
+          "std_ms": 0.713,
+          "p95_ms": 17.211,
+          "min_ms": 14.267,
+          "max_ms": 17.252,
+          "fps_from_mean": 59.62,
+          "peak_gpu_mib": 289.821
+        }
+      },
+      "cpu": {
+        "name": "forma",
+        "device": "cpu",
+        "input_shape": [
+          1,
+          3,
+          512,
+          512
+        ],
+        "note": "ForMa 37.3M, VMamba splicing detector",
+        "model": {
+          "params_total": 37255319,
+          "params_total_m": 37.2553,
+          "params_trainable": 36698070,
+          "params_trainable_m": 36.6981,
+          "state_dict_mib": 142.132,
+          "checkpoint_mib": 422.614,
+          "checkpoint_path": "/data/jj812_files/MAIFS/ForMa_weights.pth"
+        },
+        "latency": {
+          "runs": 3,
+          "warmup_runs": 1,
+          "mean_ms": 1630.842,
+          "median_ms": 1591.518,
+          "std_ms": 65.321,
+          "p95_ms": 1709.757,
+          "min_ms": 1578.112,
+          "max_ms": 1722.895,
+          "fps_from_mean": 0.613,
+          "peak_gpu_mib": null
+        }
+      }
+    },
+    "mobileclip_ft4": {
+      "cuda": {
+        "name": "mobileclip_ft4",
+        "device": "cuda",
+        "input_shape": [
+          1,
+          3,
+          256,
+          256
+        ],
+        "note": "MobileCLIP-S2 forensics ft4",
+        "model": {
+          "params_total": 99376452,
+          "params_total_m": 99.3765,
+          "params_trainable": 33280371,
+          "params_trainable_m": 33.2804,
+          "state_dict_mib": 379.568,
+          "checkpoint_mib": 380.314,
+          "checkpoint_path": "/data/jj812_files/MAIFS/weights/mobileclip_forensics/mobileclip_s2_forensics_ft4.pth"
+        },
+        "latency": {
+          "runs": 40,
+          "warmup_runs": 3,
+          "mean_ms": 16.502,
+          "median_ms": 16.236,
+          "std_ms": 1.341,
+          "p95_ms": 18.365,
+          "min_ms": 14.562,
+          "max_ms": 18.379,
+          "fps_from_mean": 60.6,
+          "peak_gpu_mib": 436.364
+        }
+      },
+      "cpu": {
+        "name": "mobileclip_ft4",
+        "device": "cpu",
+        "input_shape": [
+          1,
+          3,
+          256,
+          256
+        ],
+        "note": "MobileCLIP-S2 forensics ft4",
+        "model": {
+          "params_total": 99376452,
+          "params_total_m": 99.3765,
+          "params_trainable": 33280371,
+          "params_trainable_m": 33.2804,
+          "state_dict_mib": 379.568,
+          "checkpoint_mib": 380.314,
+          "checkpoint_path": "/data/jj812_files/MAIFS/weights/mobileclip_forensics/mobileclip_s2_forensics_ft4.pth"
+        },
+        "latency": {
+          "runs": 12,
+          "warmup_runs": 1,
+          "mean_ms": 111.146,
+          "median_ms": 110.495,
+          "std_ms": 1.37,
+          "p95_ms": 113.352,
+          "min_ms": 109.363,
+          "max_ms": 113.489,
+          "fps_from_mean": 8.997,
+          "peak_gpu_mib": null
+        }
+      }
+    },
+    "tiny_ladeda": {
+      "cuda": {
+        "name": "tiny_ladeda",
+        "device": "cuda",
+        "input_shape": [
+          1,
+          3,
+          224,
+          224
+        ],
+        "note": "Tiny-LaDeDa WildRF binary screener",
+        "model": {
+          "params_total": 1297,
+          "params_total_m": 0.0013,
+          "params_trainable": 1297,
+          "params_trainable_m": 0.0013,
+          "state_dict_mib": 0.005,
+          "checkpoint_mib": 0.011,
+          "checkpoint_path": "/data/jj812_files/MAIFS/TinyLaDeDa-main/weights/Tiny_LaDeDa/WildRF_Tiny_LaDeDa.pth"
+        },
+        "latency": {
+          "runs": 40,
+          "warmup_runs": 3,
+          "mean_ms": 5.556,
+          "median_ms": 6.002,
+          "std_ms": 0.806,
+          "p95_ms": 6.147,
+          "min_ms": 3.588,
+          "max_ms": 6.166,
+          "fps_from_mean": 180.001,
+          "peak_gpu_mib": 38.129
+        }
+      },
+      "cpu": {
+        "name": "tiny_ladeda",
+        "device": "cpu",
+        "input_shape": [
+          1,
+          3,
+          224,
+          224
+        ],
+        "note": "Tiny-LaDeDa WildRF binary screener",
+        "model": {
+          "params_total": 1297,
+          "params_total_m": 0.0013,
+          "params_trainable": 1297,
+          "params_trainable_m": 0.0013,
+          "state_dict_mib": 0.005,
+          "checkpoint_mib": 0.011,
+          "checkpoint_path": "/data/jj812_files/MAIFS/TinyLaDeDa-main/weights/Tiny_LaDeDa/WildRF_Tiny_LaDeDa.pth"
+        },
+        "latency": {
+          "runs": 12,
+          "warmup_runs": 1,
+          "mean_ms": 2.432,
+          "median_ms": 2.423,
+          "std_ms": 0.077,
+          "p95_ms": 2.547,
+          "min_ms": 2.294,
+          "max_ms": 2.627,
+          "fps_from_mean": 411.195,
+          "peak_gpu_mib": null
+        }
+      }
+    },
+    "mobilenetv2_proxy": {
+      "cuda": {
+        "name": "mobilenetv2_proxy",
+        "device": "cuda",
+        "input_shape": [
+          1,
+          3,
+          224,
+          224
+        ],
+        "note": "Proxy only: torchvision MobileNetV2 single-stream, dual-stream Track1 not implemented",
+        "model": {
+          "params_total": 2227715,
+          "params_total_m": 2.2277,
+          "params_trainable": 2227715,
+          "params_trainable_m": 2.2277,
+          "state_dict_mib": 8.629,
+          "checkpoint_mib": null,
+          "checkpoint_path": null
+        },
+        "latency": {
+          "runs": 40,
+          "warmup_runs": 3,
+          "mean_ms": 3.226,
+          "median_ms": 3.251,
+          "std_ms": 0.124,
+          "p95_ms": 3.268,
+          "min_ms": 2.505,
+          "max_ms": 3.274,
+          "fps_from_mean": 309.954,
+          "peak_gpu_mib": 52.234
+        }
+      },
+      "cpu": {
+        "name": "mobilenetv2_proxy",
+        "device": "cpu",
+        "input_shape": [
+          1,
+          3,
+          224,
+          224
+        ],
+        "note": "Proxy only: torchvision MobileNetV2 single-stream, dual-stream Track1 not implemented",
+        "model": {
+          "params_total": 2227715,
+          "params_total_m": 2.2277,
+          "params_trainable": 2227715,
+          "params_trainable_m": 2.2277,
+          "state_dict_mib": 8.629,
+          "checkpoint_mib": null,
+          "checkpoint_path": null
+        },
+        "latency": {
+          "runs": 12,
+          "warmup_runs": 1,
+          "mean_ms": 14.865,
+          "median_ms": 14.879,
+          "std_ms": 0.082,
+          "p95_ms": 14.983,
+          "min_ms": 14.71,
+          "max_ms": 15.018,
+          "fps_from_mean": 67.273,
+          "peak_gpu_mib": null
+        }
+      }
+    }
+  }
+}

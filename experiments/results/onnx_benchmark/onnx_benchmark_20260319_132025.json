@@ -1,0 +1,41 @@
+{
+  "timestamp": "20260319_132025",
+  "rpi5_scale_factor": 4.0,
+  "rpi5_budget_ms": 200.0,
+  "total_rpi5_4model": 138.4,
+  "total_rpi5_rpi_only": 138.4,
+  "models": [
+    {
+      "key": "mnv2",
+      "name": "MobileNetV2 dual-stream",
+      "params_m": 5.77,
+      "classes": 3,
+      "input_norm": "[0,1]",
+      "onnx_path": "/data/jj812_files/MAIFS/weights/onnx/mnv2.onnx",
+      "export_ok": true,
+      "onnx_mb": 22.5,
+      "params_m_actual": 5.77,
+      "server_cpu_ms": 14.0,
+      "rpi5_estimated_ms": 56.01,
+      "rpi5_budget_ok": true,
+      "n_runs": 50,
+      "threads": 1
+    },
+    {
+      "key": "specm",
+      "name": "Specialist-M v2",
+      "params_m": 7.66,
+      "classes": 2,
+      "input_norm": "[0,1]",
+      "onnx_path": "/data/jj812_files/MAIFS/weights/onnx/specm.onnx",
+      "export_ok": true,
+      "onnx_mb": 30.0,
+      "params_m_actual": 7.66,
+      "server_cpu_ms": 20.6,
+      "rpi5_estimated_ms": 82.38,
+      "rpi5_budget_ok": true,
+      "n_runs": 50,
+      "threads": 1
+    }
+  ]
+}

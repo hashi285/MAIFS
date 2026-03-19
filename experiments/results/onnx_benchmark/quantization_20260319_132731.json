@@ -1,0 +1,105 @@
+{
+  "timestamp": "20260319_132731",
+  "rpi5_scale": 4.0,
+  "rpi5_budget": 200.0,
+  "scenario_a_ms": 121.3,
+  "scenario_b_ms": 870.7,
+  "results": [
+    {
+      "key": "mnv2",
+      "orig_mb": 22.0,
+      "orig_ms": 14.33,
+      "orig_rpi5": 57.3,
+      "dynamic": {
+        "mb": 18.2,
+        "ms": 13.94,
+        "rpi5_ms": 55.7,
+        "speedup": 1.03,
+        "budget_ok": true,
+        "cosine_sim": 0.99999,
+        "max_abs_diff": 0.01401
+      },
+      "static": {
+        "mb": 5.9,
+        "ms": 13.69,
+        "rpi5_ms": 54.8,
+        "speedup": 1.05,
+        "budget_ok": true,
+        "cosine_sim": 0.68953,
+        "max_abs_diff": 0.97748
+      }
+    },
+    {
+      "key": "specm",
+      "orig_mb": 29.2,
+      "orig_ms": 20.79,
+      "orig_rpi5": 83.2,
+      "dynamic": {
+        "mb": 26.4,
+        "ms": 20.69,
+        "rpi5_ms": 82.8,
+        "speedup": 1.0,
+        "budget_ok": true,
+        "cosine_sim": 1.0,
+        "max_abs_diff": 0.005
+      },
+      "static": {
+        "mb": 7.8,
+        "ms": 16.62,
+        "rpi5_ms": 66.5,
+        "speedup": 1.25,
+        "budget_ok": true,
+        "cosine_sim": 0.99983,
+        "max_abs_diff": 0.02275
+      }
+    },
+    {
+      "key": "specg",
+      "orig_mb": 137.5,
+      "orig_ms": 195.34,
+      "orig_rpi5": 781.4,
+      "dynamic": {
+        "mb": 116.8,
+        "ms": 187.35,
+        "rpi5_ms": 749.4,
+        "speedup": 1.04,
+        "budget_ok": false,
+        "cosine_sim": 0.99952,
+        "max_abs_diff": 0.2415
+      },
+      "static": {
+        "mb": 36.9,
+        "ms": 245.44,
+        "rpi5_ms": 981.8,
+        "speedup": 0.8,
+        "budget_ok": false,
+        "cosine_sim": 0.20239,
+        "max_abs_diff": 1.42733
+      }
+    },
+    {
+      "key": "clip",
+      "orig_mb": 137.5,
+      "orig_ms": 192.92,
+      "orig_rpi5": 771.7,
+      "dynamic": {
+        "mb": 116.7,
+        "ms": 185.5,
+        "rpi5_ms": 742.0,
+        "speedup": 1.04,
+        "budget_ok": false,
+        "cosine_sim": 0.99951,
+        "max_abs_diff": 0.08217
+      },
+      "static": {
+        "mb": 36.7,
+        "ms": 242.51,
+        "rpi5_ms": 970.0,
+        "speedup": 0.8,
+        "budget_ok": false,
+        "cosine_sim": -0.02216,
+        "max_abs_diff": 1.87155
+      }
+    }
+  ]
+}

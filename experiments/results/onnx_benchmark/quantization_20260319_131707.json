@@ -1,0 +1,49 @@
+{
+  "timestamp": "20260319_131707",
+  "rpi5_scale": 4.0,
+  "rpi5_budget": 200.0,
+  "scenario_a_ms": 139.0,
+  "scenario_b_ms": 930.5,
+  "results": [
+    {
+      "key": "mnv2",
+      "orig_mb": 22.5,
+      "orig_ms": 14.05,
+      "orig_rpi5": 56.2,
+      "dynamic": {
+        "error": "quantization failed"
+      },
+      "static": {}
+    },
+    {
+      "key": "specm",
+      "orig_mb": 30.0,
+      "orig_ms": 20.7,
+      "orig_rpi5": 82.8,
+      "dynamic": {
+        "error": "quantization failed"
+      },
+      "static": {}
+    },
+    {
+      "key": "specg",
+      "orig_mb": 141.5,
+      "orig_ms": 197.88,
+      "orig_rpi5": 791.5,
+      "dynamic": {
+        "error": "quantization failed"
+      },
+      "static": {}
+    },
+    {
+      "key": "clip",
+      "orig_mb": 141.3,
+      "orig_ms": 196.74,
+      "orig_rpi5": 786.9,
+      "dynamic": {
+        "error": "quantization failed"
+      },
+      "static": {}
+    }
+  ]
+}

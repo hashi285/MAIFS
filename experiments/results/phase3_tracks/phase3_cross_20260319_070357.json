@@ -1,0 +1,152 @@
+{
+  "protocol": "cross",
+  "timestamp": "20260319_070357",
+  "datasets": {},
+  "track_jsonl": {
+    "base": {
+      "track1": "/data/jj812_files/MAIFS/experiments/results/phase3_tracks/jsonl/track1_base_20260319_070357.jsonl",
+      "track2": "/data/jj812_files/MAIFS/experiments/results/phase3_tracks/jsonl/track2_base_20260319_070357.jsonl",
+      "track3": "/data/jj812_files/MAIFS/experiments/results/phase3_tracks/jsonl/track3_base_20260319_070357.jsonl"
+    },
+    "dsC": {
+      "track1": "/data/jj812_files/MAIFS/experiments/results/phase3_tracks/jsonl/track1_dsC_20260319_070357.jsonl",
+      "track2": "/data/jj812_files/MAIFS/experiments/results/phase3_tracks/jsonl/track2_dsC_20260319_070357.jsonl",
+      "track3": "/data/jj812_files/MAIFS/experiments/results/phase3_tracks/jsonl/track3_dsC_20260319_070357.jsonl"
+    },
+    "opensdi": {
+      "track1": "/data/jj812_files/MAIFS/experiments/results/phase3_tracks/jsonl/track1_opensdi_20260319_070357.jsonl",
+      "track2": "/data/jj812_files/MAIFS/experiments/results/phase3_tracks/jsonl/track2_opensdi_20260319_070357.jsonl",
+      "track3": "/data/jj812_files/MAIFS/experiments/results/phase3_tracks/jsonl/track3_opensdi_20260319_070357.jsonl"
+    },
+    "aigenproxy": {
+      "track1": "/data/jj812_files/MAIFS/experiments/results/phase3_tracks/jsonl/track1_aigenproxy_20260319_070357.jsonl",
+      "track2": "/data/jj812_files/MAIFS/experiments/results/phase3_tracks/jsonl/track2_aigenproxy_20260319_070357.jsonl",
+      "track3": "/data/jj812_files/MAIFS/experiments/results/phase3_tracks/jsonl/track3_aigenproxy_20260319_070357.jsonl"
+    }
+  },
+  "feature_schemas": {
+    "track1": [
+      "forma_auth",
+      "forma_manip",
+      "forma_aigen",
+      "forma_conf",
+      "mobilenet_auth_v",
+      "mobilenet_manip_v",
+      "mobilenet_aigen_v",
+      "mobilenet_auth_s",
+      "mobilenet_manip_s",
+      "mobilenet_aigen_s",
+      "mobilenet_conf",
+      "clip_auth_v",
+      "clip_manip_v",
+      "clip_aigen_v",
+      "clip_auth_s",
+      "clip_manip_s",
+      "clip_aigen_s",
+      "clip_conf",
+      "forma_vs_mobilenet_disagree",
+      "forma_vs_clip_disagree",
+      "mobilenet_vs_clip_disagree",
+      "unanimous",
+      "majority_auth",
+      "majority_manip",
+      "majority_aigen",
+      "forma_auth_mobilenet_manip_clip_aigen",
+      "forma_auth_mobilenet_aigen_clip_manip",
+      "forma_manip_mobilenet_auth_clip_aigen",
+      "forma_manip_mobilenet_aigen_clip_auth",
+      "mobilenet_clip_agree_fake",
+      "mean_conf",
+      "std_conf"
+    ],
+    "track2": [
+      "forma_auth",
+      "forma_manip",
+      "forma_aigen",
+      "forma_conf",
+      "clip_auth_v",
+      "clip_manip_v",
+      "clip_aigen_v",
+      "clip_auth_s",
+      "clip_manip_s",
+      "clip_aigen_s",
+      "clip_conf",
+      "disagree",
+      "forma_auth_clip_aigen",
+      "forma_auth_clip_manip",
+      "forma_manip_clip_aigen",
+      "forma_manip_clip_auth",
+      "conf_product",
+      "conf_abs_diff"
+    ],
+    "track3": [
+      "forma_auth",
+      "forma_manip",
+      "forma_aigen",
+      "forma_conf",
+      "clip_auth_v",
+      "clip_manip_v",
+      "clip_aigen_v",
+      "clip_auth_s",
+      "clip_manip_s",
+      "clip_aigen_s",
+      "clip_conf",
+      "disagree",
+      "forma_auth_clip_aigen",
+      "forma_auth_clip_manip",
+      "forma_manip_clip_aigen",
+      "forma_manip_clip_auth",
+      "conf_product",
+      "conf_abs_diff",
+      "tiny_auth",
+      "tiny_manip",
+      "tiny_aigen",
+      "tiny_conf",
+      "tiny_vs_forma_disagree",
+      "tiny_vs_clip_disagree",
+      "cascade_triggered"
+    ]
+  },
+  "cross_dataset": {
+    "base": {
+      "track1_gbm": 0.9270842985782988,
+      "track2_gbm": 0.9269798189090919,
+      "track3_gbm": 0.9269969456712062,
+      "mobilenet_only": 0.822833014142689,
+      "clip_only": 0.9420021156347266,
+      "triad_rule": 0.9026028857039007,
+      "cobra": 0.912444727538318,
+      "cascade_rule": 0.8229461988003419
+    },
+    "dsC": {
+      "track1_gbm": 0.977773826458037,
+      "track2_gbm": 0.9777625731607223,
+      "track3_gbm": 0.9755393825941745,
+      "mobilenet_only": 0.8896622266214232,
+      "clip_only": 0.97444096557587,
+      "triad_rule": 0.9744674151157957,
+      "cobra": 0.9722159708156557,
+      "cascade_rule": 0.8834045312077388
+    },
+    "opensdi": {
+      "track1_gbm": 0.9440364640981252,
+      "track2_gbm": 0.9404699705565016,
+      "track3_gbm": 0.9451294933997848,
+      "mobilenet_only": 0.7878652974137837,
+      "clip_only": 0.9531464277994021,
+      "triad_rule": 0.9294605371195147,
+      "cobra": 0.9510493317888503,
+      "cascade_rule": 0.8744767387395389
+    },
+    "aigenproxy": {
+      "track1_gbm": 0.9278696894196666,
+      "track2_gbm": 0.9291297497889063,
+      "track3_gbm": 0.9313047075542077,
+      "mobilenet_only": 0.8654183948612834,
+      "clip_only": 0.9433350943585094,
+      "triad_rule": 0.9170097723105956,
+      "cobra": 0.9181205906787392,
+      "cascade_rule": 0.8094950501513711
+    }
+  }
+}

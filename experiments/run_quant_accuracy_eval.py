@@ -70,8 +70,10 @@ def load_image(path: Path, size: int, norm: str) -> Optional[np.ndarray]:
         x = x.transpose(2, 0, 1)[None]  # [1,3,H,W]
         if norm == "imagenet":
             return (x - IMAGENET_MEAN) / IMAGENET_STD
-        else:
+        elif norm == "clip":
             return (x - CLIP_MEAN) / CLIP_STD
+        else:  # norm == "raw": ONNX 모델이 내부에서 정규화 수행 (MNV2, SpecM)
+            return x
     except Exception:
         return None
 
@@ -151,14 +153,14 @@ def eval_model(
 MODEL_CFG = {
     "mnv2": {
         "input_name": "image_01", "img_size": 224,
-        "norm": "imagenet", "label_map": CLASSES_3,
+        "norm": "raw", "label_map": CLASSES_3,  # ONNX 내부 정규화 ([0,1] 입력)
         "fp32": ONNX_FP32 / "mnv2.onnx",
         "dyn":  ONNX_Q    / "mnv2_int8_dynamic.onnx",
         "sta":  ONNX_Q    / "mnv2_int8_static.onnx",
     },
     "specm": {
         "input_name": "image_01", "img_size": 224,
-        "norm": "imagenet", "label_map": CLASSES_2M,
+        "norm": "raw", "label_map": CLASSES_2M,  # ONNX 내부 정규화 ([0,1] 입력)
         "fp32": ONNX_FP32 / "specm.onnx",
         "dyn":  ONNX_Q    / "specm_int8_dynamic.onnx",
         "sta":  ONNX_Q    / "specm_int8_static.onnx",

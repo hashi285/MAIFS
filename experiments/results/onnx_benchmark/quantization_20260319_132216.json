@@ -1,0 +1,41 @@
+{
+  "timestamp": "20260319_132216",
+  "rpi5_scale": 4.0,
+  "rpi5_budget": 200.0,
+  "scenario_a_ms": 140.1,
+  "scenario_b_ms": 10139.1,
+  "results": [
+    {
+      "key": "mnv2",
+      "orig_mb": 22.0,
+      "orig_ms": 13.93,
+      "orig_rpi5": 55.7,
+      "dynamic": {
+        "mb": 18.2,
+        "ms": 14.32,
+        "rpi5_ms": 57.3,
+        "speedup": 0.97,
+        "budget_ok": true,
+        "cosine_sim": 0.99827,
+        "max_abs_diff": 0.11326
+      },
+      "static": {}
+    },
+    {
+      "key": "specm",
+      "orig_mb": 29.2,
+      "orig_ms": 21.31,
+      "orig_rpi5": 85.2,
+      "dynamic": {
+        "mb": 26.4,
+        "ms": 21.1,
+        "rpi5_ms": 84.4,
+        "speedup": 1.01,
+        "budget_ok": true,
+        "cosine_sim": 0.99967,
+        "max_abs_diff": 0.00451
+      },
+      "static": {}
+    }
+  ]
+}

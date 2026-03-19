@@ -1,0 +1,30 @@
+{
+  "epochs": 20,
+  "timestamp": "20260319_070940",
+  "folds": {
+    "base": {
+      "clip_loo": 0.6204,
+      "track1_gbm": 0.6477,
+      "track2_gbm": 0.6423,
+      "track3_gbm": 0.6446
+    },
+    "dsC": {
+      "clip_loo": 0.8828,
+      "track1_gbm": 0.8995,
+      "track2_gbm": 0.8835,
+      "track3_gbm": 0.8788
+    },
+    "opensdi": {
+      "clip_loo": 0.4974,
+      "track1_gbm": 0.6967,
+      "track2_gbm": 0.5364,
+      "track3_gbm": 0.5397
+    },
+    "aigenproxy": {
+      "clip_loo": 0.5538,
+      "track1_gbm": 0.6797,
+      "track2_gbm": 0.5305,
+      "track3_gbm": 0.5323
+    }
+  }
+}

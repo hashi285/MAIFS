@@ -1,0 +1,82 @@
+{
+  "base": {
+    "desc": "CASIA2 + BigGAN (1500)",
+    "accuracy": 0.944,
+    "macro_recall": 0.944,
+    "per_class": {
+      "authentic": {
+        "recall": 0.962,
+        "n": 500
+      },
+      "manipulated": {
+        "recall": 0.87,
+        "n": 500
+      },
+      "ai_generated": {
+        "recall": 1.0,
+        "n": 500
+      }
+    },
+    "jsonl": "/data/jj812_files/MAIFS/experiments/results/backbone_eval/mobilenetv2_dualstream_base_20260319_070725.jsonl"
+  },
+  "dsC": {
+    "desc": "CASIA2 + IMD2020 + BigGAN (900)",
+    "accuracy": 0.9788888888888889,
+    "macro_recall": 0.9788888888888888,
+    "per_class": {
+      "authentic": {
+        "recall": 0.96,
+        "n": 300
+      },
+      "manipulated": {
+        "recall": 0.9766666666666667,
+        "n": 300
+      },
+      "ai_generated": {
+        "recall": 1.0,
+        "n": 300
+      }
+    },
+    "jsonl": "/data/jj812_files/MAIFS/experiments/results/backbone_eval/mobilenetv2_dualstream_dsC_20260319_070725.jsonl"
+  },
+  "opensdi": {
+    "desc": "OpenSDID (900)",
+    "accuracy": 0.9488888888888889,
+    "macro_recall": 0.9488888888888889,
+    "per_class": {
+      "authentic": {
+        "recall": 0.9166666666666666,
+        "n": 300
+      },
+      "manipulated": {
+        "recall": 0.97,
+        "n": 300
+      },
+      "ai_generated": {
+        "recall": 0.96,
+        "n": 300
+      }
+    },
+    "jsonl": "/data/jj812_files/MAIFS/experiments/results/backbone_eval/mobilenetv2_dualstream_opensdi_20260319_070725.jsonl"
+  },
+  "aigenproxy": {
+    "desc": "AI-GenBench proxy (900)",
+    "accuracy": 0.9611111111111111,
+    "macro_recall": 0.9611111111111111,
+    "per_class": {
+      "authentic": {
+        "recall": 0.9333333333333333,
+        "n": 300
+      },
+      "manipulated": {
+        "recall": 0.99,
+        "n": 300
+      },
+      "ai_generated": {
+        "recall": 0.96,
+        "n": 300
+      }
+    },
+    "jsonl": "/data/jj812_files/MAIFS/experiments/results/backbone_eval/mobilenetv2_dualstream_aigenproxy_20260319_070725.jsonl"
+  }
+}

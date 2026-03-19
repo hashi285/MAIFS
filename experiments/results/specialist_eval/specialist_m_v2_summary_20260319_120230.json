@@ -1,0 +1,78 @@
+{
+  "base": {
+    "n_binary": 1000,
+    "accuracy": 0.854,
+    "macro_recall": 0.854,
+    "auth_recall": 0.752,
+    "manip_recall": 0.956,
+    "manip_f1": 0.867513611615245,
+    "per_class": {
+      "authentic": {
+        "recall": 0.752,
+        "n": 500
+      },
+      "manipulated": {
+        "recall": 0.956,
+        "n": 500
+      }
+    },
+    "jsonl": "/data/jj812_files/MAIFS/experiments/results/specialist_eval/specialist_m_v2_base_20260319_120230.jsonl"
+  },
+  "dsC": {
+    "n_binary": 600,
+    "accuracy": 0.875,
+    "macro_recall": 0.875,
+    "auth_recall": 0.7666666666666667,
+    "manip_recall": 0.9833333333333333,
+    "manip_f1": 0.8872180451127819,
+    "per_class": {
+      "authentic": {
+        "recall": 0.7666666666666667,
+        "n": 300
+      },
+      "manipulated": {
+        "recall": 0.9833333333333333,
+        "n": 300
+      }
+    },
+    "jsonl": "/data/jj812_files/MAIFS/experiments/results/specialist_eval/specialist_m_v2_dsC_20260319_120230.jsonl"
+  },
+  "opensdi": {
+    "n_binary": 600,
+    "accuracy": 0.5,
+    "macro_recall": 0.5,
+    "auth_recall": 0.11,
+    "manip_recall": 0.89,
+    "manip_f1": 0.6402877697841726,
+    "per_class": {
+      "authentic": {
+        "recall": 0.11,
+        "n": 300
+      },
+      "manipulated": {
+        "recall": 0.89,
+        "n": 300
+      }
+    },
+    "jsonl": "/data/jj812_files/MAIFS/experiments/results/specialist_eval/specialist_m_v2_opensdi_20260319_120230.jsonl"
+  },
+  "aigenproxy": {
+    "n_binary": 600,
+    "accuracy": 0.6216666666666667,
+    "macro_recall": 0.6216666666666667,
+    "auth_recall": 0.24666666666666667,
+    "manip_recall": 0.9966666666666667,
+    "manip_f1": 0.7248484848484849,
+    "per_class": {
+      "authentic": {
+        "recall": 0.24666666666666667,
+        "n": 300
+      },
+      "manipulated": {
+        "recall": 0.9966666666666667,
+        "n": 300
+      }
+    },
+    "jsonl": "/data/jj812_files/MAIFS/experiments/results/specialist_eval/specialist_m_v2_aigenproxy_20260319_120230.jsonl"
+  }
+}

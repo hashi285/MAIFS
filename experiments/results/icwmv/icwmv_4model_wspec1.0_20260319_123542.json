@@ -1,0 +1,174 @@
+{
+  "description": "ICWMV 4-model consensus (MNV2 + CLIP + SpecM + SpecG)",
+  "config": {
+    "w_spec": 1.0
+  },
+  "results": {
+    "base": {
+      "dataset": "base",
+      "n": 1500,
+      "accuracy": 0.9573333333333334,
+      "macro_f1": 0.9573412021771913,
+      "per_class": {
+        "authentic": {
+          "tp": 487,
+          "fp": 51,
+          "fn": 13,
+          "precision": 0.9052044609665427,
+          "recall": 0.974,
+          "f1": 0.9383429672447012
+        },
+        "manipulated": {
+          "tp": 451,
+          "fp": 13,
+          "fn": 49,
+          "precision": 0.9719827586206896,
+          "recall": 0.902,
+          "f1": 0.9356846473029046
+        },
+        "ai_generated": {
+          "tp": 498,
+          "fp": 0,
+          "fn": 2,
+          "precision": 1.0,
+          "recall": 0.996,
+          "f1": 0.9979959919839679
+        }
+      },
+      "both_wrong_total": 48,
+      "both_wrong_fixed": 1,
+      "both_wrong_fix_rate": 0.020833333333333332,
+      "both_wrong_details": {
+        "('manipulated', 'authentic')": 40,
+        "('authentic', 'manipulated')": 7,
+        "('authentic', 'authentic')": 1
+      }
+    },
+    "dsC": {
+      "dataset": "dsC",
+      "n": 900,
+      "accuracy": 0.9911111111111112,
+      "macro_f1": 0.9911110123445815,
+      "per_class": {
+        "authentic": {
+          "tp": 295,
+          "fp": 3,
+          "fn": 5,
+          "precision": 0.9899328859060402,
+          "recall": 0.9833333333333333,
+          "f1": 0.9866220735785953
+        },
+        "manipulated": {
+          "tp": 297,
+          "fp": 5,
+          "fn": 3,
+          "precision": 0.9834437086092715,
+          "recall": 0.99,
+          "f1": 0.9867109634551494
+        },
+        "ai_generated": {
+          "tp": 300,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      "both_wrong_total": 8,
+      "both_wrong_fixed": 2,
+      "both_wrong_fix_rate": 0.25,
+      "both_wrong_details": {
+        "('authentic', 'manipulated')": 5,
+        "('authentic', 'authentic')": 1,
+        "('manipulated', 'manipulated')": 1,
+        "('manipulated', 'authentic')": 1
+      }
+    },
+    "opensdi": {
+      "dataset": "opensdi",
+      "n": 900,
+      "accuracy": 0.9533333333333334,
+      "macro_f1": 0.9530775782875965,
+      "per_class": {
+        "authentic": {
+          "tp": 271,
+          "fp": 11,
+          "fn": 29,
+          "precision": 0.9609929078014184,
+          "recall": 0.9033333333333333,
+          "f1": 0.9312714776632302
+        },
+        "manipulated": {
+          "tp": 292,
+          "fp": 22,
+          "fn": 8,
+          "precision": 0.9299363057324841,
+          "recall": 0.9733333333333334,
+          "f1": 0.9511400651465798
+        },
+        "ai_generated": {
+          "tp": 295,
+          "fp": 9,
+          "fn": 5,
+          "precision": 0.9703947368421053,
+          "recall": 0.9833333333333333,
+          "f1": 0.9768211920529801
+        }
+      },
+      "both_wrong_total": 23,
+      "both_wrong_fixed": 0,
+      "both_wrong_fix_rate": 0.0,
+      "both_wrong_details": {
+        "('authentic', 'manipulated')": 12,
+        "('ai_generated', 'authentic')": 3,
+        "('authentic', 'ai_generated')": 3,
+        "('manipulated', 'authentic')": 3,
+        "('ai_generated', 'manipulated')": 1,
+        "('manipulated', 'ai_generated')": 1
+      }
+    },
+    "aigenproxy": {
+      "dataset": "aigenproxy",
+      "n": 900,
+      "accuracy": 0.9577777777777777,
+      "macro_f1": 0.9577004382630155,
+      "per_class": {
+        "authentic": {
+          "tp": 284,
+          "fp": 17,
+          "fn": 16,
+          "precision": 0.9435215946843853,
+          "recall": 0.9466666666666667,
+          "f1": 0.9450915141430948
+        },
+        "manipulated": {
+          "tp": 298,
+          "fp": 17,
+          "fn": 2,
+          "precision": 0.946031746031746,
+          "recall": 0.9933333333333333,
+          "f1": 0.9691056910569105
+        },
+        "ai_generated": {
+          "tp": 280,
+          "fp": 4,
+          "fn": 20,
+          "precision": 0.9859154929577465,
+          "recall": 0.9333333333333333,
+          "f1": 0.9589041095890412
+        }
+      },
+      "both_wrong_total": 23,
+      "both_wrong_fixed": 0,
+      "both_wrong_fix_rate": 0.0,
+      "both_wrong_details": {
+        "('authentic', 'manipulated')": 8,
+        "('ai_generated', 'authentic')": 7,
+        "('ai_generated', 'manipulated')": 3,
+        "('authentic', 'ai_generated')": 3,
+        "('manipulated', 'authentic')": 2
+      }
+    }
+  }
+}

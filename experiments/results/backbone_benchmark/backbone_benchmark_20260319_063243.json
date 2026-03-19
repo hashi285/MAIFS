@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "timestamp": "20260319_063243",
+    "sample_image": "/data/jj812_files/MAIFS/datasets/CASIA2_subset/Au/Au_ani_00040.jpg",
+    "hardware": {
+      "torch_version": "2.10.0+cu128",
+      "cuda_available": true,
+      "cpu_model": "AMD EPYC 9354 32-Core Processor",
+      "cpu_threads_default": 64,
+      "cpu_count": 128,
+      "gpu_model": "NVIDIA H200 NVL",
+      "gpu_memory_total": "143771 MiB",
+      "gpu_driver": "590.48.01"
+    }
+  },
+  "results": {
+    "tiny_ladeda": {
+      "cuda": {
+        "name": "tiny_ladeda",
+        "device": "cuda",
+        "input_shape": [
+          1,
+          3,
+          224,
+          224
+        ],
+        "note": "Tiny-LaDeDa WildRF binary screener",
+        "model": {
+          "params_total": 1297,
+          "params_total_m": 0.0013,
+          "params_trainable": 1297,
+          "params_trainable_m": 0.0013,
+          "state_dict_mib": 0.005,
+          "checkpoint_mib": 0.011,
+          "checkpoint_path": "/data/jj812_files/MAIFS/TinyLaDeDa-main/weights/Tiny_LaDeDa/WildRF_Tiny_LaDeDa.pth"
+        },
+        "latency": {
+          "runs": 40,
+          "warmup_runs": 3,
+          "mean_ms": 8.956,
+          "median_ms": 10.081,
+          "std_ms": 1.531,
+          "p95_ms": 10.135,
+          "min_ms": 4.286,
+          "max_ms": 10.144,
+          "fps_from_mean": 111.655,
+          "peak_gpu_mib": 37.129
+        }
+      },
+      "cpu": {
+        "name": "tiny_ladeda",
+        "device": "cpu",
+        "input_shape": [
+          1,
+          3,
+          224,
+          224
+        ],
+        "note": "Tiny-LaDeDa WildRF binary screener",
+        "model": {
+          "params_total": 1297,
+          "params_total_m": 0.0013,
+          "params_trainable": 1297,
+          "params_trainable_m": 0.0013,
+          "state_dict_mib": 0.005,
+          "checkpoint_mib": 0.011,
+          "checkpoint_path": "/data/jj812_files/MAIFS/TinyLaDeDa-main/weights/Tiny_LaDeDa/WildRF_Tiny_LaDeDa.pth"
+        },
+        "latency": {
+          "runs": 12,
+          "warmup_runs": 1,
+          "mean_ms": 6.241,
+          "median_ms": 6.253,
+          "std_ms": 0.113,
+          "p95_ms": 6.404,
+          "min_ms": 6.043,
+          "max_ms": 6.519,
+          "fps_from_mean": 160.23,
+          "peak_gpu_mib": null
+        }
+      }
+    }
+  }
+}

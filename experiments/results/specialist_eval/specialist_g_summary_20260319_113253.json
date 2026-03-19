@@ -1,0 +1,74 @@
+{
+  "base": {
+    "n_binary": 1000,
+    "accuracy": 0.987,
+    "macro_recall": 0.987,
+    "aigen_recall": 0.996,
+    "aigen_f1": 0.9871159563924677,
+    "per_class": {
+      "authentic": {
+        "recall": 0.978,
+        "n": 500
+      },
+      "ai_generated": {
+        "recall": 0.996,
+        "n": 500
+      }
+    },
+    "jsonl": "/data/jj812_files/MAIFS/experiments/results/specialist_eval/specialist_g_base_20260319_113253.jsonl"
+  },
+  "dsC": {
+    "n_binary": 600,
+    "accuracy": 0.9883333333333333,
+    "macro_recall": 0.9883333333333333,
+    "aigen_recall": 1.0,
+    "aigen_f1": 0.9884678747940692,
+    "per_class": {
+      "authentic": {
+        "recall": 0.9766666666666667,
+        "n": 300
+      },
+      "ai_generated": {
+        "recall": 1.0,
+        "n": 300
+      }
+    },
+    "jsonl": "/data/jj812_files/MAIFS/experiments/results/specialist_eval/specialist_g_dsC_20260319_113253.jsonl"
+  },
+  "opensdi": {
+    "n_binary": 600,
+    "accuracy": 0.7866666666666666,
+    "macro_recall": 0.7866666666666666,
+    "aigen_recall": 0.85,
+    "aigen_f1": 0.799373040752351,
+    "per_class": {
+      "authentic": {
+        "recall": 0.7233333333333334,
+        "n": 300
+      },
+      "ai_generated": {
+        "recall": 0.85,
+        "n": 300
+      }
+    },
+    "jsonl": "/data/jj812_files/MAIFS/experiments/results/specialist_eval/specialist_g_opensdi_20260319_113253.jsonl"
+  },
+  "aigenproxy": {
+    "n_binary": 600,
+    "accuracy": 0.7466666666666667,
+    "macro_recall": 0.7466666666666667,
+    "aigen_recall": 0.6833333333333333,
+    "aigen_f1": 0.7295373665480427,
+    "per_class": {
+      "authentic": {
+        "recall": 0.81,
+        "n": 300
+      },
+      "ai_generated": {
+        "recall": 0.6833333333333333,
+        "n": 300
+      }
+    },
+    "jsonl": "/data/jj812_files/MAIFS/experiments/results/specialist_eval/specialist_g_aigenproxy_20260319_113253.jsonl"
+  }
+}

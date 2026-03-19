@@ -1,0 +1,69 @@
+{
+  "description": "MNV2 vs CLIP per-image error overlap analysis",
+  "summary": {
+    "avg_jaccard": 0.33611588475290055,
+    "avg_independent_error_rate": 0.0425
+  },
+  "per_dataset": [
+    {
+      "dataset": "base",
+      "total": 1500,
+      "mnv2_errors": 84,
+      "clip_errors": 87,
+      "both_wrong": 48,
+      "only_mnv2": 36,
+      "only_clip": 39,
+      "both_correct": 1377,
+      "jaccard": 0.3902439024390244,
+      "mnv2_error_rate": 0.056,
+      "clip_error_rate": 0.058,
+      "both_wrong_rate": 0.032,
+      "independent_error_rate": 0.05
+    },
+    {
+      "dataset": "dsC",
+      "total": 900,
+      "mnv2_errors": 19,
+      "clip_errors": 23,
+      "both_wrong": 8,
+      "only_mnv2": 11,
+      "only_clip": 15,
+      "both_correct": 866,
+      "jaccard": 0.23529411764705882,
+      "mnv2_error_rate": 0.021111111111111112,
+      "clip_error_rate": 0.025555555555555557,
+      "both_wrong_rate": 0.008888888888888889,
+      "independent_error_rate": 0.028888888888888888
+    },
+    {
+      "dataset": "opensdi",
+      "total": 900,
+      "mnv2_errors": 46,
+      "clip_errors": 42,
+      "both_wrong": 23,
+      "only_mnv2": 23,
+      "only_clip": 19,
+      "both_correct": 835,
+      "jaccard": 0.35384615384615387,
+      "mnv2_error_rate": 0.051111111111111114,
+      "clip_error_rate": 0.04666666666666667,
+      "both_wrong_rate": 0.025555555555555557,
+      "independent_error_rate": 0.04666666666666667
+    },
+    {
+      "dataset": "aigenproxy",
+      "total": 900,
+      "mnv2_errors": 35,
+      "clip_errors": 51,
+      "both_wrong": 23,
+      "only_mnv2": 12,
+      "only_clip": 28,
+      "both_correct": 837,
+      "jaccard": 0.36507936507936506,
+      "mnv2_error_rate": 0.03888888888888889,
+      "clip_error_rate": 0.056666666666666664,
+      "both_wrong_rate": 0.025555555555555557,
+      "independent_error_rate": 0.044444444444444446
+    }
+  ]
+}

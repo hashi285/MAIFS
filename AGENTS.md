@@ -216,7 +216,7 @@ DAAC의 성능을 유지하면서 **RPi5에 배포 가능한 경량 포렌식 �
 | # | 작업 | 우선순위 | 상태 | 비고 |
 |---|------|---------|------|------|
 | 4.1 | ONNX 변환 + CPU 벤치마크 | P1 | `DONE` | MNV2=22.5MB/14ms, SpecM=30MB/20.6ms, SpecG=141.5MB/200ms, CLIP=141.3MB/197.7ms (1-thread). RPi5 예산(200ms): MNV2+SpecM만 OK |
-| 4.2 | PTQ INT8 양자화 | P1 | `DONE` | Dynamic(Gemm/MatMul): 속도 개선 <1.05× (Conv 미포함으로 효과 미미). Static(QDQ): SpecM +1.25×/cos=1.00 유효. **SpecG/CLIP 정확도 붕괴(cos<0.2)** — FastViT attention 양자화 불가. 결론: SpecG는 서버 전용 확정 |
+| 4.2 | PTQ INT8 양자화 + 정확도 평가 | P1 | `DONE` | Dynamic(Gemm/MatMul): 전 모델 FP32 대비 Δ≤+0.17%p(무손실). Static: SpecM Δ+0.01%p(성공), **MNV2 Δ-17.97%p(실패)**, SpecG Δ-47.23%p, CLIP Δ-63.25%p(붕괴). 결론: RPi5 최적 = MNV2-FP32 + **SpecM-Dynamic INT8**. SpecG/CLIP Static 사용 불가 |
 | 4.3 | Hailo-8L HEF 변환 (선택) | P2 | `NOT_STARTED` | NPU 경로 |
 | 4.4 | RPi5 end-to-end 벤치마크 | P0 | `NOT_STARTED` | latency/memory/accuracy 실측 |
 | 4.5 | ForensicHub/WildRF 벤치마크 | P1 | `NOT_STARTED` | 논문 비교 실험 |
@@ -281,6 +281,7 @@ DAAC의 성능을 유지하면서 **RPi5에 배포 가능한 경량 포렌식 �
 | Phase 3.5.5 ICWMV SpecM-v2 재평가 | w=1.0: avg macro_F1=**96.48%**(v1 96.40% 대비 +0.08%p). base=95.73/dsC=99.11/opensdi=95.31/aigenproxy=**95.77%**(v1 aigenproxy 약점 개선). GBM DAAC 96.25% avg와 동등 수준 | `experiments/results/icwmv/icwmv_4model_wspec1.0_20260319_123542.json` |
 | Phase 3.5.6 CKA 다양성 재분석 (4-model) | 4-model avg CKA=**0.0855** vs 2-model(MNV2+CLIP) 0.9241(ΔCKA=-0.8385). Jaccard: 4-model 0.1233 vs 2-model 0.3361. disagreement rate: 4-model 32.8% vs 2-model 4.4%. Binary specialist 추가로 출력 공간 다양성 대폭 향상 — 앙상블 설계 이론적 정당화 | `experiments/results/cka_diversity/cka_diversity_4model_20260319_124909.json` |
 | Phase 3.4 경량 DAAC 메타 분류기 재학습 | 25-dim 메타 특징(MNV2+CLIP 기반, specialist 제외-label leakage 방지). GBM: base=**99.01%**(원본 무거운 DAAC 86.13% 대비 +12.88%p), avg 4-DS=96.25% ≈ ICWMV 96.48%(Δ-0.23%p). Top-feature: mnv2_aigen(29.8%), mnv2_auth(20.9%) | `experiments/results/daac_retrain/daac_retrain_lightweight_20260319_125524.json` |
+| Phase 4.2 PTQ INT8 양자화 정확도 평가 | Dynamic INT8: MNV2=76.13%/SpecM=65.54%/SpecG=87.84%/CLIP=95.38%(FP32 대비 Δ≤+0.17%p, 무손실). Static INT8: SpecM=65.42%(Δ+0.01%p, 유일한 성공), **MNV2=58.14%(Δ-17.97%p)**, SpecG=40.44%(Δ-47.23%p), CLIP=32.07%(Δ-63.25%p). RPi5 최적 조합 확정: **MNV2-FP32 + SpecM-Dynamic INT8** | `experiments/results/onnx_benchmark/quant_accuracy_20260319_145436.json` |
 
 ---
 
@@ -288,6 +289,7 @@ DAAC의 성능을 유지하면서 **RPi5에 배포 가능한 경량 포렌식 �
 > 형식: `YYYY-MM-DD | Scope | Change | Key Files | Verification | Next`
 > 최신 항목이 맨 위.
 
+- `2026-03-19 | shield/phase4.2 | PTQ INT8 양자화 정확도 평가 완료(4모델 × 3variants × 4-DS). Dynamic INT8: 전 모델 Δ≤+0.17%p(무손실 확인). Static INT8: SpecM만 성공(Δ+0.01%p), MNV2 Δ-17.97%p(파국적), SpecG Δ-47.23%p, CLIP Δ-63.25%p 붕괴. RPi5 최적 배포 확정: MNV2-FP32(76.11%/14ms) + SpecM-Dynamic(65.54%/21ms). MNV2 Static은 cosine=0.69에서 F1 -18%p로 실용 불가 실증 | experiments/results/onnx_benchmark/quant_accuracy_20260319_145436.json | 4모델 정확도 평가 완료 | Phase 4.4 RPi5 실측 또는 논문 실험 섹션 작성`
 - `2026-03-19 | shield/phase4.2 | PTQ INT8 양자화 완료(4모델). Dynamic(Gemm): 속도개선 <1.05×(Conv 미포함). Static(QDQ): SpecM+1.25×/cos=1.000(유효), MNV2+1.05×/cos=0.69(정확도 저하), SpecG/CLIP 정확도 붕괴(cos<0.2, FastViT attention 양자화 불안정). 최종 RPi5 배포 결정: MNV2-FP32(57ms)+SpecM-INT8(67ms)=124ms. AI-gen 탐지(SpecG)는 서버 전용 확정. 논문 기여: "FastViT 백본은 표준 PTQ로 edge 배포 불가 → 경량 binary AI-gen detector 별도 설계 필요"로 프레이밍 | weights/onnx_quant/, experiments/results/onnx_benchmark/quantization_*.json, experiments/run_quantization.py | 양자화+벤치마크 완료 | Phase 4.4 RPi5 실측 또는 논문 실험 섹션 작성`
 - `2026-03-19 | shield/phase4.1 | ONNX 변환 + CPU 벤치마크 완료(4모델). MNV2(22.5MB, 14.0ms/56ms RPi5 ✓), SpecM(30MB, 20.6ms/82ms ✓), SpecG(141.5MB, 200ms/800ms ✗ OVER), CLIP(141.3MB, 198ms/791ms ✗ OVER). RPi5 예산(200ms) 내 배포 가능: MNV2+SpecM(138ms, 3-class+manip) 조합만 가능. AI-gen 탐지(SpecG)는 서버 전용. 다음: QAT/INT8 양자화로 SpecG RPi5 지연 개선 시도 | weights/onnx/, experiments/results/onnx_benchmark/, experiments/run_onnx_export.py | 4모델 ONNX+벤치마크 완료 | Phase 4.2 QAT 양자화`
 - `2026-03-19 | shield/phase3.4+3.5 | Phase 3.5 전체 완료(3.5.4~3.5.6) + Phase 3.4 DAAC 재학습 완료. SpecM-v2 best manip_f1=0.827. ICWMV SpecM-v2 avg 96.48%(v1 96.40% 대비 +0.08%p). CKA 4-model avg=0.0855 vs 2-model 0.9241(ΔCKA=-0.8385 — specialist로 다양성 대폭 향상). DAAC-GBM 경량화(25-dim): base=99.01%(원본 86.13% 대비 +12.88%p), avg 4-DS=96.25% ≈ ICWMV. Label leakage 문제(specm/specg_avail flag) 발견 및 수정 — specialist 특징 제거 후 generalist 2개 기반으로 공정 비교 | experiments/results/specialist_eval/specialist_m_v2_*, experiments/results/icwmv/icwmv_4model_wspec1.0_20260319_123542.json, experiments/results/cka_diversity/cka_diversity_4model_20260319_124909.json, experiments/results/daac_retrain/daac_retrain_lightweight_20260319_125524.json | 4-DS 모두 재평가 완료 | Phase 3.5 AGENTS.md 업데이트 완료. 다음: 논문 실험 섹션 작성`

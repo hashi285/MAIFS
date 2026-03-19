@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 import numpy as np
+from tqdm import tqdm
 
 ROOT      = Path(__file__).resolve().parents[1]
 ONNX_FP32 = ROOT / "weights" / "onnx"
@@ -111,12 +112,13 @@ def eval_model(
     norm: str,
     label_map: List[str],   # 모델 출력 index → label
     records: List[dict],
+    desc: str = "",
 ) -> Tuple[float, float]:
     """macro-F1 + 평균 지연(ms) 반환."""
     y_true, y_pred = [], []
     times = []
 
-    for rec in records:
+    for rec in tqdm(records, desc=desc, leave=False, ncols=80):
         img_path = ROOT / rec["image_path"]
         x = load_image(img_path, img_size, norm)
         if x is None:
@@ -224,7 +226,8 @@ def main():
             for vname, sess in sessions.items():
                 f1, lat = eval_model(
                     sess, cfg["input_name"], cfg["img_size"],
-                    cfg["norm"], cfg["label_map"], records)
+                    cfg["norm"], cfg["label_map"], records,
+                    desc=f"{key}/{vname}/{ds}")
                 ds_row[vname] = {"f1": round(f1, 4), "ms": round(lat, 1)}
 
             # 출력

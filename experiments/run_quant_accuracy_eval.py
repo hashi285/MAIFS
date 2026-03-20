@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 import numpy as np
+from tqdm import tqdm
 
 ROOT      = Path(__file__).resolve().parents[1]
 ONNX_FP32 = ROOT / "weights" / "onnx"
@@ -69,8 +70,10 @@ def load_image(path: Path, size: int, norm: str) -> Optional[np.ndarray]:
         x = x.transpose(2, 0, 1)[None]  # [1,3,H,W]
         if norm == "imagenet":
             return (x - IMAGENET_MEAN) / IMAGENET_STD
-        else:
+        elif norm == "clip":
             return (x - CLIP_MEAN) / CLIP_STD
+        else:  # norm == "raw": ONNX 모델이 내부에서 정규화 수행 (MNV2, SpecM)
+            return x
     except Exception:
         return None
 
@@ -111,12 +114,13 @@ def eval_model(
     norm: str,
     label_map: List[str],   # 모델 출력 index → label
     records: List[dict],
+    desc: str = "",
 ) -> Tuple[float, float]:
     """macro-F1 + 평균 지연(ms) 반환."""
     y_true, y_pred = [], []
     times = []
 
-    for rec in records:
+    for rec in tqdm(records, desc=desc, leave=False, ncols=80):
         img_path = ROOT / rec["image_path"]
         x = load_image(img_path, img_size, norm)
         if x is None:
@@ -149,14 +153,14 @@ def eval_model(
 MODEL_CFG = {
     "mnv2": {
         "input_name": "image_01", "img_size": 224,
-        "norm": "imagenet", "label_map": CLASSES_3,
+        "norm": "raw", "label_map": CLASSES_3,  # ONNX 내부 정규화 ([0,1] 입력)
         "fp32": ONNX_FP32 / "mnv2.onnx",
         "dyn":  ONNX_Q    / "mnv2_int8_dynamic.onnx",
         "sta":  ONNX_Q    / "mnv2_int8_static.onnx",
     },
     "specm": {
         "input_name": "image_01", "img_size": 224,
-        "norm": "imagenet", "label_map": CLASSES_2M,
+        "norm": "raw", "label_map": CLASSES_2M,  # ONNX 내부 정규화 ([0,1] 입력)
         "fp32": ONNX_FP32 / "specm.onnx",
         "dyn":  ONNX_Q    / "specm_int8_dynamic.onnx",
         "sta":  ONNX_Q    / "specm_int8_static.onnx",
@@ -224,7 +228,8 @@ def main():
             for vname, sess in sessions.items():
                 f1, lat = eval_model(
                     sess, cfg["input_name"], cfg["img_size"],
-                    cfg["norm"], cfg["label_map"], records)
+                    cfg["norm"], cfg["label_map"], records,
+                    desc=f"{key}/{vname}/{ds}")
                 ds_row[vname] = {"f1": round(f1, 4), "ms": round(lat, 1)}
 
             # 출력

@@ -1,0 +1,78 @@
+{
+  "base": {
+    "n_binary": 1000,
+    "accuracy": 0.843,
+    "macro_recall": 0.843,
+    "auth_recall": 0.734,
+    "manip_recall": 0.952,
+    "manip_f1": 0.8584310189359785,
+    "per_class": {
+      "authentic": {
+        "recall": 0.734,
+        "n": 500
+      },
+      "manipulated": {
+        "recall": 0.952,
+        "n": 500
+      }
+    },
+    "jsonl": "/data/jj812_files/MAIFS/experiments/results/specialist_eval/specialist_m_v3_base_20260320_020232.jsonl"
+  },
+  "dsC": {
+    "n_binary": 600,
+    "accuracy": 0.8383333333333334,
+    "macro_recall": 0.8383333333333334,
+    "auth_recall": 0.75,
+    "manip_recall": 0.9266666666666666,
+    "manip_f1": 0.8514548238897397,
+    "per_class": {
+      "authentic": {
+        "recall": 0.75,
+        "n": 300
+      },
+      "manipulated": {
+        "recall": 0.9266666666666666,
+        "n": 300
+      }
+    },
+    "jsonl": "/data/jj812_files/MAIFS/experiments/results/specialist_eval/specialist_m_v3_dsC_20260320_020232.jsonl"
+  },
+  "opensdi": {
+    "n_binary": 600,
+    "accuracy": 0.6583333333333333,
+    "macro_recall": 0.6583333333333333,
+    "auth_recall": 0.62,
+    "manip_recall": 0.6966666666666667,
+    "manip_f1": 0.6709470304975923,
+    "per_class": {
+      "authentic": {
+        "recall": 0.62,
+        "n": 300
+      },
+      "manipulated": {
+        "recall": 0.6966666666666667,
+        "n": 300
+      }
+    },
+    "jsonl": "/data/jj812_files/MAIFS/experiments/results/specialist_eval/specialist_m_v3_opensdi_20260320_020232.jsonl"
+  },
+  "aigenproxy": {
+    "n_binary": 600,
+    "accuracy": 0.9566666666666667,
+    "macro_recall": 0.9566666666666667,
+    "auth_recall": 0.9366666666666666,
+    "manip_recall": 0.9766666666666667,
+    "manip_f1": 0.957516339869281,
+    "per_class": {
+      "authentic": {
+        "recall": 0.9366666666666666,
+        "n": 300
+      },
+      "manipulated": {
+        "recall": 0.9766666666666667,
+        "n": 300
+      }
+    },
+    "jsonl": "/data/jj812_files/MAIFS/experiments/results/specialist_eval/specialist_m_v3_aigenproxy_20260320_020232.jsonl"
+  }
+}

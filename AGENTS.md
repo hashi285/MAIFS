@@ -216,7 +216,7 @@ DAAC의 성능을 유지하면서 **RPi5에 배포 가능한 경량 포렌식 �
 | # | 작업 | 우선순위 | 상태 | 비고 |
 |---|------|---------|------|------|
 | 4.1 | ONNX 변환 + CPU 벤치마크 | P1 | `DONE` | MNV2=22.5MB/14ms, SpecM=30MB/20.6ms, SpecG=141.5MB/200ms, CLIP=141.3MB/197.7ms (1-thread). RPi5 예산(200ms): MNV2+SpecM만 OK |
-| 4.2 | PTQ INT8 양자화 + 정확도 평가 | P1 | `DONE` | Dynamic(Gemm/MatMul): 전 모델 FP32 대비 Δ≤+0.17%p(무손실). Static: SpecM Δ+0.01%p(성공), **MNV2 Δ-17.97%p(실패)**, SpecG Δ-47.23%p, CLIP Δ-63.25%p(붕괴). 결론: RPi5 최적 = MNV2-FP32 + **SpecM-Dynamic INT8**. SpecG/CLIP Static 사용 불가 |
+| 4.2 | PTQ INT8 양자화 + 정확도 평가 + SpecM-v3/v4 재학습 | P1 | `DONE` | Dynamic INT8 전 모델 무손실(Δ≤+0.17%p). Static: FastViT 계열 붕괴. **SpecM-v3**: opensdi auth_recall 11%→62%. **SpecM-v4**: v3 resume(LR=3e-5)+RandomErasing(value=random), val manip_f1=0.7792(v3 0.7832 대비 -0.4%p). **ICWMV avg**: MNV2 단독 95.81% < v3 96.43%(+0.62%p) < **v4 96.58%(+0.77%p)**. RPi5 최종: **MNV2-Dynamic + SpecM-v4-Dynamic = ~140ms** |
 | 4.3 | Hailo-8L HEF 변환 (선택) | P2 | `NOT_STARTED` | NPU 경로 |
 | 4.4 | RPi5 end-to-end 벤치마크 | P0 | `NOT_STARTED` | latency/memory/accuracy 실측 |
 | 4.5 | ForensicHub/WildRF 벤치마크 | P1 | `NOT_STARTED` | 논문 비교 실험 |
@@ -228,7 +228,7 @@ DAAC의 성능을 유지하면서 **RPi5에 배포 가능한 경량 포렌식 �
 | ID | 리스크 | 심각도 | 완화 전략 | 상태 |
 |----|--------|--------|----------|------|
 | R1 | FatFormer→MobileCLIP 교체 시 FAA 재학습 실패 | HIGH | FAA가 backbone-agnostic임을 논문 ablation으로 확인. 실패 시 TinyCLIP 대안 | `OPEN` |
-| R2 | 양자화로 포렌식 신호 손실 (PRNU/DCT) | HIGH | QAT 필수 + 입력단 FP16 유지 + mixed-precision | `OPEN` |
+| R2 | 양자화로 포렌식 신호 손실 (PRNU/DCT) | MEDIUM | Dynamic INT8: MNV2/SpecM 무손실 확인(Δ≤+0.03%p). FastViT계(SpecG/CLIP)는 Static PTQ 붕괴 → Dynamic 사용 확정. RPi5 조합(MNV2+SpecM Dynamic)은 PTQ로 충분, QAT 불필요 | `MITIGATED` |
 | R3 | 경량화 후 DAAC 43-dim 특징 분포 변화 | MEDIUM | 경량 모델 기준 재학습으로 대응 | `OPEN` |
 | R4 | RPi5 메모리 부족 (8GB 내 4모델 동시 로드) | MEDIUM | Cascade로 동시 로드 회피 + 모델 swap 전략 | `OPEN` |
 | R5 | SRM/DWT custom ops NPU 미지원 | LOW | CPU fallback 경로 유지 (Mesorch에만 해당) | `OPEN` |
@@ -236,7 +236,7 @@ DAAC의 성능을 유지하면서 **RPi5에 배포 가능한 경량 포렌식 �
 | R7 | 무거운 모델 Shapley가 경량 모델과 다름 (데이터셋 편향) | HIGH | Cross-dataset 검증으로 발견. 경량 백본 교체 후 Shapley 재실행으로 대응 | `MITIGATED` |
 | R8 | ForMa/Tiny-LaDeDa 공개 가중치 부재 또는 호환성 문제 | MEDIUM | 사용자 제공 ForMa 가중치 연동 및 Tiny-LaDeDa 호환성 확인 완료. 미확보 시 직접 학습 or 대안 백본(MNVFusion, BNN) 준비 | `MITIGATED` |
 | R9 | fatformer(MobileCLIP)가 다양한 AI 생성기에서 음수 Shapley | MEDIUM | Track 2(통합)에서 ForMa가 흡수 → fatformer 의존도 낮춤 | `OPEN` |
-| R10 | Specialist-M OOD 일반화 실패 (CASIA2 과적합) | HIGH | v2: IMD2020 추가 + JPEG/Noise augmentation으로 완화 시도. v2 완료 후 재평가 | `IN_PROGRESS` |
+| R10 | Specialist-M OOD 일반화 실패 (openSDI 도메인) | HIGH | v2 완료했으나 opensdi F1=41%, aigenproxy 53% 여전히 낮음. 2-model ICWMV에서 opensdi -1.56%p 역효과 발생. **대응: openSDI/COVERAGE/NIST16 데이터 추가 후 v3 재학습 필요** | `OPEN` |
 | R11 | ICWMV w_spec 과도하면 OOD 성능 역전 | MEDIUM | w_spec=1.0이 균형점. Specialist-M v2로 OOD 개선 후 재튜닝 | `MITIGATED` |
 
 ---
@@ -281,7 +281,9 @@ DAAC의 성능을 유지하면서 **RPi5에 배포 가능한 경량 포렌식 �
 | Phase 3.5.5 ICWMV SpecM-v2 재평가 | w=1.0: avg macro_F1=**96.48%**(v1 96.40% 대비 +0.08%p). base=95.73/dsC=99.11/opensdi=95.31/aigenproxy=**95.77%**(v1 aigenproxy 약점 개선). GBM DAAC 96.25% avg와 동등 수준 | `experiments/results/icwmv/icwmv_4model_wspec1.0_20260319_123542.json` |
 | Phase 3.5.6 CKA 다양성 재분석 (4-model) | 4-model avg CKA=**0.0855** vs 2-model(MNV2+CLIP) 0.9241(ΔCKA=-0.8385). Jaccard: 4-model 0.1233 vs 2-model 0.3361. disagreement rate: 4-model 32.8% vs 2-model 4.4%. Binary specialist 추가로 출력 공간 다양성 대폭 향상 — 앙상블 설계 이론적 정당화 | `experiments/results/cka_diversity/cka_diversity_4model_20260319_124909.json` |
 | Phase 3.4 경량 DAAC 메타 분류기 재학습 | 25-dim 메타 특징(MNV2+CLIP 기반, specialist 제외-label leakage 방지). GBM: base=**99.01%**(원본 무거운 DAAC 86.13% 대비 +12.88%p), avg 4-DS=96.25% ≈ ICWMV 96.48%(Δ-0.23%p). Top-feature: mnv2_aigen(29.8%), mnv2_auth(20.9%) | `experiments/results/daac_retrain/daac_retrain_lightweight_20260319_125524.json` |
-| Phase 4.2 PTQ INT8 양자화 정확도 평가 | Dynamic INT8: MNV2=76.13%/SpecM=65.54%/SpecG=87.84%/CLIP=95.38%(FP32 대비 Δ≤+0.17%p, 무손실). Static INT8: SpecM=65.42%(Δ+0.01%p, 유일한 성공), **MNV2=58.14%(Δ-17.97%p)**, SpecG=40.44%(Δ-47.23%p), CLIP=32.07%(Δ-63.25%p). RPi5 최적 조합 확정: **MNV2-FP32 + SpecM-Dynamic INT8** | `experiments/results/onnx_benchmark/quant_accuracy_20260319_145436.json` |
+| Phase 4.2 PTQ INT8 양자화 정확도 평가 (재평가) | **이중정규화 버그 수정 후 재평가.** Dynamic INT8: MNV2=**95.37%**(Δ+0.00%p)/SpecM=65.14%(Δ+0.03%p)/SpecG=87.84%(Δ+0.17%p)/CLIP=95.38%(Δ+0.06%p) — 전 모델 무손실. Static: MNV2 -13.42%p/SpecG -47.23%p/CLIP -63.25%p(FastViT PTQ 붕괴)/SpecM -0.85%p. **2-model ICWMV (MNV2+SpecM Dynamic): avg 95.64%** vs 4-model 96.48%(Δ-0.84%p) — SpecM openSDI OOD 약점이 -1.56%p. RPi5 확정: **MNV2-Dynamic(14ms) + SpecM-Dynamic(21ms) = ~140ms** | `experiments/results/onnx_benchmark/quant_accuracy_20260319_163814.json` |
+| Phase 4.2.1 SpecM-v3 재학습 + ONNX 재배포 | **Authentic OOD 강건화**: +GenImage_nature 3000장(ImageNet val 실사진) + RandomErasing(p=0.3, inpainting 시뮬레이션). best manip_f1=0.7832(ep.11). **opensdi auth_recall 11%→62%(+51%p)**. 2-model ICWMV(MNV2+SpecM-v3 Dynamic): avg **96.19%** (+0.55%p vs v2, 4-model 서버 대비 **Δ-0.29%p**). RPi5 최종 확정: **MNV2-Dynamic + SpecM-v3-Dynamic** | `weights/specialist_m_v3/`, `weights/onnx/specm_v3.onnx`, `weights/onnx_quant/specm_v3_int8_dynamic.onnx` |
+| Phase 4.2.2 SpecM-v4 fine-tuning + ONNX + ICWMV 재평가 | **v3 resume fine-tuning**: LR=3e-5(v3 1e-4 대비 ↓), RandomErasing(value=random, inpainting fill 노이즈 시뮬), focal_alpha=0.6, 20 epochs. best val manip_f1=0.7792(ep.10). openSDI manip_recall 70.3%(v3 69.7% +0.6%p). **ICWMV v4 avg: 96.58%**(v3 96.43% 대비 +0.15%p, 서버 4-model 96.48% 대비 **+0.10%p 초과**). base=95.86%/dsC=98.44%/opensdi=94.68%/aigenproxy=97.33%. **RPi5 배포 기준 모델 v4로 업그레이드** | `weights/specialist_m_v4/`, `weights/onnx/specm_v4.onnx(29.2MB)`, `weights/onnx_quant/specm_v4_int8_dynamic.onnx(26.4MB)` |
 
 ---
 
@@ -289,6 +291,9 @@ DAAC의 성능을 유지하면서 **RPi5에 배포 가능한 경량 포렌식 �
 > 형식: `YYYY-MM-DD | Scope | Change | Key Files | Verification | Next`
 > 최신 항목이 맨 위.
 
+- `2026-03-20 | shield/phase4.2.2 | SpecM-v4 fine-tuning + ONNX export + ICWMV 재평가 완료. v3 best checkpoint resume, LR=3e-5, RandomErasing(value=random). best val manip_f1=0.7792(ep.10). openSDI manip_recall 70.3%(v3 +0.6%p). ICWMV v4 avg=96.58%(v3 96.43% 대비 +0.15%p). **서버 4-model 96.48% 초과(+0.10%p)**. base=95.86/dsC=98.44/opensdi=94.68/aigenproxy=97.33%. ONNX cosine=0.99999(무손실). RPi5 배포 모델 v3→v4 업그레이드. | weights/specialist_m_v4/, weights/onnx/specm_v4.onnx(29.2MB), weights/onnx_quant/specm_v4_int8_dynamic.onnx(26.4MB) | ONNX cosine=0.99999 | Phase 4.4 RPi5 실측`
+- `2026-03-20 | shield/phase4.2 | SpecM-v3 재학습 + ONNX 재배포 완료. GenImage_nature 3000장 + RandomErasing(p=0.3) 추가. best manip_f1=0.7832(ep.11). opensdi auth_recall 11%→62%(+51%p). 2-model ICWMV (MNV2+SpecM-v3 Dynamic): avg 96.19%(+0.55%p vs v2). 서버 4-model 96.48% 대비 Δ-0.29%p — RPi5 2-model이 서버 수준에 근접. ONNX: weights/onnx/specm_v3.onnx(30.6MB), INT8: weights/onnx_quant/specm_v3_int8_dynamic.onnx(27.7MB). 추론 스크립트: inference_rpi5.py | weights/specialist_m_v3/, weights/onnx/specm_v3.onnx, weights/onnx_quant/specm_v3_int8_dynamic.onnx, inference_rpi5.py | 완료 | Phase 4.4 RPi5 실측`
+- `2026-03-20 | shield/phase4.2 | PTQ 정확도 재평가 완료(이중정규화 버그 수정). MNV2-Dynamic: 76.11%→95.37%(+19.26%p 회복), FP32 대비 Δ=0.00%p. SpecM-Dynamic: 65.54%→65.14%(Δ+0.03%p 무손실). Static INT8: SpecG/CLIP 붕괴 확정(FastViT PTQ 한계), SpecM -0.85%p. 2-model ICWMV (MNV2+SpecM Dynamic) 하이브리드 조합: avg 95.64% — 4-model 서버 대비 Δ-0.84%p. RPi5 배포 확정: MNV2-Dynamic(14ms) + SpecM-Dynamic(21ms) = ~140ms | experiments/results/onnx_benchmark/quant_accuracy_20260319_163814.json | 재평가 완료 | SpecM-v3 재학습`
 - `2026-03-19 | shield/phase4.2 | PTQ INT8 양자화 정확도 평가 완료(4모델 × 3variants × 4-DS). Dynamic INT8: 전 모델 Δ≤+0.17%p(무손실 확인). Static INT8: SpecM만 성공(Δ+0.01%p), MNV2 Δ-17.97%p(파국적), SpecG Δ-47.23%p, CLIP Δ-63.25%p 붕괴. RPi5 최적 배포 확정: MNV2-FP32(76.11%/14ms) + SpecM-Dynamic(65.54%/21ms). MNV2 Static은 cosine=0.69에서 F1 -18%p로 실용 불가 실증 | experiments/results/onnx_benchmark/quant_accuracy_20260319_145436.json | 4모델 정확도 평가 완료 | Phase 4.4 RPi5 실측 또는 논문 실험 섹션 작성`
 - `2026-03-19 | shield/phase4.2 | PTQ INT8 양자화 완료(4모델). Dynamic(Gemm): 속도개선 <1.05×(Conv 미포함). Static(QDQ): SpecM+1.25×/cos=1.000(유효), MNV2+1.05×/cos=0.69(정확도 저하), SpecG/CLIP 정확도 붕괴(cos<0.2, FastViT attention 양자화 불안정). 최종 RPi5 배포 결정: MNV2-FP32(57ms)+SpecM-INT8(67ms)=124ms. AI-gen 탐지(SpecG)는 서버 전용 확정. 논문 기여: "FastViT 백본은 표준 PTQ로 edge 배포 불가 → 경량 binary AI-gen detector 별도 설계 필요"로 프레이밍 | weights/onnx_quant/, experiments/results/onnx_benchmark/quantization_*.json, experiments/run_quantization.py | 양자화+벤치마크 완료 | Phase 4.4 RPi5 실측 또는 논문 실험 섹션 작성`
 - `2026-03-19 | shield/phase4.1 | ONNX 변환 + CPU 벤치마크 완료(4모델). MNV2(22.5MB, 14.0ms/56ms RPi5 ✓), SpecM(30MB, 20.6ms/82ms ✓), SpecG(141.5MB, 200ms/800ms ✗ OVER), CLIP(141.3MB, 198ms/791ms ✗ OVER). RPi5 예산(200ms) 내 배포 가능: MNV2+SpecM(138ms, 3-class+manip) 조합만 가능. AI-gen 탐지(SpecG)는 서버 전용. 다음: QAT/INT8 양자화로 SpecG RPi5 지연 개선 시도 | weights/onnx/, experiments/results/onnx_benchmark/, experiments/run_onnx_export.py | 4모델 ONNX+벤치마크 완료 | Phase 4.2 QAT 양자화`
